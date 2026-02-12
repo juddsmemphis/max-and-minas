@@ -14,11 +14,14 @@ import { formatDate, formatRelativeTime } from '@/lib/utils';
 import { getRarityInfo } from '@/lib/rarity';
 import type { DailyMenuWithFlavor } from '@/lib/database.types';
 
+type FilterType = 'available' | 'rare' | 'soldOut' | null;
+
 export default function HomePage() {
   const router = useRouter();
   const [menu, setMenu] = useState<DailyMenuWithFlavor[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
+  const [activeFilter, setActiveFilter] = useState<FilterType>(null);
   const { setTodaysMenu, hasCompletedOnboarding } = useStore();
   const [showOnboarding, setShowOnboarding] = useState(false);
 
@@ -103,6 +106,22 @@ export default function HomePage() {
     return rarity.level === 'legendary' || rarity.level === 'rare';
   }).length;
 
+  // Filter menu based on active filter
+  const filteredMenu = menu.filter((item) => {
+    if (!activeFilter) return true;
+    if (activeFilter === 'available') return !item.sold_out_at;
+    if (activeFilter === 'soldOut') return item.sold_out_at;
+    if (activeFilter === 'rare') {
+      const rarity = getRarityInfo(item.flavors);
+      return rarity.level === 'legendary' || rarity.level === 'rare';
+    }
+    return true;
+  });
+
+  const handleFilterClick = (filter: FilterType) => {
+    setActiveFilter(activeFilter === filter ? null : filter);
+  };
+
   if (showOnboarding) {
     return <Onboarding onComplete={() => setShowOnboarding(false)} />;
   }
@@ -138,18 +157,24 @@ export default function HomePage() {
             value={availableCount}
             label="Available"
             color="lime"
+            active={activeFilter === 'available'}
+            onClick={() => handleFilterClick('available')}
           />
           <StatChip
             icon={<TrendingUp className="w-4 h-4" />}
             value={rareCount}
             label="Rare"
             color="purple"
+            active={activeFilter === 'rare'}
+            onClick={() => handleFilterClick('rare')}
           />
           <StatChip
             icon={<Clock className="w-4 h-4" />}
             value={soldOutCount}
             label="Sold Out"
             color="pink"
+            active={activeFilter === 'soldOut'}
+            onClick={() => handleFilterClick('soldOut')}
           />
         </motion.div>
       )}
@@ -184,7 +209,7 @@ export default function HomePage() {
           }}
         >
           {/* Sort: available first, then sold out */}
-          {[...menu]
+          {[...filteredMenu]
             .sort((a, b) => {
               if (a.sold_out_at && !b.sold_out_at) return 1;
               if (!a.sold_out_at && b.sold_out_at) return -1;
@@ -250,25 +275,39 @@ function StatChip({
   value,
   label,
   color,
+  active,
+  onClick,
 }: {
   icon: React.ReactNode;
   value: number;
   label: string;
   color: 'lime' | 'purple' | 'pink';
+  active?: boolean;
+  onClick?: () => void;
 }) {
   const colorClasses = {
-    lime: 'bg-psychedelic-lime/20 text-green-700',
-    purple: 'bg-psychedelic-purple/20 text-psychedelic-purple',
-    pink: 'bg-psychedelic-pink/20 text-psychedelic-pink',
+    lime: active
+      ? 'bg-green-600 text-white ring-2 ring-green-600 ring-offset-2'
+      : 'bg-psychedelic-lime/20 text-green-700 hover:bg-psychedelic-lime/40',
+    purple: active
+      ? 'bg-psychedelic-purple text-white ring-2 ring-psychedelic-purple ring-offset-2'
+      : 'bg-psychedelic-purple/20 text-psychedelic-purple hover:bg-psychedelic-purple/40',
+    pink: active
+      ? 'bg-psychedelic-pink text-white ring-2 ring-psychedelic-pink ring-offset-2'
+      : 'bg-psychedelic-pink/20 text-psychedelic-pink hover:bg-psychedelic-pink/40',
   };
 
   return (
-    <div className={`rounded-xl p-3 text-center ${colorClasses[color]}`}>
+    <motion.button
+      className={`rounded-xl p-3 text-center transition-all cursor-pointer ${colorClasses[color]}`}
+      onClick={onClick}
+      whileTap={{ scale: 0.95 }}
+    >
       <div className="flex items-center justify-center gap-1 mb-1">
         {icon}
         <span className="font-display text-lg">{value}</span>
       </div>
-      <span className="text-xs opacity-70">{label}</span>
-    </div>
+      <span className={`text-xs ${active ? 'opacity-90' : 'opacity-70'}`}>{label}</span>
+    </motion.button>
   );
 }

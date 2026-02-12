@@ -278,18 +278,20 @@ export default function ProfilePage() {
             </p>
             <div className="flex flex-wrap gap-2">
               {earnedBadges.map((badge) => (
-                <motion.div
+                <motion.button
                   key={badge.id}
-                  className="px-3 py-2 bg-psychedelic-purple/10 rounded-xl flex items-center gap-2"
+                  className="px-3 py-2 bg-psychedelic-purple/10 rounded-xl flex items-center gap-2 cursor-pointer hover:bg-psychedelic-purple/20 transition-colors"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => toast.success(`${badge.emoji} ${badge.name}`, badge.description)}
                 >
                   <span className="text-xl">{badge.emoji}</span>
                   <span className="text-sm font-medium text-chocolate">
                     {badge.name}
                   </span>
-                </motion.div>
+                </motion.button>
               ))}
             </div>
           </div>
@@ -303,12 +305,14 @@ export default function ProfilePage() {
             </p>
             <div className="flex flex-wrap gap-2">
               {lockedBadges.map((badge) => (
-                <div
+                <motion.button
                   key={badge.id}
-                  className="px-3 py-2 bg-gray-100 rounded-xl flex items-center gap-2 opacity-50"
+                  className="px-3 py-2 bg-gray-100 rounded-xl flex items-center gap-2 opacity-60 hover:opacity-80 cursor-pointer transition-opacity"
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => toast.info(`${badge.emoji} ${badge.name}`, `To unlock: ${badge.description}`)}
                 >
                   <span className="text-xl grayscale">{badge.emoji}</span>
-                  <div>
+                  <div className="text-left">
                     <span className="text-sm font-medium text-chocolate/70">
                       {badge.name}
                     </span>
@@ -316,7 +320,7 @@ export default function ProfilePage() {
                       {badge.description}
                     </p>
                   </div>
-                </div>
+                </motion.button>
               ))}
             </div>
           </div>
