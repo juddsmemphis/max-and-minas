@@ -51,25 +51,10 @@ export default function LoginPage() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any);
 
-      // Also try to get full profile data
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const { data: userData } = await (supabase as any)
-          .from('users')
-          .select('*')
-          .eq('id', authData.user.id)
-          .single();
-
-        if (userData) {
-          setUser(userData);
-        }
-      } catch {
-        // Profile fetch failed - that's okay, we already set basic user above
-        console.log('Profile fetch failed, using basic user data');
-      }
-
       toast.success('Welcome back!');
-      router.push('/');
+
+      // Redirect immediately - don't wait for profile fetch
+      window.location.href = '/';
     } catch (error: unknown) {
       console.error('Login error:', error);
       toast.error(
