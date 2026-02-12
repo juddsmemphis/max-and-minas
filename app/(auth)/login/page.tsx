@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Mail, Lock, IceCream2, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { createSupabaseBrowser } from '@/lib/supabase';
@@ -10,7 +9,6 @@ import { useStore } from '@/lib/store';
 import { toast } from '@/components/Toast';
 
 export default function LoginPage() {
-  const router = useRouter();
   const { setUser } = useStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
