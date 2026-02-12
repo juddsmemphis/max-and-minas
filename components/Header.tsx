@@ -61,21 +61,23 @@ export function Header() {
         {/* Right Side Actions */}
         <div className="flex items-center gap-2">
           {/* Notification Bell */}
-          <motion.button
-            className={cn(
-              'p-2 rounded-full transition-colors relative',
-              notificationsEnabled
-                ? 'bg-psychedelic-purple text-white'
-                : 'bg-psychedelic-purple/10 text-psychedelic-purple'
-            )}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Notifications"
-          >
-            <Bell className="w-5 h-5" />
-            {notificationsEnabled && (
-              <span className="absolute top-1 right-1 w-2 h-2 bg-psychedelic-lime rounded-full" />
-            )}
-          </motion.button>
+          <Link href="/profile/notifications">
+            <motion.div
+              className={cn(
+                'p-2 rounded-full transition-colors relative',
+                notificationsEnabled
+                  ? 'bg-psychedelic-purple text-white'
+                  : 'bg-psychedelic-purple/10 text-psychedelic-purple'
+              )}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Notifications"
+            >
+              <Bell className="w-5 h-5" />
+              {notificationsEnabled && (
+                <span className="absolute top-1 right-1 w-2 h-2 bg-psychedelic-lime rounded-full" />
+              )}
+            </motion.div>
+          </Link>
 
           {/* Profile / Login */}
           <Link href={user ? '/profile' : '/login'}>

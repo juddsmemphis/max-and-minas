@@ -17,6 +17,7 @@ import {
 import { createSupabaseBrowser } from '@/lib/supabase';
 import { useStore } from '@/lib/store';
 import { formatDate } from '@/lib/utils';
+import { toast } from '@/components/Toast';
 
 // Badge definitions
 const BADGES = [
@@ -202,7 +203,10 @@ export default function ProfilePage() {
             <div className="w-20 h-20 rounded-full bg-groovy-gradient flex items-center justify-center">
               <User className="w-10 h-10 text-white" />
             </div>
-            <button className="absolute -bottom-1 -right-1 p-2 rounded-full bg-white shadow-lg border border-psychedelic-purple/20">
+            <button
+              onClick={() => toast.info('Profile photo upload coming soon!')}
+              className="absolute -bottom-1 -right-1 p-2 rounded-full bg-white shadow-lg border border-psychedelic-purple/20 hover:bg-psychedelic-purple/10 transition-colors"
+            >
               <Camera className="w-4 h-4 text-psychedelic-purple" />
             </button>
           </div>
@@ -226,11 +230,13 @@ export default function ProfilePage() {
           icon={<IceCream2 className="w-5 h-5" />}
           value={stats.flavorsTried}
           label="Tried"
+          href="/check-in"
         />
         <StatBlock
           icon={<Heart className="w-5 h-5" />}
           value={stats.watchlistCount}
           label="Watching"
+          href="/watchlist"
         />
         <StatBlock
           icon={<Award className="w-5 h-5" />}
@@ -344,18 +350,34 @@ function StatBlock({
   icon,
   value,
   label,
+  href,
 }: {
   icon: React.ReactNode;
   value: number;
   label: string;
+  href?: string;
 }) {
-  return (
-    <div className="groovy-card p-4 text-center">
+  const content = (
+    <>
       <div className="flex items-center justify-center gap-2 text-psychedelic-purple mb-1">
         {icon}
         <span className="font-display text-2xl">{value}</span>
       </div>
       <p className="text-xs text-chocolate/60">{label}</p>
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link href={href} className="groovy-card p-4 text-center hover:bg-psychedelic-purple/5 transition-colors">
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <div className="groovy-card p-4 text-center">
+      {content}
     </div>
   );
 }

@@ -58,7 +58,16 @@ export function Onboarding({ onComplete }: OnboardingProps) {
   };
 
   const handleEnableNotifications = async () => {
-    const granted = await promptForNotifications();
+    let granted = false;
+
+    // Try OneSignal first, fall back to browser's Notification API
+    if (process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID) {
+      granted = await promptForNotifications();
+    } else if ('Notification' in window) {
+      const permission = await Notification.requestPermission();
+      granted = permission === 'granted';
+    }
+
     setNotificationsEnabled(granted);
     completeOnboarding();
     onComplete();
