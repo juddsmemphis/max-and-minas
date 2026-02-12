@@ -13,18 +13,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const supabase = createSupabaseBrowser();
 
+    // Function to fetch user profile including admin status
+    const fetchUserProfile = async (userId: string, email: string, name: string, createdAt: string) => {
+      try {
+        const { data: profile } = await supabase
+          .from('users')
+          .select('is_admin, name')
+          .eq('id', userId)
+          .single();
+
+        setUser({
+          id: userId,
+          email: email,
+          name: profile?.name || name,
+          is_admin: profile?.is_admin || false,
+          created_at: createdAt,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any);
+      } catch {
+        // Fallback if profile fetch fails
+        setUser({
+          id: userId,
+          email: email,
+          name: name,
+          is_admin: false,
+          created_at: createdAt,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any);
+      }
+    };
+
     // Check current session
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
-        // Set user from session data (don't fetch profile to avoid blocking)
-        setUser({
-          id: session.user.id,
-          email: session.user.email || '',
-          name: session.user.user_metadata?.name || 'User',
-          is_admin: false,
-          created_at: session.user.created_at,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } as any);
+        fetchUserProfile(
+          session.user.id,
+          session.user.email || '',
+          session.user.user_metadata?.name || 'User',
+          session.user.created_at
+        );
       }
     });
 
@@ -32,14 +59,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         if (event === 'SIGNED_IN' && session?.user) {
-          setUser({
-            id: session.user.id,
-            email: session.user.email || '',
-            name: session.user.user_metadata?.name || 'User',
-            is_admin: false,
-            created_at: session.user.created_at,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          } as any);
+          fetchUserProfile(
+            session.user.id,
+            session.user.email || '',
+            session.user.user_metadata?.name || 'User',
+            session.user.created_at
+          );
         } else if (event === 'SIGNED_OUT') {
           setUser(null);
         }

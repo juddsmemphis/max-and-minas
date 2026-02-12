@@ -103,7 +103,7 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         <Link href="/admin/upload">
           <motion.div
-            className="groovy-card p-6 flex items-center gap-4 bg-gradient-to-br from-psychedelic-purple/10 to-psychedelic-pink/10"
+            className="groovy-card p-6 flex items-center gap-4 bg-gradient-to-br from-dead-red/10 to-dead-orange/10"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
@@ -118,7 +118,28 @@ export default function AdminDashboard() {
                 Snap a photo of the flavor board
               </p>
             </div>
-            <ChevronRight className="w-5 h-5 text-psychedelic-purple" />
+            <ChevronRight className="w-5 h-5 text-dead-red" />
+          </motion.div>
+        </Link>
+
+        <Link href="/admin/flavors">
+          <motion.div
+            className="groovy-card p-6 flex items-center gap-4"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <div className="w-14 h-14 rounded-2xl bg-dead-purple flex items-center justify-center">
+              <IceCream2 className="w-7 h-7 text-white" />
+            </div>
+            <div className="flex-1">
+              <h2 className="font-display text-lg text-chocolate">
+                Manage Flavors
+              </h2>
+              <p className="text-sm text-chocolate/60">
+                Edit rarity, descriptions, categories
+              </p>
+            </div>
+            <ChevronRight className="w-5 h-5 text-dead-red" />
           </motion.div>
         </Link>
 
@@ -128,7 +149,7 @@ export default function AdminDashboard() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            <div className="w-14 h-14 rounded-2xl bg-psychedelic-orange flex items-center justify-center">
+            <div className="w-14 h-14 rounded-2xl bg-dead-orange flex items-center justify-center">
               <Lightbulb className="w-7 h-7 text-white" />
             </div>
             <div className="flex-1">
@@ -139,7 +160,7 @@ export default function AdminDashboard() {
                 {stats.pendingSuggestions} customer ideas
               </p>
             </div>
-            <ChevronRight className="w-5 h-5 text-psychedelic-purple" />
+            <ChevronRight className="w-5 h-5 text-dead-red" />
           </motion.div>
         </Link>
       </div>
