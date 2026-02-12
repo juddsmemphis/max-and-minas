@@ -4,11 +4,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import {
   Mail,
   Lock,
   User,
-  IceCream2,
   Eye,
   EyeOff,
   Loader2,
@@ -99,10 +99,16 @@ export default function SignupPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <motion.div
-            className="w-20 h-20 mx-auto mb-4 rounded-full bg-groovy-gradient flex items-center justify-center"
-            whileHover={{ rotate: 15 }}
+            className="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden bg-white shadow-lg flex items-center justify-center"
+            whileHover={{ scale: 1.05 }}
           >
-            <IceCream2 className="w-10 h-10 text-white" />
+            <Image
+              src="/icons/android/android-launchericon-192-192.png"
+              alt="Max & Mina's"
+              width={80}
+              height={80}
+              className="object-contain"
+            />
           </motion.div>
           <h1 className="font-groovy text-3xl text-psychedelic-purple mb-1">
             Join the Club

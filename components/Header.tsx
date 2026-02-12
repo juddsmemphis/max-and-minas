@@ -4,7 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, IceCream2, Bell, User } from 'lucide-react';
+import Image from 'next/image';
+import { Menu, X, Bell, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useStore } from '@/lib/store';
 
@@ -21,11 +22,17 @@ export function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <motion.div
-            className="w-10 h-10 rounded-full bg-groovy-gradient flex items-center justify-center"
-            whileHover={{ rotate: 15 }}
+            className="w-10 h-10 rounded-full overflow-hidden bg-white flex items-center justify-center"
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <IceCream2 className="w-6 h-6 text-white" />
+            <Image
+              src="/icons/android/android-launchericon-96-96.png"
+              alt="Max & Mina's"
+              width={40}
+              height={40}
+              className="object-contain"
+            />
           </motion.div>
           <div className="hidden sm:block">
             <h1 className="font-groovy text-xl text-psychedelic-purple leading-none">
