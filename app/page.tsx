@@ -107,7 +107,7 @@ export default function HomePage() {
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
-          <h1 className="font-display text-3xl text-chocolate">Today&apos;s Drops</h1>
+          <h1 className="font-display text-3xl text-chocolate">Today&apos;s Flavors</h1>
           <motion.button
             className="p-2 rounded-xl bg-white/50 text-psychedelic-purple hover:bg-white/80 transition-colors"
             onClick={loadTodaysMenu}
