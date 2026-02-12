@@ -34,12 +34,24 @@ export default function LoginPage() {
 
       if (authError) throw authError;
 
-      // Verify session is stored
+      // Manually save session to localStorage (backup in case Supabase client doesn't)
       const storageKey = 'sb-lsqjkqmocjuldtvqaxtr-auth-token';
-      const storedSession = localStorage.getItem(storageKey);
-      console.log('Session in localStorage:', storedSession ? 'Found' : 'NOT FOUND');
+      if (authData.session) {
+        localStorage.setItem(storageKey, JSON.stringify(authData.session));
+        console.log('Session manually saved to localStorage');
+      }
 
-      // Login succeeded - try to get profile but don't fail if it doesn't work
+      // Set user in store immediately from auth data
+      setUser({
+        id: authData.user.id,
+        email: authData.user.email || '',
+        name: authData.user.user_metadata?.name || 'User',
+        is_admin: false,
+        created_at: authData.user.created_at,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as any);
+
+      // Also try to get full profile data
       try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { data: userData } = await (supabase as any)
@@ -52,8 +64,8 @@ export default function LoginPage() {
           setUser(userData);
         }
       } catch {
-        // Profile fetch failed - that's okay, AuthProvider will retry
-        console.log('Profile fetch failed, will retry on next page load');
+        // Profile fetch failed - that's okay, we already set basic user above
+        console.log('Profile fetch failed, using basic user data');
       }
 
       toast.success('Welcome back!');
