@@ -21,27 +21,28 @@ Building a Progressive Web App (PWA) for Max & Mina's Ice Cream in Flushing, Que
 - PWA icons are set up (except icon-144x144.png - see issues)
 - Signup creates user in Supabase auth (email confirmation works)
 
-### Current Issue: Login Session Not Persisting
+### Current Issue: Login Session Not Persisting (Testing Latest Fix)
 
-**Problem**: After logging in, the session token is not being saved to localStorage. When you click the profile icon, it goes to /login instead of /profile because the app doesn't recognize you're logged in.
+**Problem**: After logging in, the session token was not being saved to localStorage. When you click the profile icon, it goes to /login instead of /profile because the app doesn't recognize you're logged in.
 
-**What We've Tried**:
-1. Created AuthProvider component to listen for auth state changes
-2. Fixed login page to not fail when profile fetch fails
-3. Updated RLS policies for users table
-4. Switched Supabase client from `@supabase/ssr` to standard `createClient` with explicit `persistSession: true`
-
-**Last Change Made**: Updated `lib/supabase.ts` to use standard Supabase client with session persistence. This was just pushed and needs testing.
+**Latest Fix (Feb 11 evening)**:
+Updated `lib/supabase.ts` with:
+- Explicit `storage: window.localStorage` for browser clients
+- Correct `storageKey` matching Supabase's expected format
+- Added `detectSessionInUrl: true`
+- Added debug console.log in login page to trace session storage
 
 **How to Test**:
 1. Go to https://max-and-minas.vercel.app/login
-2. Log in with: `yjoffre@gmail.com` (password user knows)
-3. Open DevTools (F12) → Console
-4. Type: `localStorage.getItem('sb-lsqjkqmocjuldtvqaxtr-auth-token')`
-5. Should show a long JSON string (not `null`)
-6. If it works, clicking profile icon should go to /profile
+2. Open DevTools (F12) → Console tab
+3. Log in with: `yjoffre@gmail.com` (password user knows)
+4. Check console for:
+   - `Login result: { authData: {...}, authError: null }`
+   - `Session in localStorage: Found`
+5. If localStorage shows "Found", clicking profile icon should go to /profile
+6. Manual check: `localStorage.getItem('sb-lsqjkqmocjuldtvqaxtr-auth-token')`
 
-**If Still Not Working**: May need to investigate further - could be cookie settings, domain issues, or Supabase client configuration.
+**If Still Not Working**: Check console for errors. May need to investigate CORS or third-party cookie issues.
 
 ### Test User Account
 - **Email**: yjoffre@gmail.com
@@ -67,9 +68,10 @@ Building a Progressive Web App (PWA) for Max & Mina's Ice Cream in Flushing, Que
 5. ✅ Login flow breaking on profile fetch - wrapped in try-catch
 
 ### Features Added
-1. ✅ PWA icons generated from Max & Mina's logo
+1. ✅ PWA icons generated from Max & Mina's logo (including 144x144)
 2. ✅ AuthProvider component for session management
-3. ✅ Supabase client singleton with session persistence
+3. ✅ Supabase client singleton with explicit localStorage config
+4. ✅ Debug logging for login session tracking
 
 ## Known Issues
 
