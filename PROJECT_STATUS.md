@@ -1,78 +1,113 @@
 # Max & Mina's PWA - Project Status
 
-## Last Updated: February 11, 2026
+## Last Updated: February 11, 2026 (Evening)
 
 ## Project Overview
 Building a Progressive Web App (PWA) for Max & Mina's Ice Cream in Flushing, Queens - a flavor tracking app with 15,000+ legendary flavors.
 
-## Current Build Status: SUCCESSFUL
+## Current Status: DEPLOYED - AUTH TESTING IN PROGRESS
 
-The project now builds successfully with `npm run build`.
+### Live URLs
+- **Production App**: https://max-and-minas.vercel.app
+- **GitHub Repo**: https://github.com/juddsmemphis/max-and-minas
+- **Supabase Project**: https://supabase.com/dashboard/project/lsqjkqmocjuldtvqaxtr
 
-### What's Been Completed
-1. **Project Setup** - Next.js 14 with TypeScript, Tailwind CSS, PWA configuration
-2. **All Dependencies Installed** - Supabase, Framer Motion, Zustand, OneSignal, etc.
-3. **Database Types** - Complete type definitions in `lib/database.types.ts`
-4. **Supabase Schema** - SQL schema ready in `supabase/schema.sql`
-5. **All Components Created**:
-   - FlavorCard, RarityBadge, Header, Navigation, SearchBar
-   - LoadingSpinner, EmptyState, Toast, Onboarding, ShareToInstagram
-6. **All Pages Created**:
-   - Home (`app/page.tsx`)
-   - Archive, Watchlist, Suggestions, Profile, Check-in, Flavor Detail
-   - Admin Dashboard, Upload, Suggestions management
-   - Auth pages (Login, Signup)
-7. **API Routes** - Parse photo, publish menu, auth callback, suggestions
-8. **Utility Functions** - Rarity calculations, date formatting, OneSignal integration
-9. **All TypeScript/ESLint Errors Fixed** - Build passes successfully
+### What's Working
+- App loads and displays flavors from Supabase
+- Flavor cards are clickable and navigate to detail pages
+- Flavor archive with search and filtering
+- Watchlist (heart icon) works locally
+- Suggestions can be submitted
+- PWA icons are set up (except icon-144x144.png - see issues)
+- Signup creates user in Supabase auth (email confirmation works)
 
-### Issues Fixed in This Session
+### Current Issue: Login Session Not Persisting
 
-#### Supabase Type Issues (Fixed)
-The Supabase client's `.from()` method returned `never` type instead of proper table types. Fixed by casting supabase client as `any` in files with database operations:
-- `app/(auth)/signup/page.tsx`
-- `app/(customer)/check-in/page.tsx`
-- `app/(customer)/profile/page.tsx`
-- `app/(customer)/suggestions/page.tsx`
-- `app/admin/page.tsx`
-- `app/admin/suggestions/page.tsx`
-- `app/api/admin/parse-photo/route.ts`
-- `app/api/admin/publish-menu/route.ts`
-- `app/api/suggestions/create/route.ts`
-- `app/api/suggestions/vote/route.ts`
+**Problem**: After logging in, the session token is not being saved to localStorage. When you click the profile icon, it goes to /login instead of /profile because the app doesn't recognize you're logged in.
 
-#### Set/Map Iteration Issues (Fixed)
-TypeScript target doesn't support direct Set/Map iteration. Fixed by using `Array.from()`:
-- `lib/store.ts` - watchlist and tried flavors
-- `app/(customer)/suggestions/page.tsx` - voted IDs
-- `app/api/admin/publish-menu/route.ts` - notification mapping
+**What We've Tried**:
+1. Created AuthProvider component to listen for auth state changes
+2. Fixed login page to not fail when profile fetch fails
+3. Updated RLS policies for users table
+4. Switched Supabase client from `@supabase/ssr` to standard `createClient` with explicit `persistSession: true`
 
-#### Other Fixes
-- Removed unused `Database` import from signup page
-- Fixed `debounce` function type signature in `lib/utils.ts`
-- Added `any` type for OneSignal callbacks in `lib/onesignal.ts`
-- Fixed `handleMarkReviewed` function signature in admin suggestions
-- Removed duplicate page (`app/(customer)/page.tsx` conflicted with `app/page.tsx`)
+**Last Change Made**: Updated `lib/supabase.ts` to use standard Supabase client with session persistence. This was just pushed and needs testing.
 
-## Next Steps
+**How to Test**:
+1. Go to https://max-and-minas.vercel.app/login
+2. Log in with: `yjoffre@gmail.com` (password user knows)
+3. Open DevTools (F12) → Console
+4. Type: `localStorage.getItem('sb-lsqjkqmocjuldtvqaxtr-auth-token')`
+5. Should show a long JSON string (not `null`)
+6. If it works, clicking profile icon should go to /profile
 
-1. **Create PWA Icons** - Add icons in `public/icons/`
-2. **Test Locally** - Run `npm run dev` to verify all pages work
-3. **Set Up Environment** - Create `.env.local` with required keys
-4. **Deploy** - Push to GitHub and deploy to Vercel
+**If Still Not Working**: May need to investigate further - could be cookie settings, domain issues, or Supabase client configuration.
 
-## Environment Setup Required
+### Test User Account
+- **Email**: yjoffre@gmail.com
+- **User ID**: ca8c1c06-9bf7-4ff6-af51-b3e0bf21ce1e
+- **Status**: Email confirmed (manually via SQL)
+- **Profile**: Exists in `users` table
 
-Before running the app, create `.env.local` with:
+## Completed This Session
+
+### Infrastructure Setup
+1. ✅ Created Supabase project and ran schema.sql
+2. ✅ Added sample flavor data (10 flavors with rarity scores)
+3. ✅ Created .env.local with Supabase credentials
+4. ✅ Initialized Git and pushed to GitHub
+5. ✅ Deployed to Vercel with environment variables
+6. ✅ Added Vercel URL to Supabase redirect URLs
+
+### Bug Fixes
+1. ✅ FlavorCard not navigating - added onClick with router.push
+2. ✅ Suggestions failing - updated RLS policy to allow anonymous submissions
+3. ✅ Signup failing - changed insert to upsert, then simplified to rely on database trigger
+4. ✅ Input icon overlap - added inline styles with paddingLeft: 2.75rem
+5. ✅ Login flow breaking on profile fetch - wrapped in try-catch
+
+### Features Added
+1. ✅ PWA icons generated from Max & Mina's logo
+2. ✅ AuthProvider component for session management
+3. ✅ Supabase client singleton with session persistence
+
+## Known Issues
+
+### Missing Icon
+- `/icons/icon-144x144.png` returns 404
+- Need to add this icon to public/icons/
+- Currently have: icon-72x72, icon-96x96, icon-128x128, icon-192x192, icon-384x384, icon-512x512
+
+### React Hydration Error
+- Console shows "Minified React error #423"
+- This is a hydration mismatch, possibly from AuthProvider or store
+- May need investigation if causing issues
+
+## Environment Variables (Vercel & .env.local)
+
 ```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-ANTHROPIC_API_KEY=your_anthropic_api_key
-NEXT_PUBLIC_ONESIGNAL_APP_ID=your_onesignal_app_id
-ONESIGNAL_REST_API_KEY=your_onesignal_rest_key
-NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_SUPABASE_URL=https://lsqjkqmocjuldtvqaxtr.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzcWprcW1vY2p1bGR0dnFheHRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA4NTE4MjEsImV4cCI6MjA4NjQyNzgyMX0.R1pYlySd5G5zMSTjQs4rU8DklaQYs5L5ozvU9dyqGU8
+NEXT_PUBLIC_APP_URL=https://max-and-minas.vercel.app
 ```
+
+## Next Steps (Priority Order)
+
+1. **Test Login Session Persistence** - After latest deploy, verify localStorage token is saved
+2. **Fix Missing icon-144x144.png** - Add the missing PWA icon
+3. **Fix React Hydration Error** - Investigate and resolve
+4. **Complete Auth Flow Testing** - Test full signup → confirm → login → profile flow
+5. **OneSignal Push Notifications** - Set up OneSignal for flavor alerts
+
+## Key Files Modified This Session
+
+- `lib/supabase.ts` - Changed to standard client with persistSession
+- `app/(auth)/login/page.tsx` - Fixed input overlap, wrapped profile fetch in try-catch
+- `app/(auth)/signup/page.tsx` - Fixed input overlap, simplified to rely on trigger
+- `app/layout.tsx` - Added AuthProvider wrapper
+- `components/AuthProvider.tsx` - NEW: Listens for auth state changes
+- `app/page.tsx` - Added router and onClick to FlavorCard
+- `app/(customer)/archive/page.tsx` - Added router and onClick to FlavorCard
 
 ## Commands
 
@@ -80,77 +115,28 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 # Navigate to project
 cd "C:\Users\yjoff\OneDrive\Documents\max and minas app\max-and-minas"
 
-# Install dependencies (if needed)
-npm install
-
-# Run development server
+# Run locally
 npm run dev
 
-# Build for production
+# Build
 npm run build
 
-# Start production server
-npm start
+# Deploy (auto-deploys on git push)
+git add -A && git commit -m "message" && git push
 ```
 
-## Project Structure
+## Supabase SQL Commands Run
 
-```
-max-and-minas/
-├── app/
-│   ├── (auth)/
-│   │   ├── login/page.tsx
-│   │   └── signup/page.tsx
-│   ├── (customer)/
-│   │   ├── archive/page.tsx
-│   │   ├── check-in/page.tsx
-│   │   ├── flavor/[id]/page.tsx
-│   │   ├── profile/page.tsx
-│   │   ├── suggestions/page.tsx
-│   │   └── watchlist/page.tsx
-│   ├── admin/
-│   │   ├── suggestions/page.tsx
-│   │   ├── upload/page.tsx
-│   │   └── page.tsx
-│   ├── api/
-│   │   ├── admin/
-│   │   │   ├── parse-photo/route.ts
-│   │   │   └── publish-menu/route.ts
-│   │   ├── auth/callback/route.ts
-│   │   └── suggestions/
-│   │       ├── create/route.ts
-│   │       └── vote/route.ts
-│   └── page.tsx
-├── components/
-├── lib/
-├── public/
-├── messages/en.json
-└── supabase/schema.sql
-```
+```sql
+-- Confirm user email manually
+UPDATE auth.users SET email_confirmed_at = NOW() WHERE email = 'yjoffre@gmail.com';
 
-## Build Output
+-- Check user exists
+SELECT * FROM users WHERE email = 'yjoffre@gmail.com';
+SELECT id, email, email_confirmed_at FROM auth.users WHERE email = 'yjoffre@gmail.com';
 
-```
-Route (app)                              Size     First Load JS
-┌ ○ /                                    3.71 kB         201 kB
-├ ○ /_not-found                          873 B          88.2 kB
-├ ○ /admin                               2.87 kB         201 kB
-├ ○ /admin/suggestions                   4.62 kB         205 kB
-├ ○ /admin/upload                        4.91 kB         151 kB
-├ ƒ /api/admin/parse-photo               0 B                0 B
-├ ƒ /api/admin/publish-menu              0 B                0 B
-├ ƒ /api/auth/callback                   0 B                0 B
-├ ƒ /api/suggestions/create              0 B                0 B
-├ ƒ /api/suggestions/vote                0 B                0 B
-├ ○ /archive                             3.1 kB          201 kB
-├ ○ /check-in                            5.84 kB         199 kB
-├ ƒ /flavor/[id]                         6.75 kB         206 kB
-├ ○ /login                               3.25 kB         205 kB
-├ ○ /profile                             5.63 kB         204 kB
-├ ○ /signup                              3.94 kB         206 kB
-├ ○ /suggestions                         6.68 kB         198 kB
-└ ○ /watchlist                           2.14 kB         209 kB
-
-○  (Static)   prerendered as static content
-ƒ  (Dynamic)  server-rendered on demand
+-- RLS policy updates for users table
+DROP POLICY IF EXISTS "Users can view own profile" ON users;
+CREATE POLICY "Users can view own profile" ON users FOR SELECT USING (auth.uid() = id);
+CREATE POLICY "Authenticated users can read own data" ON users FOR SELECT TO authenticated USING (auth.uid() = id);
 ```
