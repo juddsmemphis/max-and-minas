@@ -115,7 +115,12 @@ export default function ArchivePage() {
           (currentPage + 1) * PAGE_SIZE - 1
         );
 
-        const { data, error, count } = await query;
+        // Add timeout to prevent hanging
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Query timeout after 10s')), 10000)
+        );
+
+        const { data, error, count } = await Promise.race([query, timeoutPromise]) as Awaited<typeof query>;
 
         if (error) throw error;
 

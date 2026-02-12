@@ -63,7 +63,13 @@ export default function HomePage() {
 
     try {
       console.log('Fetching menu for date:', today);
-      const { data, error } = await supabase
+
+      // Add timeout to prevent hanging
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Query timeout after 10s')), 10000)
+      );
+
+      const queryPromise = supabase
         .from('daily_menu')
         .select(
           `
@@ -73,6 +79,8 @@ export default function HomePage() {
         )
         .eq('menu_date', today)
         .order('created_at', { ascending: true });
+
+      const { data, error } = await Promise.race([queryPromise, timeoutPromise]) as Awaited<typeof queryPromise>;
 
       console.log('Menu fetch result:', { data, error });
 
@@ -89,6 +97,7 @@ export default function HomePage() {
     } catch (error) {
       console.error('Error loading menu:', error);
     } finally {
+      console.log('Menu fetch complete, setting isLoading=false');
       setIsLoading(false);
     }
   };
