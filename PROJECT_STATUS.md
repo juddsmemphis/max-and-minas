@@ -1,11 +1,11 @@
 # Max & Mina's PWA - Project Status
 
-## Last Updated: February 11, 2026 (Evening)
+## Last Updated: February 12, 2026 (Morning)
 
 ## Project Overview
 Building a Progressive Web App (PWA) for Max & Mina's Ice Cream in Flushing, Queens - a flavor tracking app with 15,000+ legendary flavors.
 
-## Current Status: DEPLOYED - AUTH TESTING IN PROGRESS
+## Current Status: AUTH WORKING - TESTING DATA LOADING
 
 ### Live URLs
 - **Production App**: https://max-and-minas.vercel.app
@@ -13,75 +13,60 @@ Building a Progressive Web App (PWA) for Max & Mina's Ice Cream in Flushing, Que
 - **Supabase Project**: https://supabase.com/dashboard/project/lsqjkqmocjuldtvqaxtr
 
 ### What's Working
-- App loads and displays flavors from Supabase
-- Flavor cards are clickable and navigate to detail pages
-- Flavor archive with search and filtering
-- Watchlist (heart icon) works locally
-- Suggestions can be submitted
-- PWA icons are set up (except icon-144x144.png - see issues)
-- Signup creates user in Supabase auth (email confirmation works)
+- App loads and displays correctly
+- Login works and redirects to home page
+- Session persists across refreshes (fixed localStorage issue)
+- Profile icon goes to profile page when logged in
+- Sign out functionality works
+- "Today's Flavors" heading (changed from "Today's Drops")
+- Vercel auto-deploys on git push (fixed connection issue)
 
-### Current Issue: Login Session Not Persisting (Testing Latest Fix)
+### Current Issue: Data Not Loading on Pages
 
-**Problem**: After logging in, the session token was not being saved to localStorage. When you click the profile icon, it goes to /login instead of /profile because the app doesn't recognize you're logged in.
+**Problem**: After logging in, pages show skeleton loaders indefinitely instead of content.
 
-**Latest Fix (Feb 11 evening)**:
-Updated `lib/supabase.ts` with:
-- Explicit `storage: window.localStorage` for browser clients
-- Correct `storageKey` matching Supabase's expected format
-- Added `detectSessionInUrl: true`
-- Added debug console.log in login page to trace session storage
+**Latest Fix (Feb 12)**:
+- Added 10-second timeout to all Supabase queries to prevent infinite hanging
+- Added debug console logging to track query execution
+- Applied fix to: home page, watchlist, archive
 
-**How to Test**:
-1. Go to https://max-and-minas.vercel.app/login
-2. Open DevTools (F12) → Console tab
-3. Log in with: `yjoffre@gmail.com` (password user knows)
-4. Check console for:
-   - `Login result: { authData: {...}, authError: null }`
-   - `Session in localStorage: Found`
-5. If localStorage shows "Found", clicking profile icon should go to /profile
-6. Manual check: `localStorage.getItem('sb-lsqjkqmocjuldtvqaxtr-auth-token')`
+**How to Debug**:
+1. Open browser DevTools (F12) → Console tab
+2. Navigate to home page
+3. Look for these logs:
+   - `Fetching menu for date: 2026-02-12`
+   - `Menu fetch result: { data: [...], error: null }`
+   - `Menu fetch complete, setting isLoading=false`
 
-**If Still Not Working**: Check console for errors. May need to investigate CORS or third-party cookie issues.
+**Possible Causes**:
+1. **Empty database** - If no flavors/daily_menu data exists for today
+2. **Query timeout** - Should now show empty state after 10s instead of infinite loading
 
 ### Test User Account
 - **Email**: yjoffre@gmail.com
-- **User ID**: ca8c1c06-9bf7-4ff6-af51-b3e0bf21ce1e
-- **Status**: Email confirmed (manually via SQL)
-- **Profile**: Exists in `users` table
+- **Status**: Login working, session persisting
 
-## Completed This Session
+## Completed This Session (Feb 11-12)
 
-### Infrastructure Setup
-1. ✅ Created Supabase project and ran schema.sql
-2. ✅ Added sample flavor data (10 flavors with rarity scores)
-3. ✅ Created .env.local with Supabase credentials
-4. ✅ Initialized Git and pushed to GitHub
-5. ✅ Deployed to Vercel with environment variables
-6. ✅ Added Vercel URL to Supabase redirect URLs
+### Auth Fixes (RESOLVED)
+1. ✅ Fixed Supabase client to persist sessions properly
+2. ✅ Fixed login to not fail when profile fetch fails
+3. ✅ Added AuthProvider to persist login state across page refreshes
+4. ✅ Fixed signup to not fail when profile update is blocked by RLS
+5. ✅ Fixed sign out to clear localStorage token and redirect
+6. ✅ Fixed Vercel deployment connection (repo was private, needed to be public)
+7. ✅ Changed "Today's Drops" to "Today's Flavors"
 
-### Bug Fixes
-1. ✅ FlavorCard not navigating - added onClick with router.push
-2. ✅ Suggestions failing - updated RLS policy to allow anonymous submissions
-3. ✅ Signup failing - changed insert to upsert, then simplified to rely on database trigger
-4. ✅ Input icon overlap - added inline styles with paddingLeft: 2.75rem
-5. ✅ Login flow breaking on profile fetch - wrapped in try-catch
-6. ✅ React hydration error - added skipHydration to Zustand persist + manual rehydration
-
-### Features Added
-1. ✅ PWA icons generated from Max & Mina's logo (including 144x144)
-2. ✅ AuthProvider component for session management
-3. ✅ Supabase client singleton with explicit localStorage config
-4. ✅ Debug logging for login session tracking
+### Data Loading Fixes (IN PROGRESS)
+1. ✅ Added query timeouts to prevent infinite loading states
+2. ✅ Added debug logging to diagnose query results
+3. ⏳ Need to verify if database has data for today's menu
 
 ## Known Issues
 
-### ~~Missing Icon~~ ✅ FIXED
-- icon-144x144.png now exists in public/icons/
-
-### ~~React Hydration Error~~ ✅ FIXED
-- Was caused by Zustand persist middleware loading localStorage before hydration
-- Fixed by adding `skipHydration: true` and manual rehydration in AuthProvider
+### Data Loading Shows Skeleton Loaders
+- May be due to empty database or query issues
+- Check console for debug logs after latest deploy
 
 ## Environment Variables (Vercel & .env.local)
 
@@ -93,21 +78,21 @@ NEXT_PUBLIC_APP_URL=https://max-and-minas.vercel.app
 
 ## Next Steps (Priority Order)
 
-1. **Test Login Session Persistence** - After latest deploy, verify localStorage token is saved
-2. ~~**Fix Missing icon-144x144.png**~~ ✅ DONE
-3. ~~**Fix React Hydration Error**~~ ✅ DONE
-4. **Complete Auth Flow Testing** - Test full signup → confirm → login → profile flow
-5. **OneSignal Push Notifications** - Set up OneSignal for flavor alerts
+1. **Verify database has data** - Check if flavors and daily_menu tables have entries
+2. **Check console logs** - See what the debug logging shows
+3. **Add sample data if needed** - Use admin upload or SQL to add test flavors
+4. **OneSignal Push Notifications** - Set up OneSignal for flavor alerts
 
 ## Key Files Modified This Session
 
-- `lib/supabase.ts` - Changed to standard client with persistSession
-- `app/(auth)/login/page.tsx` - Fixed input overlap, wrapped profile fetch in try-catch
-- `app/(auth)/signup/page.tsx` - Fixed input overlap, simplified to rely on trigger
-- `app/layout.tsx` - Added AuthProvider wrapper
-- `components/AuthProvider.tsx` - NEW: Listens for auth state changes
-- `app/page.tsx` - Added router and onClick to FlavorCard
-- `app/(customer)/archive/page.tsx` - Added router and onClick to FlavorCard
+- `lib/supabase.ts` - Explicit localStorage config for session persistence
+- `app/(auth)/login/page.tsx` - Manual session save, immediate redirect
+- `app/(auth)/signup/page.tsx` - Fixed profile update handling
+- `app/(customer)/profile/page.tsx` - Fixed sign out with localStorage clear
+- `components/AuthProvider.tsx` - Session checking with fallback user
+- `app/page.tsx` - Changed to "Today's Flavors", added query timeout
+- `app/(customer)/watchlist/page.tsx` - Added query timeout
+- `app/(customer)/archive/page.tsx` - Added query timeout
 
 ## Commands
 
@@ -125,18 +110,20 @@ npm run build
 git add -A && git commit -m "message" && git push
 ```
 
-## Supabase SQL Commands Run
+## Database Schema Notes
 
+RLS policies allow:
+- `flavors` table: Public read (everyone can view)
+- `daily_menu` table: Public read (everyone can view)
+- Data must be added via admin upload feature or directly in Supabase
+
+To add sample data, uncomment the seed section in `supabase/schema.sql` or run:
 ```sql
--- Confirm user email manually
-UPDATE auth.users SET email_confirmed_at = NOW() WHERE email = 'yjoffre@gmail.com';
+INSERT INTO flavors (name, category, first_appeared, rarity_score) VALUES
+  ('Cookie Monster', 'creamy', '2001-08-20', 3.2),
+  ('Black Sesame', 'creamy', '2005-03-15', 6.5);
 
--- Check user exists
-SELECT * FROM users WHERE email = 'yjoffre@gmail.com';
-SELECT id, email, email_confirmed_at FROM auth.users WHERE email = 'yjoffre@gmail.com';
-
--- RLS policy updates for users table
-DROP POLICY IF EXISTS "Users can view own profile" ON users;
-CREATE POLICY "Users can view own profile" ON users FOR SELECT USING (auth.uid() = id);
-CREATE POLICY "Authenticated users can read own data" ON users FOR SELECT TO authenticated USING (auth.uid() = id);
+-- Then add to today's menu
+INSERT INTO daily_menu (flavor_id, menu_date)
+SELECT id, CURRENT_DATE FROM flavors WHERE name = 'Cookie Monster';
 ```
