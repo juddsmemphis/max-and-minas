@@ -62,6 +62,7 @@ export default function HomePage() {
     const today = new Date().toISOString().split('T')[0];
 
     try {
+      console.log('Fetching menu for date:', today);
       const { data, error } = await supabase
         .from('daily_menu')
         .select(
@@ -72,6 +73,8 @@ export default function HomePage() {
         )
         .eq('menu_date', today)
         .order('created_at', { ascending: true });
+
+      console.log('Menu fetch result:', { data, error });
 
       if (error) throw error;
 
