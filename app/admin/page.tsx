@@ -173,6 +173,7 @@ export default function AdminDashboard() {
           value={stats.todaysFlavors}
           color="purple"
           isLoading={isLoading}
+          href="/"
         />
         <StatCard
           icon={<Calendar className="w-6 h-6" />}
@@ -180,6 +181,7 @@ export default function AdminDashboard() {
           value={stats.totalFlavors.toLocaleString()}
           color="pink"
           isLoading={isLoading}
+          href="/admin/flavors"
         />
         <StatCard
           icon={<Users className="w-6 h-6" />}
@@ -194,6 +196,7 @@ export default function AdminDashboard() {
           value={stats.pendingSuggestions}
           color="orange"
           isLoading={isLoading}
+          href="/admin/suggestions"
         />
       </div>
 
@@ -235,12 +238,14 @@ function StatCard({
   value,
   color,
   isLoading,
+  href,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string | number;
   color: 'purple' | 'pink' | 'blue' | 'orange';
   isLoading: boolean;
+  href?: string;
 }) {
   const colorClasses = {
     purple: 'bg-psychedelic-purple/10 text-psychedelic-purple',
@@ -249,8 +254,8 @@ function StatCard({
     orange: 'bg-psychedelic-orange/10 text-psychedelic-orange',
   };
 
-  return (
-    <div className="groovy-card p-4">
+  const content = (
+    <>
       <div
         className={`w-10 h-10 rounded-xl ${colorClasses[color]} flex items-center justify-center mb-3`}
       >
@@ -264,6 +269,26 @@ function StatCard({
         )}
       </div>
       <div className="text-sm text-chocolate/60">{label}</div>
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link href={href}>
+        <motion.div
+          className="groovy-card p-4 cursor-pointer"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          {content}
+        </motion.div>
+      </Link>
+    );
+  }
+
+  return (
+    <div className="groovy-card p-4">
+      {content}
     </div>
   );
 }
