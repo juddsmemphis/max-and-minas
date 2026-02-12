@@ -66,6 +66,7 @@ Updated `lib/supabase.ts` with:
 3. ✅ Signup failing - changed insert to upsert, then simplified to rely on database trigger
 4. ✅ Input icon overlap - added inline styles with paddingLeft: 2.75rem
 5. ✅ Login flow breaking on profile fetch - wrapped in try-catch
+6. ✅ React hydration error - added skipHydration to Zustand persist + manual rehydration
 
 ### Features Added
 1. ✅ PWA icons generated from Max & Mina's logo (including 144x144)
@@ -75,15 +76,12 @@ Updated `lib/supabase.ts` with:
 
 ## Known Issues
 
-### Missing Icon
-- `/icons/icon-144x144.png` returns 404
-- Need to add this icon to public/icons/
-- Currently have: icon-72x72, icon-96x96, icon-128x128, icon-192x192, icon-384x384, icon-512x512
+### ~~Missing Icon~~ ✅ FIXED
+- icon-144x144.png now exists in public/icons/
 
-### React Hydration Error
-- Console shows "Minified React error #423"
-- This is a hydration mismatch, possibly from AuthProvider or store
-- May need investigation if causing issues
+### ~~React Hydration Error~~ ✅ FIXED
+- Was caused by Zustand persist middleware loading localStorage before hydration
+- Fixed by adding `skipHydration: true` and manual rehydration in AuthProvider
 
 ## Environment Variables (Vercel & .env.local)
 
@@ -96,8 +94,8 @@ NEXT_PUBLIC_APP_URL=https://max-and-minas.vercel.app
 ## Next Steps (Priority Order)
 
 1. **Test Login Session Persistence** - After latest deploy, verify localStorage token is saved
-2. **Fix Missing icon-144x144.png** - Add the missing PWA icon
-3. **Fix React Hydration Error** - Investigate and resolve
+2. ~~**Fix Missing icon-144x144.png**~~ ✅ DONE
+3. ~~**Fix React Hydration Error**~~ ✅ DONE
 4. **Complete Auth Flow Testing** - Test full signup → confirm → login → profile flow
 5. **OneSignal Push Notifications** - Set up OneSignal for flavor alerts
 
