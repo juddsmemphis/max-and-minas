@@ -16,7 +16,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Function to fetch user profile including admin status
     const fetchUserProfile = async (userId: string, email: string, name: string, createdAt: string) => {
       try {
-        const { data: profile } = await supabase
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { data: profile } = await (supabase as any)
           .from('users')
           .select('is_admin, name')
           .eq('id', userId)

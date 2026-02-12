@@ -67,7 +67,8 @@ export default function FlavorManagementPage() {
     const supabase = createSupabaseBrowser();
 
     try {
-      const { data, error } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data, error } = await (supabase as any)
         .from('flavors')
         .select('*')
         .order('name', { ascending: true });
@@ -87,7 +88,8 @@ export default function FlavorManagementPage() {
     const supabase = createSupabaseBrowser();
 
     try {
-      const { error } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase as any)
         .from('flavors')
         .update({
           name: flavor.name,
@@ -123,7 +125,8 @@ export default function FlavorManagementPage() {
     const supabase = createSupabaseBrowser();
 
     try {
-      const { data, error } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data, error } = await (supabase as any)
         .from('flavors')
         .insert({
           name: newFlavor.name,
@@ -162,7 +165,8 @@ export default function FlavorManagementPage() {
     const supabase = createSupabaseBrowser();
 
     try {
-      const { error } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase as any)
         .from('flavors')
         .delete()
         .eq('id', id);
