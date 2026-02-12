@@ -44,7 +44,7 @@ export default function LoginPage() {
         if (userData) {
           setUser(userData);
         }
-      } catch (profileErr) {
+      } catch {
         // Profile fetch failed - that's okay, AuthProvider will retry
         console.log('Profile fetch failed, will retry on next page load');
       }

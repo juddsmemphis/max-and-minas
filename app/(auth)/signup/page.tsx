@@ -17,7 +17,6 @@ import {
 } from 'lucide-react';
 import { createSupabaseBrowser } from '@/lib/supabase';
 import { useStore } from '@/lib/store';
-import { toast } from '@/components/Toast';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -73,7 +72,7 @@ export default function SignupPage() {
             .from('users')
             .update({ birthday })
             .eq('id', authData.user.id);
-        } catch (profileErr) {
+        } catch {
           // Profile update failed - that's okay, trigger created basic profile
           console.log('Profile update skipped - will update after email confirmation');
         }
