@@ -30,7 +30,14 @@ export default function LoginPage() {
           password,
         });
 
+      console.log('Login result:', { authData, authError });
+
       if (authError) throw authError;
+
+      // Verify session is stored
+      const storageKey = 'sb-lsqjkqmocjuldtvqaxtr-auth-token';
+      const storedSession = localStorage.getItem(storageKey);
+      console.log('Session in localStorage:', storedSession ? 'Found' : 'NOT FOUND');
 
       // Login succeeded - try to get profile but don't fail if it doesn't work
       try {

@@ -6,6 +6,8 @@ let browserClient: ReturnType<typeof createClient<Database>> | null = null;
 export function createSupabaseBrowser() {
   if (browserClient) return browserClient;
 
+  const isBrowser = typeof window !== 'undefined';
+
   browserClient = createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -13,6 +15,9 @@ export function createSupabaseBrowser() {
       auth: {
         persistSession: true,
         autoRefreshToken: true,
+        detectSessionInUrl: true,
+        storage: isBrowser ? window.localStorage : undefined,
+        storageKey: 'sb-lsqjkqmocjuldtvqaxtr-auth-token',
       },
     }
   );
