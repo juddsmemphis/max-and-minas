@@ -50,14 +50,14 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <motion.div
-            className="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden bg-white shadow-lg flex items-center justify-center"
+            className="w-24 h-24 mx-auto mb-4"
             whileHover={{ scale: 1.05 }}
           >
             <Image
               src="/icons/android/android-launchericon-192-192.png"
               alt="Max & Mina's"
-              width={80}
-              height={80}
+              width={96}
+              height={96}
               className="object-contain"
             />
           </motion.div>

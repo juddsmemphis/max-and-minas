@@ -22,22 +22,18 @@ export function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <motion.div
-            className="w-10 h-10 rounded-full overflow-hidden bg-white flex items-center justify-center"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <Image
-              src="/icons/android/android-launchericon-96-96.png"
+              src="/icons/android/android-launchericon-192-192.png"
               alt="Max & Mina's"
-              width={40}
-              height={40}
+              width={48}
+              height={48}
               className="object-contain"
             />
           </motion.div>
           <div className="hidden sm:block">
-            <h1 className="font-groovy text-xl text-psychedelic-purple leading-none">
-              Max &amp; Mina&apos;s
-            </h1>
             <p className="text-[10px] text-chocolate/60 leading-none">
               Never miss a drop
             </p>
