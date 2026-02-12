@@ -32,14 +32,23 @@ export default function LoginPage() {
 
       if (authError) throw authError;
 
-      // Get user profile
-      const { data: userData } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', authData.user.id)
-        .single();
+      // Login succeeded - try to get profile but don't fail if it doesn't work
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { data: userData } = await (supabase as any)
+          .from('users')
+          .select('*')
+          .eq('id', authData.user.id)
+          .single();
 
-      setUser(userData);
+        if (userData) {
+          setUser(userData);
+        }
+      } catch (profileErr) {
+        // Profile fetch failed - that's okay, AuthProvider will retry
+        console.log('Profile fetch failed, will retry on next page load');
+      }
+
       toast.success('Welcome back!');
       router.push('/');
     } catch (error: unknown) {
