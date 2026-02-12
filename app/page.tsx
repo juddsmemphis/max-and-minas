@@ -22,14 +22,30 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
   const [activeFilter, setActiveFilter] = useState<FilterType>(null);
+  const [isHydrated, setIsHydrated] = useState(false);
   const { setTodaysMenu, hasCompletedOnboarding } = useStore();
   const [showOnboarding, setShowOnboarding] = useState(false);
 
+  // Wait for store hydration before checking onboarding status
   useEffect(() => {
-    // Show onboarding for new users
-    if (!hasCompletedOnboarding) {
+    const unsubscribe = useStore.persist.onFinishHydration(() => {
+      setIsHydrated(true);
+    });
+    // Check if already hydrated
+    if (useStore.persist.hasHydrated()) {
+      setIsHydrated(true);
+    }
+    return () => unsubscribe();
+  }, []);
+
+  // Show onboarding only after hydration and only for new users
+  useEffect(() => {
+    if (isHydrated && !hasCompletedOnboarding) {
       setShowOnboarding(true);
     }
+  }, [isHydrated, hasCompletedOnboarding]);
+
+  useEffect(() => {
     loadTodaysMenu();
 
     // Set up realtime subscription for sold out updates
@@ -57,7 +73,7 @@ export default function HomePage() {
       supabase.removeChannel(channel);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasCompletedOnboarding]);
+  }, []);
 
   const loadTodaysMenu = async () => {
     setIsLoading(true);
