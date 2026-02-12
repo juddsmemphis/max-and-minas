@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useStore } from '@/lib/store';
 import { promptForNotifications } from '@/lib/onesignal';
+import { toast } from '@/components/Toast';
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -60,12 +61,25 @@ export function Onboarding({ onComplete }: OnboardingProps) {
   const handleEnableNotifications = async () => {
     let granted = false;
 
-    // Try OneSignal first, fall back to browser's Notification API
-    if (process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID) {
-      granted = await promptForNotifications();
-    } else if ('Notification' in window) {
-      const permission = await Notification.requestPermission();
-      granted = permission === 'granted';
+    try {
+      // Try OneSignal first, fall back to browser's Notification API
+      if (process.env.NEXT_PUBLIC_ONESIGNAL_APP_ID) {
+        granted = await promptForNotifications();
+      } else if ('Notification' in window) {
+        const permission = await Notification.requestPermission();
+        granted = permission === 'granted';
+
+        if (granted) {
+          toast.success('Notifications enabled!');
+        } else if (permission === 'denied') {
+          toast.error('Notifications blocked. Enable in browser settings.');
+        }
+      } else {
+        toast.error('Your browser does not support notifications');
+      }
+    } catch (error) {
+      console.error('Notification error:', error);
+      toast.error('Could not enable notifications');
     }
 
     setNotificationsEnabled(granted);
