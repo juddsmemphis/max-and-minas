@@ -21,6 +21,9 @@ export interface Database {
           total_appearances: number;
           total_days_available: number;
           rarity_score: number | null;
+          hide_appearances: boolean;
+          is_gluten_free: boolean | null;
+          contains_nuts: boolean | null;
           created_at: string;
           updated_at: string;
         };
@@ -35,6 +38,9 @@ export interface Database {
           total_appearances?: number;
           total_days_available?: number;
           rarity_score?: number | null;
+          hide_appearances?: boolean;
+          is_gluten_free?: boolean | null;
+          contains_nuts?: boolean | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -49,6 +55,9 @@ export interface Database {
           total_appearances?: number;
           total_days_available?: number;
           rarity_score?: number | null;
+          hide_appearances?: boolean;
+          is_gluten_free?: boolean | null;
+          contains_nuts?: boolean | null;
           created_at?: string;
           updated_at?: string;
         };

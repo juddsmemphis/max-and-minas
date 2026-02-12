@@ -27,6 +27,9 @@ interface Flavor {
   last_appeared: string | null;
   total_appearances: number;
   rarity_score: number | null;
+  hide_appearances: boolean;
+  is_gluten_free: boolean | null;
+  contains_nuts: boolean | null;
 }
 
 const CATEGORIES = [
@@ -56,6 +59,9 @@ export default function FlavorManagementPage() {
     category: '',
     rarity_score: 5,
     first_appeared: new Date().toISOString().split('T')[0],
+    hide_appearances: false,
+    is_gluten_free: null as boolean | null,
+    contains_nuts: null as boolean | null,
   });
 
   useEffect(() => {
@@ -99,6 +105,9 @@ export default function FlavorManagementPage() {
           first_appeared: flavor.first_appeared,
           last_appeared: flavor.last_appeared,
           total_appearances: flavor.total_appearances,
+          hide_appearances: flavor.hide_appearances,
+          is_gluten_free: flavor.is_gluten_free,
+          contains_nuts: flavor.contains_nuts,
         })
         .eq('id', flavor.id);
 
@@ -135,6 +144,9 @@ export default function FlavorManagementPage() {
           rarity_score: newFlavor.rarity_score,
           first_appeared: newFlavor.first_appeared,
           total_appearances: 1,
+          hide_appearances: newFlavor.hide_appearances,
+          is_gluten_free: newFlavor.is_gluten_free,
+          contains_nuts: newFlavor.contains_nuts,
         })
         .select()
         .single();
@@ -149,6 +161,9 @@ export default function FlavorManagementPage() {
         category: '',
         rarity_score: 5,
         first_appeared: new Date().toISOString().split('T')[0],
+        hide_appearances: false,
+        is_gluten_free: null,
+        contains_nuts: null,
       });
       toast.success('Flavor created!');
     } catch (error) {
@@ -319,6 +334,54 @@ export default function FlavorManagementPage() {
                 />
               </div>
 
+              {/* Dietary & Display Options */}
+              <div className="border-t border-chocolate/10 pt-4 space-y-3">
+                <h3 className="text-sm font-medium text-chocolate">Dietary Info & Display</h3>
+
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={newFlavor.hide_appearances}
+                    onChange={(e) => setNewFlavor(prev => ({ ...prev, hide_appearances: e.target.checked }))}
+                    className="w-4 h-4 rounded border-chocolate/30"
+                  />
+                  <span className="text-sm text-chocolate">Hide appearances count</span>
+                </label>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs text-chocolate/60 mb-1">Gluten Free?</label>
+                    <select
+                      value={newFlavor.is_gluten_free === null ? '' : newFlavor.is_gluten_free ? 'yes' : 'no'}
+                      onChange={(e) => setNewFlavor(prev => ({
+                        ...prev,
+                        is_gluten_free: e.target.value === '' ? null : e.target.value === 'yes'
+                      }))}
+                      className="input-groovy w-full text-sm"
+                    >
+                      <option value="">Unknown</option>
+                      <option value="yes">Yes - Gluten Free</option>
+                      <option value="no">No - Contains Gluten</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs text-chocolate/60 mb-1">Contains Nuts?</label>
+                    <select
+                      value={newFlavor.contains_nuts === null ? '' : newFlavor.contains_nuts ? 'yes' : 'no'}
+                      onChange={(e) => setNewFlavor(prev => ({
+                        ...prev,
+                        contains_nuts: e.target.value === '' ? null : e.target.value === 'yes'
+                      }))}
+                      className="input-groovy w-full text-sm"
+                    >
+                      <option value="">Unknown</option>
+                      <option value="yes">Yes - Contains Nuts</option>
+                      <option value="no">No - Nut Free</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
               <button
                 onClick={handleCreateFlavor}
                 disabled={isSaving}
@@ -402,6 +465,50 @@ export default function FlavorManagementPage() {
                       />
                     </div>
                   </div>
+
+                  {/* Dietary & Display Options */}
+                  <div className="grid grid-cols-3 gap-3 pt-2 border-t border-chocolate/10">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={editingFlavor.hide_appearances || false}
+                        onChange={(e) => setEditingFlavor(prev => prev ? { ...prev, hide_appearances: e.target.checked } : null)}
+                        className="w-4 h-4 rounded border-chocolate/30"
+                      />
+                      <span className="text-xs text-chocolate/60">Hide appearances</span>
+                    </label>
+                    <div>
+                      <label className="text-xs text-chocolate/60">Gluten Free?</label>
+                      <select
+                        value={editingFlavor.is_gluten_free === null ? '' : editingFlavor.is_gluten_free ? 'yes' : 'no'}
+                        onChange={(e) => setEditingFlavor(prev => prev ? {
+                          ...prev,
+                          is_gluten_free: e.target.value === '' ? null : e.target.value === 'yes'
+                        } : null)}
+                        className="input-groovy w-full text-sm"
+                      >
+                        <option value="">Unknown</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-xs text-chocolate/60">Contains Nuts?</label>
+                      <select
+                        value={editingFlavor.contains_nuts === null ? '' : editingFlavor.contains_nuts ? 'yes' : 'no'}
+                        onChange={(e) => setEditingFlavor(prev => prev ? {
+                          ...prev,
+                          contains_nuts: e.target.value === '' ? null : e.target.value === 'yes'
+                        } : null)}
+                        className="input-groovy w-full text-sm"
+                      >
+                        <option value="">Unknown</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleSaveFlavor(editingFlavor)}
@@ -432,10 +539,19 @@ export default function FlavorManagementPage() {
                     {flavor.description && (
                       <p className="text-sm text-chocolate/60 mt-1 line-clamp-1">{flavor.description}</p>
                     )}
-                    <div className="flex items-center gap-3 mt-2 text-xs text-chocolate/50">
+                    <div className="flex items-center gap-2 mt-2 text-xs text-chocolate/50 flex-wrap">
                       {flavor.category && <span className="capitalize">{flavor.category}</span>}
-                      <span>{flavor.total_appearances} appearances</span>
+                      {!flavor.hide_appearances && <span>{flavor.total_appearances} appearances</span>}
                       <span>Since {new Date(flavor.first_appeared).getFullYear()}</span>
+                      {flavor.is_gluten_free && (
+                        <span className="px-1.5 py-0.5 bg-green-100 text-green-700 rounded-full font-medium">GF</span>
+                      )}
+                      {flavor.contains_nuts === false && (
+                        <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded-full font-medium">NF</span>
+                      )}
+                      {flavor.contains_nuts === true && (
+                        <span className="px-1.5 py-0.5 bg-amber-100 text-amber-700 rounded-full font-medium">🥜</span>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">

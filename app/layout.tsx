@@ -65,7 +65,10 @@ export default function RootLayout({
       <body className="bg-psychedelic-pattern min-h-screen antialiased">
         <AuthProvider>
           <Header />
-          <main className="pb-20 md:pb-8">{children}</main>
+          <main className="pb-24 md:pb-12">{children}</main>
+          <footer className="fixed bottom-16 md:bottom-0 left-0 right-0 text-center py-2 bg-transparent">
+            <p className="text-xs text-chocolate/40">Kosher Certified Under the Vaad of Queens</p>
+          </footer>
           <Navigation />
           <ToastContainer />
         </AuthProvider>

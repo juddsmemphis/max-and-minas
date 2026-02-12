@@ -122,10 +122,22 @@ export function FlavorCard({
             </span>
           </div>
         )}
-        <div className="flex items-center gap-1">
-          <span className="text-psychedelic-purple">#{flavor.total_appearances}</span>
-          <span>appearances</span>
-        </div>
+        {!flavor.hide_appearances && (
+          <div className="flex items-center gap-1">
+            <span className="text-psychedelic-purple">#{flavor.total_appearances}</span>
+            <span>appearances</span>
+          </div>
+        )}
+        {/* Dietary badges */}
+        {flavor.is_gluten_free && (
+          <span className="px-1.5 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">GF</span>
+        )}
+        {flavor.contains_nuts === false && (
+          <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">NF</span>
+        )}
+        {flavor.contains_nuts === true && (
+          <span className="px-1.5 py-0.5 bg-amber-100 text-amber-700 text-xs rounded-full font-medium">🥜</span>
+        )}
       </div>
 
       {/* Appearance Info (for today's menu) */}
