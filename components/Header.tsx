@@ -26,7 +26,7 @@ export function Header() {
             whileTap={{ scale: 0.97 }}
           >
             <Image
-              src="/icons/max and minas logo - Edited.png"
+              src="/icons/logo.png"
               alt="Max & Mina's"
               width={100}
               height={40}

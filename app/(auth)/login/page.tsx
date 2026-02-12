@@ -54,7 +54,7 @@ export default function LoginPage() {
             whileHover={{ scale: 1.05 }}
           >
             <Image
-              src="/icons/max and minas logo - Edited.png"
+              src="/icons/logo.png"
               alt="Max & Mina's"
               width={180}
               height={72}
