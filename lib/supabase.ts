@@ -1,44 +1,16 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createBrowserClient } from '@supabase/ssr';
+import { createClient } from '@supabase/supabase-js';
 import type { Database } from './database.types';
 
-// Only cache client on the browser, never during SSR
-let browserClient: SupabaseClient<Database> | null = null;
-
-export function createSupabaseBrowser(): SupabaseClient<Database> {
-  // Always check if we're in browser
-  if (typeof window === 'undefined') {
-    // SSR - create fresh client without caching
-    return createClient<Database>(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    );
-  }
-
-  // Browser - use cached client
-  if (browserClient) {
-    return browserClient;
-  }
-
-  console.log('Creating Supabase browser client...');
-  console.log('URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
-
-  browserClient = createClient<Database>(
+// Create browser client using @supabase/ssr (recommended for Next.js)
+export function createSupabaseBrowser() {
+  return createBrowserClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true,
-        storage: window.localStorage,
-        storageKey: 'sb-lsqjkqmocjuldtvqaxtr-auth-token',
-      },
-    }
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
-
-  return browserClient;
 }
 
+// Server client for API routes
 export function createSupabaseServer() {
   return createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -52,6 +24,7 @@ export function createSupabaseServer() {
   );
 }
 
+// Simple client without auth features
 export function createSupabaseClient() {
   return createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

@@ -5,11 +5,9 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Mail, Lock, IceCream2, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { createSupabaseBrowser } from '@/lib/supabase';
-import { useStore } from '@/lib/store';
 import { toast } from '@/components/Toast';
 
 export default function LoginPage() {
-  const { setUser } = useStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -22,45 +20,22 @@ export default function LoginPage() {
     const supabase = createSupabaseBrowser();
 
     try {
-      const { data: authData, error: authError } =
-        await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-
-      console.log('Login result:', { authData, authError });
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
       if (authError) throw authError;
 
-      // Manually save session to localStorage (backup in case Supabase client doesn't)
-      const storageKey = 'sb-lsqjkqmocjuldtvqaxtr-auth-token';
-      if (authData.session) {
-        localStorage.setItem(storageKey, JSON.stringify(authData.session));
-        console.log('Session manually saved to localStorage');
-      }
-
-      // Set user in store immediately from auth data
-      setUser({
-        id: authData.user.id,
-        email: authData.user.email || '',
-        name: authData.user.user_metadata?.name || 'User',
-        is_admin: false,
-        created_at: authData.user.created_at,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } as any);
-
-      toast.success('Welcome back!');
-
-      // Redirect immediately - don't wait for profile fetch
+      // Redirect immediately - auth state will be picked up by AuthProvider
       window.location.href = '/';
     } catch (error: unknown) {
       console.error('Login error:', error);
+      setIsLoading(false);
       toast.error(
         'Login failed',
         error instanceof Error ? error.message : 'Please check your credentials'
       );
-    } finally {
-      setIsLoading(false);
     }
   };
 
