@@ -34,7 +34,12 @@ export default function SignupPage() {
     e.preventDefault();
 
     if (!agreeToTerms) {
-      toast.error('Please agree to the terms');
+      alert('Please agree to the terms');
+      return;
+    }
+
+    if (!email || !password || !name) {
+      alert('Please fill in all required fields');
       return;
     }
 
@@ -50,10 +55,14 @@ export default function SignupPage() {
           data: {
             name,
           },
+          emailRedirectTo: `${window.location.origin}/`,
         },
       });
 
-      if (authError) throw authError;
+      if (authError) {
+        alert('Auth error: ' + authError.message);
+        throw authError;
+      }
 
       if (authData.user) {
         // Create user profile
@@ -75,19 +84,24 @@ export default function SignupPage() {
           .select()
           .single();
 
-        if (profileError) throw profileError;
+        if (profileError) {
+          console.error('Profile error:', profileError);
+          // User created in auth, but profile failed - still allow login
+        }
 
-        setUser(userData);
+        if (userData) {
+          setUser(userData);
+        }
         completeOnboarding();
-        toast.success('Welcome to Max & Mina\'s!', 'Your account has been created');
+        alert('Account created! Check your email to confirm.');
         router.push('/');
+      } else {
+        alert('Check your email to confirm your account!');
+        router.push('/login');
       }
     } catch (error: unknown) {
       console.error('Signup error:', error);
-      toast.error(
-        'Signup failed',
-        error instanceof Error ? error.message : 'Please try again'
-      );
+      alert('Signup failed: ' + (error instanceof Error ? error.message : 'Please try again'));
     } finally {
       setIsLoading(false);
     }
