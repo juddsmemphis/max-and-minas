@@ -65,7 +65,7 @@ export default function SignupPage() {
       }
 
       if (authData.user) {
-        // Create user profile
+        // Update user profile (trigger already created it, so we upsert)
         const userInsert = {
           id: authData.user.id,
           email,
@@ -80,7 +80,7 @@ export default function SignupPage() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { data: userData, error: profileError } = await (supabase as any)
           .from('users')
-          .insert(userInsert)
+          .upsert(userInsert, { onConflict: 'id' })
           .select()
           .single();
 
@@ -141,7 +141,8 @@ export default function SignupPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name"
-                className="input-groovy w-full pl-10"
+                className="input-groovy w-full"
+                style={{ paddingLeft: '2.75rem' }}
                 required
               />
             </div>
@@ -158,7 +159,8 @@ export default function SignupPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="input-groovy w-full pl-10"
+                className="input-groovy w-full"
+                style={{ paddingLeft: '2.75rem' }}
                 required
               />
             </div>
@@ -175,7 +177,8 @@ export default function SignupPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Min. 8 characters"
-                className="input-groovy w-full pl-10 pr-10"
+                className="input-groovy w-full"
+                style={{ paddingLeft: '2.75rem', paddingRight: '2.75rem' }}
                 minLength={8}
                 required
               />
@@ -206,7 +209,8 @@ export default function SignupPage() {
                 type="date"
                 value={birthday}
                 onChange={(e) => setBirthday(e.target.value)}
-                className="input-groovy w-full pl-10"
+                className="input-groovy w-full"
+                style={{ paddingLeft: '2.75rem' }}
               />
             </div>
             <p className="text-xs text-chocolate/50 mt-1">
