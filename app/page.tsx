@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Sparkles, Clock, TrendingUp, RefreshCw } from 'lucide-react';
 import { FlavorCard } from '@/components/FlavorCard';
@@ -259,9 +260,13 @@ export default function HomePage() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
       >
-        <h3 className="font-groovy text-2xl text-psychedelic-purple mb-2">
-          Max & Mina&apos;s
-        </h3>
+        <Image
+          src="/icons/logo.png"
+          alt="Max & Mina's"
+          width={160}
+          height={64}
+          className="mx-auto mb-2"
+        />
         <p className="text-chocolate/70 mb-1">
           71-26 Main Street, Flushing, NY 11367
         </p>
