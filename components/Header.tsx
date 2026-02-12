@@ -20,24 +20,19 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-cream/80 backdrop-blur-lg border-b border-psychedelic-purple/10 safe-top">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
+        <Link href="/" className="flex items-center group">
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
           >
             <Image
-              src="/icons/android/android-launchericon-192-192.png"
+              src="/icons/max and minas logo - Edited.png"
               alt="Max & Mina's"
-              width={48}
-              height={48}
+              width={100}
+              height={40}
               className="object-contain"
             />
           </motion.div>
-          <div className="hidden sm:block">
-            <p className="text-[10px] text-chocolate/60 leading-none">
-              Never miss a drop
-            </p>
-          </div>
         </Link>
 
         {/* Desktop Navigation */}

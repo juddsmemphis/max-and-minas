@@ -50,15 +50,15 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <motion.div
-            className="w-24 h-24 mx-auto mb-4"
+            className="mx-auto mb-4"
             whileHover={{ scale: 1.05 }}
           >
             <Image
-              src="/icons/android/android-launchericon-192-192.png"
+              src="/icons/max and minas logo - Edited.png"
               alt="Max & Mina's"
-              width={96}
-              height={96}
-              className="object-contain"
+              width={180}
+              height={72}
+              className="object-contain mx-auto"
             />
           </motion.div>
           <h1 className="font-groovy text-3xl text-psychedelic-purple mb-1">
