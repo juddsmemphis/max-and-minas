@@ -9,15 +9,27 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        psychedelic: {
-          purple: '#9B59B6',
-          pink: '#FF69B4',
-          lime: '#BFFF00',
-          orange: '#FF8C42',
-          blue: '#00CED1',
-          yellow: '#FFD700',
+        // Grateful Dead inspired palette matching logo red
+        dead: {
+          red: '#C84536',        // Steal Your Face red (matches logo!)
+          orange: '#E8833A',     // Ripple orange
+          gold: '#F4C430',       // Sunshine Daydream
+          green: '#22C55E',      // Morning Dew green
+          teal: '#14B8A6',       // Terrapin teal
+          blue: '#3B82F6',       // Blue sky
+          purple: '#8B5CF6',     // Sugar Magnolia purple
+          pink: '#EC4899',       // Scarlet Begonias pink
         },
-        cream: '#FFF8DC',
+        // Keep psychedelic for backwards compatibility
+        psychedelic: {
+          purple: '#8B5CF6',
+          pink: '#EC4899',
+          lime: '#84CC16',
+          orange: '#E8833A',
+          blue: '#3B82F6',
+          yellow: '#F4C430',
+        },
+        cream: '#FDF6E3',         // Warmer vintage cream
         chocolate: '#4A2C2A',
         background: "var(--background)",
         foreground: "var(--foreground)",
@@ -28,10 +40,12 @@ const config: Config = {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
-        'tie-dye': 'radial-gradient(circle at 20% 50%, rgba(155, 89, 182, 0.6) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255, 105, 180, 0.6) 0%, transparent 50%), radial-gradient(circle at 40% 80%, rgba(191, 255, 0, 0.4) 0%, transparent 50%)',
-        'rainbow': 'linear-gradient(90deg, #9B59B6, #FF69B4, #BFFF00, #FF8C42, #00CED1)',
-        'rainbow-soft': 'linear-gradient(135deg, rgba(155, 89, 182, 0.3), rgba(255, 105, 180, 0.3), rgba(191, 255, 0, 0.2), rgba(255, 140, 66, 0.3), rgba(0, 206, 209, 0.3))',
-        'groovy-gradient': 'linear-gradient(135deg, #9B59B6 0%, #FF69B4 50%, #FF8C42 100%)',
+        // Grateful Dead tie-dye - full spectrum rainbow
+        'tie-dye': 'radial-gradient(circle at 20% 50%, rgba(200, 69, 54, 0.5) 0%, transparent 50%), radial-gradient(circle at 80% 30%, rgba(244, 196, 48, 0.5) 0%, transparent 50%), radial-gradient(circle at 40% 80%, rgba(34, 197, 94, 0.4) 0%, transparent 50%), radial-gradient(circle at 70% 70%, rgba(59, 130, 246, 0.4) 0%, transparent 50%), radial-gradient(circle at 30% 30%, rgba(139, 92, 246, 0.4) 0%, transparent 50%)',
+        'rainbow': 'linear-gradient(90deg, #C84536, #E8833A, #F4C430, #22C55E, #3B82F6, #8B5CF6)',
+        'rainbow-soft': 'linear-gradient(135deg, rgba(200, 69, 54, 0.3), rgba(244, 196, 48, 0.3), rgba(34, 197, 94, 0.2), rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3))',
+        'groovy-gradient': 'linear-gradient(135deg, #C84536 0%, #E8833A 50%, #F4C430 100%)',
+        'dead-gradient': 'linear-gradient(135deg, #C84536 0%, #8B5CF6 100%)',
       },
       animation: {
         'float': 'float 3s ease-in-out infinite',
