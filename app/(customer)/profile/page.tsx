@@ -134,7 +134,11 @@ export default function ProfilePage() {
   const handleLogout = async () => {
     const supabase = createSupabaseBrowser();
     await supabase.auth.signOut();
+    // Clear manually saved session
+    localStorage.removeItem('sb-lsqjkqmocjuldtvqaxtr-auth-token');
     setUser(null);
+    // Redirect to home
+    window.location.href = '/';
   };
 
   const earnedBadges = BADGES.filter((badge) => badge.condition(stats));
