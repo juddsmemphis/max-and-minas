@@ -124,6 +124,7 @@ export const useStore = create<AppState>()(
         hasCompletedOnboarding: state.hasCompletedOnboarding,
         notificationsEnabled: state.notificationsEnabled,
       }),
+      skipHydration: true,
     }
   )
 );

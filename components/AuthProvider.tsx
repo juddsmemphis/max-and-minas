@@ -7,6 +7,11 @@ import { useStore } from '@/lib/store';
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { setUser } = useStore();
 
+  // Hydrate the persisted store on mount (fixes hydration mismatch)
+  useEffect(() => {
+    useStore.persist.rehydrate();
+  }, []);
+
   useEffect(() => {
     const supabase = createSupabaseBrowser();
 
