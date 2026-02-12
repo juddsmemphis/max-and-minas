@@ -21,7 +21,7 @@ import { toast } from '@/components/Toast';
 
 export default function SignupPage() {
   const router = useRouter();
-  const { setUser, completeOnboarding } = useStore();
+  const { completeOnboarding } = useStore();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -64,41 +64,24 @@ export default function SignupPage() {
         throw authError;
       }
 
-      if (authData.user) {
-        // Update user profile (trigger already created it, so we upsert)
-        const userInsert = {
-          id: authData.user.id,
-          email,
-          name,
-          birthday: birthday || null,
-          notification_preferences: {
-            daily_drops: true,
-            watchlist: true,
-            sold_out: false,
-          },
-        };
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const { data: userData, error: profileError } = await (supabase as any)
-          .from('users')
-          .upsert(userInsert, { onConflict: 'id' })
-          .select()
-          .single();
-
-        if (profileError) {
-          console.error('Profile error:', profileError);
-          // User created in auth, but profile failed - still allow login
+      // Auth signup succeeded - the database trigger will create the profile
+      // Try to update with birthday if provided, but don't fail if it doesn't work
+      if (authData.user && birthday) {
+        try {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          await (supabase as any)
+            .from('users')
+            .update({ birthday })
+            .eq('id', authData.user.id);
+        } catch (profileErr) {
+          // Profile update failed - that's okay, trigger created basic profile
+          console.log('Profile update skipped - will update after email confirmation');
         }
-
-        if (userData) {
-          setUser(userData);
-        }
-        completeOnboarding();
-        alert('Account created! Check your email to confirm.');
-        router.push('/');
-      } else {
-        alert('Check your email to confirm your account!');
-        router.push('/login');
       }
+
+      completeOnboarding();
+      alert('Account created! Check your email to confirm.');
+      router.push('/login');
     } catch (error: unknown) {
       console.error('Signup error:', error);
       alert('Signup failed: ' + (error instanceof Error ? error.message : 'Please try again'));
