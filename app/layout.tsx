@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Header } from '@/components/Header';
 import { Navigation } from '@/components/Navigation';
 import { ToastContainer } from '@/components/Toast';
+import { AuthProvider } from '@/components/AuthProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -62,10 +63,12 @@ export default function RootLayout({
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
       <body className="bg-psychedelic-pattern min-h-screen antialiased">
-        <Header />
-        <main className="pb-20 md:pb-8">{children}</main>
-        <Navigation />
-        <ToastContainer />
+        <AuthProvider>
+          <Header />
+          <main className="pb-20 md:pb-8">{children}</main>
+          <Navigation />
+          <ToastContainer />
+        </AuthProvider>
       </body>
     </html>
   );

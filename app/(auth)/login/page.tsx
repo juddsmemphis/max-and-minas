@@ -87,7 +87,8 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="input-groovy w-full pl-10"
+                className="input-groovy w-full"
+                style={{ paddingLeft: '2.75rem' }}
                 required
               />
             </div>
@@ -104,7 +105,8 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="input-groovy w-full pl-10 pr-10"
+                className="input-groovy w-full"
+                style={{ paddingLeft: '2.75rem', paddingRight: '2.75rem' }}
                 required
               />
               <button
