@@ -13,6 +13,8 @@ import {
   X,
   Loader2,
   IceCream2,
+  CalendarPlus,
+  CalendarCheck,
 } from 'lucide-react';
 import { createSupabaseBrowser } from '@/lib/supabase';
 import { toast } from '@/components/Toast';
@@ -51,6 +53,8 @@ export default function FlavorManagementPage() {
   const [editingFlavor, setEditingFlavor] = useState<Flavor | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [todaysMenuIds, setTodaysMenuIds] = useState<Set<string>>(new Set());
+  const [menuLoading, setMenuLoading] = useState<string | null>(null);
 
   // New flavor form state
   const [newFlavor, setNewFlavor] = useState({
@@ -66,7 +70,81 @@ export default function FlavorManagementPage() {
 
   useEffect(() => {
     loadFlavors();
+    loadTodaysMenu();
   }, []);
+
+  const loadTodaysMenu = async () => {
+    const supabase = createSupabaseBrowser();
+    const today = new Date().toISOString().split('T')[0];
+
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data, error } = await (supabase as any)
+        .from('daily_menu')
+        .select('flavor_id')
+        .eq('menu_date', today);
+
+      if (error) throw error;
+      setTodaysMenuIds(new Set(data?.map((item: { flavor_id: string }) => item.flavor_id) || []));
+    } catch (error) {
+      console.error('Error loading today\'s menu:', error);
+    }
+  };
+
+  const handleAddToMenu = async (flavorId: string) => {
+    setMenuLoading(flavorId);
+    const supabase = createSupabaseBrowser();
+    const today = new Date().toISOString().split('T')[0];
+
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase as any)
+        .from('daily_menu')
+        .insert({
+          flavor_id: flavorId,
+          menu_date: today,
+        });
+
+      if (error) throw error;
+
+      setTodaysMenuIds(prev => new Set([...Array.from(prev), flavorId]));
+      toast.success('Added to today\'s menu!');
+    } catch (error) {
+      console.error('Error adding to menu:', error);
+      toast.error('Failed to add to menu');
+    } finally {
+      setMenuLoading(null);
+    }
+  };
+
+  const handleRemoveFromMenu = async (flavorId: string) => {
+    setMenuLoading(flavorId);
+    const supabase = createSupabaseBrowser();
+    const today = new Date().toISOString().split('T')[0];
+
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase as any)
+        .from('daily_menu')
+        .delete()
+        .eq('flavor_id', flavorId)
+        .eq('menu_date', today);
+
+      if (error) throw error;
+
+      setTodaysMenuIds(prev => {
+        const next = new Set(prev);
+        next.delete(flavorId);
+        return next;
+      });
+      toast.success('Removed from today\'s menu');
+    } catch (error) {
+      console.error('Error removing from menu:', error);
+      toast.error('Failed to remove from menu');
+    } finally {
+      setMenuLoading(null);
+    }
+  };
 
   const loadFlavors = async () => {
     setIsLoading(true);
@@ -530,11 +608,16 @@ export default function FlavorManagementPage() {
                 // View Mode
                 <div className="flex items-center gap-4">
                   <div className="flex-1">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <h3 className="font-medium text-chocolate">{flavor.name}</h3>
                       <span className={`text-xs font-medium ${getRarityColor(flavor.rarity_score)}`}>
                         {getRarityLabel(flavor.rarity_score)}
                       </span>
+                      {todaysMenuIds.has(flavor.id) && (
+                        <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">
+                          On Menu Today
+                        </span>
+                      )}
                     </div>
                     {flavor.description && (
                       <p className="text-sm text-chocolate/60 mt-1 line-clamp-1">{flavor.description}</p>
@@ -555,6 +638,33 @@ export default function FlavorManagementPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
+                    {todaysMenuIds.has(flavor.id) ? (
+                      <button
+                        onClick={() => handleRemoveFromMenu(flavor.id)}
+                        disabled={menuLoading === flavor.id}
+                        className="p-2 rounded-lg bg-green-100 text-green-700 hover:bg-green-200 transition-colors"
+                        title="Remove from today's menu"
+                      >
+                        {menuLoading === flavor.id ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <CalendarCheck className="w-4 h-4" />
+                        )}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleAddToMenu(flavor.id)}
+                        disabled={menuLoading === flavor.id}
+                        className="p-2 rounded-lg hover:bg-blue-100 text-blue-600 transition-colors"
+                        title="Add to today's menu"
+                      >
+                        {menuLoading === flavor.id ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <CalendarPlus className="w-4 h-4" />
+                        )}
+                      </button>
+                    )}
                     <button
                       onClick={() => setEditingFlavor(flavor)}
                       className="p-2 rounded-lg hover:bg-dead-red/10 text-dead-red transition-colors"
