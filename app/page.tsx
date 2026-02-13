@@ -273,12 +273,12 @@ export default function HomePage() {
         <p className="text-chocolate/50 text-sm">
           Serving 15,000+ unique flavors since 1997
         </p>
-        <div className="mt-4 flex justify-center items-center gap-4">
+        <div className="mt-4 flex justify-center items-stretch gap-4">
           <a
             href="https://maps.google.com/?q=Max+and+Minas+Flushing"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-outline-groovy text-sm"
+            className="btn-outline-groovy text-sm flex items-center justify-center"
           >
             Directions
           </a>
@@ -286,12 +286,12 @@ export default function HomePage() {
             href="https://www.ubereats.com/store/max-%26-minas-ice-cream/3XtTzTt3Xl2YCN-yOfT0QA?diningMode=DELIVERY&sc=SEARCH_SUGGESTION"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-[#06C167] hover:bg-[#05a857] text-white font-medium rounded-xl transition-colors text-sm text-center"
+            className="px-4 py-2 bg-[#06C167] hover:bg-[#05a857] text-white font-medium rounded-xl transition-colors text-sm text-center flex flex-col items-center justify-center"
           >
-            <span className="text-white/80 text-xs block">Want it delivered?</span>
+            <span className="text-white/80 text-xs">Want it delivered?</span>
             <span>Order UberEats</span>
           </a>
-          <a href="tel:+17184281168" className="btn-groovy text-sm">
+          <a href="tel:+17184281168" className="btn-groovy text-sm flex items-center justify-center">
             Call Shop
           </a>
         </div>
