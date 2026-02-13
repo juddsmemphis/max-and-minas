@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Home, Archive, Heart, Lightbulb, User } from 'lucide-react';
+import { Home, Archive, Heart, Lightbulb, BookOpen, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -11,6 +11,7 @@ const navItems = [
   { href: '/archive', icon: Archive, label: 'Archive' },
   { href: '/watchlist', icon: Heart, label: 'Watchlist' },
   { href: '/suggestions', icon: Lightbulb, label: 'Suggest' },
+  { href: '/our-story', icon: BookOpen, label: 'Our Story' },
   { href: '/profile', icon: User, label: 'Profile' },
 ];
 
