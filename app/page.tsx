@@ -273,18 +273,29 @@ export default function HomePage() {
         <p className="text-chocolate/50 text-sm">
           Serving 15,000+ unique flavors since 1997
         </p>
-        <div className="mt-4 flex justify-center gap-4">
+        <div className="mt-4 flex flex-col items-center gap-3">
           <a
-            href="https://maps.google.com/?q=Max+and+Minas+Flushing"
+            href="https://www.ubereats.com/store/max-and-minas/jCQz3C-7Xbu2lK7pOywNsQ"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-outline-groovy text-sm"
+            className="px-6 py-3 bg-[#06C167] hover:bg-[#05a857] text-white font-medium rounded-xl transition-colors text-sm flex flex-col items-center"
           >
-            Directions
+            <span className="text-white/80 text-xs">Want it delivered?</span>
+            <span>Order UberEats</span>
           </a>
-          <a href="tel:+17184281168" className="btn-groovy text-sm">
-            Call Shop
-          </a>
+          <div className="flex justify-center gap-4">
+            <a
+              href="https://maps.google.com/?q=Max+and+Minas+Flushing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline-groovy text-sm"
+            >
+              Directions
+            </a>
+            <a href="tel:+17184281168" className="btn-groovy text-sm">
+              Call Shop
+            </a>
+          </div>
         </div>
       </motion.div>
     </div>
