@@ -61,12 +61,15 @@ export default function FlavorManagementPage() {
     name: '',
     description: '',
     category: '',
+    tags: [] as string[],
     rarity_score: 5,
     first_appeared: new Date().toISOString().split('T')[0],
     hide_appearances: false,
     is_gluten_free: null as boolean | null,
     contains_nuts: null as boolean | null,
   });
+  const [newTagInput, setNewTagInput] = useState('');
+  const [editTagInput, setEditTagInput] = useState('');
 
   useEffect(() => {
     loadFlavors();
@@ -179,6 +182,7 @@ export default function FlavorManagementPage() {
           name: flavor.name,
           description: flavor.description,
           category: flavor.category,
+          tags: flavor.tags && flavor.tags.length > 0 ? flavor.tags : null,
           rarity_score: flavor.rarity_score,
           first_appeared: flavor.first_appeared,
           last_appeared: flavor.last_appeared,
@@ -219,6 +223,7 @@ export default function FlavorManagementPage() {
           name: newFlavor.name,
           description: newFlavor.description || null,
           category: newFlavor.category || null,
+          tags: newFlavor.tags.length > 0 ? newFlavor.tags : null,
           rarity_score: newFlavor.rarity_score,
           first_appeared: newFlavor.first_appeared,
           total_appearances: 1,
@@ -237,12 +242,14 @@ export default function FlavorManagementPage() {
         name: '',
         description: '',
         category: '',
+        tags: [],
         rarity_score: 5,
         first_appeared: new Date().toISOString().split('T')[0],
         hide_appearances: false,
         is_gluten_free: null,
         contains_nuts: null,
       });
+      setNewTagInput('');
       toast.success('Flavor created!');
     } catch (error) {
       console.error('Error creating flavor:', error);
@@ -369,6 +376,64 @@ export default function FlavorManagementPage() {
                   className="input-groovy w-full h-20 resize-none"
                   placeholder="Describe the flavor..."
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-chocolate mb-1">Tags</label>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {newFlavor.tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="px-2 py-1 bg-psychedelic-pink/20 text-psychedelic-pink text-sm rounded-lg flex items-center gap-1"
+                    >
+                      {tag}
+                      <button
+                        type="button"
+                        onClick={() => setNewFlavor(prev => ({
+                          ...prev,
+                          tags: prev.tags.filter((_, i) => i !== index)
+                        }))}
+                        className="hover:text-red-500"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={newTagInput}
+                    onChange={(e) => setNewTagInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && newTagInput.trim()) {
+                        e.preventDefault();
+                        setNewFlavor(prev => ({
+                          ...prev,
+                          tags: [...prev.tags, newTagInput.trim().toLowerCase()]
+                        }));
+                        setNewTagInput('');
+                      }
+                    }}
+                    className="input-groovy flex-1 text-sm"
+                    placeholder="Type tag and press Enter..."
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (newTagInput.trim()) {
+                        setNewFlavor(prev => ({
+                          ...prev,
+                          tags: [...prev.tags, newTagInput.trim().toLowerCase()]
+                        }));
+                        setNewTagInput('');
+                      }
+                    }}
+                    className="px-3 py-2 bg-psychedelic-pink/20 text-psychedelic-pink rounded-lg hover:bg-psychedelic-pink/30 transition-colors text-sm"
+                  >
+                    Add
+                  </button>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -507,6 +572,63 @@ export default function FlavorManagementPage() {
                     className="input-groovy w-full h-16 resize-none text-sm"
                     placeholder="Description..."
                   />
+                  <div>
+                    <label className="text-xs text-chocolate/60">Tags</label>
+                    <div className="flex flex-wrap gap-1 mb-2">
+                      {(editingFlavor.tags || []).map((tag, index) => (
+                        <span
+                          key={index}
+                          className="px-2 py-0.5 bg-psychedelic-pink/20 text-psychedelic-pink text-xs rounded-lg flex items-center gap-1"
+                        >
+                          {tag}
+                          <button
+                            type="button"
+                            onClick={() => setEditingFlavor(prev => prev ? {
+                              ...prev,
+                              tags: (prev.tags || []).filter((_, i) => i !== index)
+                            } : null)}
+                            className="hover:text-red-500"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={editTagInput}
+                        onChange={(e) => setEditTagInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && editTagInput.trim()) {
+                            e.preventDefault();
+                            setEditingFlavor(prev => prev ? {
+                              ...prev,
+                              tags: [...(prev.tags || []), editTagInput.trim().toLowerCase()]
+                            } : null);
+                            setEditTagInput('');
+                          }
+                        }}
+                        className="input-groovy flex-1 text-sm"
+                        placeholder="Add tag..."
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (editTagInput.trim()) {
+                            setEditingFlavor(prev => prev ? {
+                              ...prev,
+                              tags: [...(prev.tags || []), editTagInput.trim().toLowerCase()]
+                            } : null);
+                            setEditTagInput('');
+                          }
+                        }}
+                        className="px-2 py-1 bg-psychedelic-pink/20 text-psychedelic-pink rounded-lg hover:bg-psychedelic-pink/30 transition-colors text-xs"
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
                   <div className="grid grid-cols-3 gap-3">
                     <div>
                       <label className="text-xs text-chocolate/60">Category</label>
@@ -624,6 +746,9 @@ export default function FlavorManagementPage() {
                     )}
                     <div className="flex items-center gap-2 mt-2 text-xs text-chocolate/50 flex-wrap">
                       {flavor.category && <span className="capitalize">{flavor.category}</span>}
+                      {flavor.tags && flavor.tags.length > 0 && flavor.tags.map((tag, i) => (
+                        <span key={i} className="px-1.5 py-0.5 bg-psychedelic-pink/10 text-psychedelic-pink rounded-full">{tag}</span>
+                      ))}
                       {!flavor.hide_appearances && <span>{flavor.total_appearances} appearances</span>}
                       <span>Since {new Date(flavor.first_appeared).getFullYear()}</span>
                       {flavor.is_gluten_free && (
@@ -666,7 +791,7 @@ export default function FlavorManagementPage() {
                       </button>
                     )}
                     <button
-                      onClick={() => setEditingFlavor(flavor)}
+                      onClick={() => { setEditingFlavor(flavor); setEditTagInput(''); }}
                       className="p-2 rounded-lg hover:bg-dead-red/10 text-dead-red transition-colors"
                     >
                       <Edit2 className="w-4 h-4" />
