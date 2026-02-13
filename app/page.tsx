@@ -283,7 +283,7 @@ export default function HomePage() {
             Directions
           </a>
           <a
-            href="https://www.ubereats.com/store/max-%26-minas-ice-cream/3XtTzTt3Xl2YCN-yOfT0QA"
+            href="https://www.ubereats.com/store/max-%26-minas-ice-cream/3XtTzTt3Xl2YCN-yOfT0QA?diningMode=DELIVERY&sc=SEARCH_SUGGESTION"
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-2 bg-[#06C167] hover:bg-[#05a857] text-white font-medium rounded-xl transition-colors text-sm text-center"
