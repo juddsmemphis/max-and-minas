@@ -49,6 +49,9 @@ export function Header() {
           <NavLink href="/suggestions" active={isActive('/suggestions')}>
             Suggest
           </NavLink>
+          <NavLink href="/our-story" active={isActive('/our-story')}>
+            Our Story
+          </NavLink>
           {isAdmin && (
             <NavLink href="/admin" active={pathname.startsWith('/admin')}>
               Admin
@@ -140,6 +143,13 @@ export function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Suggest a Flavor
+              </MobileNavLink>
+              <MobileNavLink
+                href="/our-story"
+                active={isActive('/our-story')}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Our Story
               </MobileNavLink>
               <MobileNavLink
                 href="/profile"
