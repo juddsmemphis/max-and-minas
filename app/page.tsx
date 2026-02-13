@@ -275,7 +275,7 @@ export default function HomePage() {
         </p>
         <div className="mt-4 flex flex-col items-center gap-3">
           <a
-            href="https://www.ubereats.com/store/max-and-minas/jCQz3C-7Xbu2lK7pOywNsQ"
+            href="https://www.ubereats.com/store/max-%26-minas-ice-cream/3XtTzTt3Xl2YCN-yOfT0QA"
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 bg-[#06C167] hover:bg-[#05a857] text-white font-medium rounded-xl transition-colors text-sm flex flex-col items-center"
