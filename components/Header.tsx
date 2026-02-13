@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { Menu, X, Bell, User } from 'lucide-react';
+import { Menu, X, Bell, User, Instagram } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useStore } from '@/lib/store';
 
@@ -61,6 +61,21 @@ export function Header() {
 
         {/* Right Side Actions */}
         <div className="flex items-center gap-2">
+          {/* Instagram */}
+          <a
+            href="https://www.instagram.com/maxandminas"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <motion.div
+              className="p-2 rounded-full bg-psychedelic-pink/10 text-psychedelic-pink hover:bg-psychedelic-pink/20 transition-colors"
+              whileTap={{ scale: 0.95 }}
+              aria-label="Instagram"
+            >
+              <Instagram className="w-5 h-5" />
+            </motion.div>
+          </a>
+
           {/* Notification Bell */}
           <Link href="/profile/notifications">
             <motion.div
