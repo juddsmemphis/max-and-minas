@@ -20,7 +20,18 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-mm-cream border-b-3 border-mm-black safe-top">
       {/* Marquee Banner */}
       <div className="bg-mm-black text-white overflow-hidden">
-        <div className="marquee-scroll py-1.5">
+        <motion.div
+          className="flex py-1.5"
+          animate={{ x: [0, -800] }}
+          transition={{
+            x: {
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: 20,
+              ease: "linear",
+            },
+          }}
+        >
           {/* First copy */}
           <div className="flex flex-shrink-0">
             <span className="px-8 text-xs font-heading font-semibold tracking-widest uppercase whitespace-nowrap">
@@ -51,7 +62,7 @@ export function Header() {
               Flushing, Queens
             </span>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
