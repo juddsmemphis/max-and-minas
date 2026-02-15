@@ -41,6 +41,8 @@ export function RarityBadge({
         'inline-flex items-center font-heading font-bold rounded border-2 whitespace-nowrap uppercase tracking-wider hover-wiggle',
         style,
         sizeClasses[size],
+        (rarity.level === 'legendary' || rarity.level === 'rare') && 'badge-shine',
+        rarity.level === 'legendary' && 'glow-gold',
         className
       )}
       initial={{ scale: 0.9, opacity: 0 }}

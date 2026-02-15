@@ -38,25 +38,21 @@ export function LoadingPage() {
 
 export function LoadingCard() {
   return (
-    <div className="bg-white border-3 border-mm-black rounded-xl shadow-bold p-4 animate-pulse">
-      <div className="flex items-start justify-between gap-2 mb-3">
-        <div className="h-6 bg-mm-blue/20 rounded-lg flex-1" />
-        <div className="h-6 w-20 bg-mm-pink/20 rounded-full" />
-      </div>
-      <div className="flex gap-2 mb-3">
-        <div className="h-5 w-16 bg-mm-blue/10 rounded-full" />
-        <div className="h-5 w-12 bg-mm-pink/10 rounded-full" />
-      </div>
-      <div className="flex items-center gap-4 mb-3">
-        <div className="h-4 w-20 bg-mm-gray-200 rounded" />
-        <div className="h-4 w-24 bg-mm-gray-200 rounded" />
-      </div>
-      <div className="flex items-center justify-between pt-2 border-t border-mm-gray-200">
-        <div className="flex gap-2">
-          <div className="h-8 w-8 bg-mm-pink/20 rounded-full" />
-          <div className="h-8 w-8 bg-mm-blue/20 rounded-full" />
+    <div className="bg-white border-3 border-mm-black rounded-xl shadow-bold p-3">
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <div className="flex items-center gap-2 flex-1">
+          <div className="h-6 w-6 skeleton rounded" />
+          <div className="h-5 skeleton rounded flex-1 max-w-[150px]" />
         </div>
-        <div className="h-4 w-8 bg-mm-gray-200 rounded" />
+        <div className="flex gap-1.5">
+          <div className="h-7 w-7 skeleton rounded-lg" />
+          <div className="h-7 w-7 skeleton rounded-lg" />
+        </div>
+      </div>
+      <div className="flex items-center gap-2 mt-2">
+        <div className="h-4 w-10 skeleton rounded" />
+        <div className="h-4 w-8 skeleton rounded" />
+        <div className="h-4 w-14 skeleton rounded" />
       </div>
     </div>
   );
