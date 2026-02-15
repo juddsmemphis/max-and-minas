@@ -1,25 +1,23 @@
 # Max & Mina's PWA - Project Status
 
-## Last Updated: February 15, 2026 (Session 6 - UI Redesign)
+## Last Updated: February 15, 2026 (Session 6 Complete - LIVE)
 
 ## Project Overview
 Building a Progressive Web App (PWA) for Max & Mina's Ice Cream in Flushing, Queens - a flavor tracking app with 15,000+ legendary flavors.
 
-## Current Status: UI REDESIGN IN PROGRESS - TESTING LOCALLY (NOT PUBLISHED)
+## Current Status: LIVE IN PRODUCTION
 
-### IMPORTANT: Session 6 Work In Progress
-- **Major UI redesign completed** - "Cereal Box Bold" design system applied
-- **Testing locally** - Changes have NOT been pushed to production yet
-- **Need to verify** all pages work correctly before publishing
-- **Project location changing** - Moving from OneDrive to C: drive to avoid file locking issues
-
-### Live URLs (CURRENT PRODUCTION - OLD DESIGN)
-- **Production App**: https://max-and-minas.vercel.app (still has old groovy design)
+### Live URLs
+- **Production App**: https://max-and-minas.vercel.app
 - **GitHub Repo**: https://github.com/juddsmemphis/max-and-minas
 - **Supabase Project**: https://supabase.com/dashboard/project/lsqjkqmocjuldtvqaxtr
 
+### Project Location
+- **Local Path**: `C:\max and minas app\max-and-minas`
+- Moved from OneDrive to avoid file locking issues
+
 ### What's Working
-- App loads and displays correctly
+- App loads and displays correctly with new "Cereal Box Bold" design
 - Login/signup works with session persistence
 - Profile page with badges and stats
 - Admin dashboard with full flavor management
@@ -27,7 +25,7 @@ Building a Progressive Web App (PWA) for Max & Mina's Ice Cream in Flushing, Que
 - Watchlist functionality
 - Flavor suggestions page
 - Real-time sold out updates
-- Onboarding flow (shows once for new users)
+- Onboarding flow (shows once for new users, fixed for mobile)
 - Kosher certification footer on all pages
 - **Our Story page** with owners photo and history
 - **Instagram link** in header
@@ -37,9 +35,15 @@ Building a Progressive Web App (PWA) for Max & Mina's Ice Cream in Flushing, Que
 - **"Always on Menu"** option for staple flavors
 - **Hours of Operation** management in admin
 - **Hours display** on home page (today's hours + expandable full week)
-- **Compact flavor cards** for easier navigation
+- **Compact flavor cards** for mobile viewing
 - **Tag filtering** on Today's Flavors and Archive pages
 - **Dietary filtering** (Gluten Free, Nut Free, Contains Nuts) on both pages
+- **Scrolling marquee banner** in header (Framer Motion animation)
+- **Film grain texture overlay**
+- **Bouncy micro-interactions** (hover-wiggle, card-bouncy)
+- **Shimmer loading skeletons**
+- **Glow effects on legendary badges**
+- **Accessibility improvements** (focus states, reduced motion support)
 
 ### Admin User
 - **Email**: yjoffre@gmail.com
@@ -49,18 +53,16 @@ Building a Progressive Web App (PWA) for Max & Mina's Ice Cream in Flushing, Que
 ## Tech Stack
 - **Frontend**: Next.js 14 (App Router), React, TypeScript, Tailwind CSS
 - **Backend**: Supabase (PostgreSQL, Auth, Storage)
-- **Styling**: NEW "Cereal Box Bold" design (Session 6) - previously Grateful Dead themed
+- **Styling**: "Cereal Box Bold" design system (mm- color palette)
+- **Animations**: Framer Motion
 - **Deployment**: Vercel (auto-deploys on git push)
 - **PWA**: next-pwa with service worker
 
 ---
 
-## SESSION 6: UI REDESIGN - "CEREAL BOX BOLD" DESIGN SYSTEM
+## Design System: "Cereal Box Bold"
 
-### Design Direction
-Researched modern ice cream brands (Salt & Straw, Jeni's, Van Leeuwen) and chose "Cereal Box Bold" direction inspired by Van Leeuwen's comic-book aesthetic with bold borders and flat colors.
-
-### New Color Palette (`mm-` prefix)
+### Color Palette (`mm-` prefix)
 ```css
 /* Primary Colors */
 --mm-black: #1A1A1A       /* Primary text, borders */
@@ -78,7 +80,7 @@ Researched modern ice cream brands (Salt & Straw, Jeni's, Van Leeuwen) and chose
 --mm-gray-50 through --mm-gray-900
 ```
 
-### New Typography
+### Typography
 - **font-heading**: Space Grotesk (bold headings)
 - **font-body**: DM Sans (body text)
 - **font-accent**: Lilita One (decorative, logo-style)
@@ -89,64 +91,16 @@ Researched modern ice cream brands (Salt & Straw, Jeni's, Van Leeuwen) and chose
 - **Colored shadows**: `shadow-bold-yellow`, `shadow-bold-pink`, `shadow-bold-blue`
 - **Hover effects**: `hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5`
 - **Rounded corners**: `rounded-xl` (12px) or `rounded-lg` (8px)
+- **Film grain overlay**: Fixed overlay with 8% opacity, subtle animation
+- **Micro-interactions**: `hover-wiggle`, `card-bouncy` for playful feel
+- **Shimmer skeletons**: `.skeleton` class for loading states
+- **Badge effects**: `badge-shine` shimmer, `glow-gold` for legendary items
 
-### Files Modified in Session 6
-
-#### Design System Core
-- `tailwind.config.ts` - Added `mm` color palette, `border-3`, shadow utilities, fonts, animations
-- `app/globals.css` - CSS variables, new component classes, marquee animation
-
-#### Components Redesigned
-- `components/Header.tsx` - Marquee banner, bold bordered buttons, colored icons
-- `components/Navigation.tsx` - Bold black bottom nav, wiggle animation on active
-- `components/FlavorCard.tsx` - Bold borders with rarity-colored shadows, rainbow hover line
-- `components/RarityBadge.tsx` - Flat colors with black borders
-
-#### Pages Redesigned
-- `app/layout.tsx` - Fixed Kosher footer (changed from fixed to static positioning)
-- `app/page.tsx` (Today's Flavors) - New stat chips, filter panel, shop info section
-- `app/(customer)/flavor/[id]/page.tsx` - Bold bordered stats, rarity explanation card
-- `app/(customer)/our-story/page.tsx` - Premium card layout, stats bar, CTAs
-- `app/(customer)/profile/page.tsx` - Bold stat blocks, badge cards, progress bar
-- `app/admin/page.tsx` - Bold action cards, colored icon boxes
-- `app/admin/flavors/page.tsx` - Bold modal, form inputs, flavor list items
-- `app/admin/hours/page.tsx` - Bold day cards, preview section
-- `app/admin/suggestions/page.tsx` - Bold suggestion cards, stats summary
-- `app/admin/upload/page.tsx` - Bold upload area, review step, publish button
-
-### Testing Status (Session 6)
-- [x] Design system created and applied
-- [x] All pages converted to new design
-- [ ] Full testing of all pages needed
-- [ ] Mobile navigation testing needed
-- [ ] Today's Flavors loading issue reported (may need investigation)
-- [ ] Production deployment (NOT YET - need to test first)
-
-### Known Issues to Test
-1. **Today's flavors loading** - User reported "internal server error" initially, may have been OneDrive-related
-2. **Mobile navigation** - Not tested yet
-3. **Flavor card click shadows** - Verify shadows appear correctly on detail pages
-
----
-
-## Previous Design System (Legacy - Still in globals.css for backwards compatibility)
-
-### Grateful Dead Color Palette (OLD)
-```css
---dead-red: #C84536      /* Primary - matches logo */
---dead-orange: #E8833A   /* Secondary */
---dead-gold: #F4C430     /* Accent */
---dead-green: #22C55E    /* Success */
---dead-teal: #14B8A6     /* Info */
---dead-blue: #3B82F6     /* Links */
---dead-purple: #8B5CF6   /* Highlight */
---dead-pink: #EC4899     /* Special */
-```
-
-### Logo
-- Located at: `public/icons/logo.png`
-- Transparent background PNG
-- Used in Header, Login, Signup, and Shop Info section
+### Accessibility Features
+- Focus states with mm-blue outline
+- Reduced motion support (`prefers-reduced-motion`)
+- High contrast mode support
+- Proper ARIA labels throughout
 
 ---
 
@@ -156,7 +110,7 @@ Researched modern ice cream brands (Salt & Straw, Jeni's, Van Leeuwen) and chose
 - Upload Today's Menu (photo recognition)
 - Manage Flavors (full CRUD)
 - View Suggestions
-- **Hours of Operation**
+- Hours of Operation
 - Stats cards (clickable, link to relevant pages)
 
 ### Flavor Management (`/admin/flavors`)
@@ -262,28 +216,30 @@ VALUES ('FLAVOR_UUID_HERE', CURRENT_DATE);
 ### Core App Files
 - `app/layout.tsx` - Root layout with Header, Navigation, Footer, AuthProvider
 - `app/page.tsx` - Home page with today's flavors, stat chips, hours display, tag/dietary filters
-- `app/globals.css` - Design system styles (NEW mm- classes + legacy groovy classes)
+- `app/globals.css` - Design system styles (mm- classes, animations, grain overlay)
 - `tailwind.config.ts` - Tailwind configuration with mm- color palette
 
 ### Customer Pages
 - `app/(customer)/archive/page.tsx` - Flavor archive with category/rarity/tag/dietary filters
-- `app/(customer)/our-story/page.tsx` - Our Story page with owners photo (REDESIGNED)
-- `app/(customer)/flavor/[id]/page.tsx` - Flavor detail page (REDESIGNED)
-- `app/(customer)/profile/page.tsx` - User profile with stats and badges (REDESIGNED)
+- `app/(customer)/our-story/page.tsx` - Our Story page with owners photo
+- `app/(customer)/flavor/[id]/page.tsx` - Flavor detail page
+- `app/(customer)/profile/page.tsx` - User profile with stats and badges
 - `app/(customer)/profile/settings/page.tsx` - User settings (name, birthday)
 
 ### Admin Pages
-- `app/admin/page.tsx` - Admin dashboard (REDESIGNED)
-- `app/admin/flavors/page.tsx` - Full flavor CRUD (REDESIGNED)
-- `app/admin/hours/page.tsx` - Hours of operation management (REDESIGNED)
-- `app/admin/upload/page.tsx` - Photo upload for menu recognition (REDESIGNED)
-- `app/admin/suggestions/page.tsx` - View customer flavor suggestions (REDESIGNED)
+- `app/admin/page.tsx` - Admin dashboard
+- `app/admin/flavors/page.tsx` - Full flavor CRUD
+- `app/admin/hours/page.tsx` - Hours of operation management
+- `app/admin/upload/page.tsx` - Photo upload for menu recognition
+- `app/admin/suggestions/page.tsx` - View customer flavor suggestions
 
 ### Components
-- `components/Header.tsx` - Logo, marquee banner, navigation (REDESIGNED)
-- `components/Navigation.tsx` - Bottom nav bar, wiggle animation (REDESIGNED)
-- `components/FlavorCard.tsx` - Flavor display with rarity shadows (REDESIGNED)
-- `components/RarityBadge.tsx` - Rarity badge with flat colors (REDESIGNED)
+- `components/Header.tsx` - Logo, marquee banner (Framer Motion), navigation
+- `components/Navigation.tsx` - Bottom nav bar, wiggle animation
+- `components/FlavorCard.tsx` - Compact flavor display with rarity shadows
+- `components/RarityBadge.tsx` - Rarity badge with shine/glow effects
+- `components/LoadingSpinner.tsx` - Loading spinner and shimmer skeleton cards
+- `components/Onboarding.tsx` - First-time user onboarding (fixed for mobile with 100dvh)
 - `components/AuthProvider.tsx` - Session management, fetches is_admin from DB
 
 ### Library Files
@@ -295,6 +251,7 @@ VALUES ('FLAVOR_UUID_HERE', CURRENT_DATE);
 ### Static Assets
 - `public/icons/logo.png` - Max & Mina's logo
 - `public/images/owners.jpg` - Bruce and Mark Becker photo for Our Story page
+- `public/images/grain.png` - Film grain texture overlay
 
 ---
 
@@ -312,8 +269,8 @@ NEXT_PUBLIC_APP_URL=https://max-and-minas.vercel.app
 ## Commands
 
 ```bash
-# Navigate to project (NEW LOCATION after move)
-cd "C:\max-and-minas"  # Update this path to wherever you moved it
+# Navigate to project
+cd "C:\max and minas app\max-and-minas"
 
 # Run locally
 npm run dev
@@ -376,34 +333,26 @@ git add -A && git commit -m "message" && git push
 - **Tag filtering on Today's Flavors**
 - **Dietary filtering on Today's Flavors**
 
-### Session 6 (Feb 15 Morning) - UI REDESIGN - IN PROGRESS
+### Session 6 (Feb 15 Morning-Afternoon) - UI REDESIGN - COMPLETE
 - **Research phase**: Analyzed Salt & Straw, Jeni's, Van Leeuwen websites
 - **Design system created**: "Cereal Box Bold" with mm- color palette
 - **Core design files updated**: tailwind.config.ts, globals.css
-- **Components redesigned**: Header, Navigation, FlavorCard, RarityBadge
-- **All pages converted** to new design system:
-  - Home (Today's Flavors)
-  - Flavor detail page
-  - Our Story page
-  - Profile page
-  - Admin dashboard
-  - Admin flavors
-  - Admin hours
-  - Admin suggestions
-  - Admin upload
-- **Fixed Kosher footer** overlay issue (changed to static positioning)
-- **Moving project** from OneDrive to C: drive to avoid file locking issues
-- **STATUS**: Testing locally, NOT published to production yet
+- **Components redesigned**: Header, Navigation, FlavorCard, RarityBadge, LoadingSpinner
+- **All pages converted** to new design system
+- **Film grain texture overlay** with 8% opacity and subtle animation
+- **Bouncy micro-interactions**: hover-wiggle, card-bouncy classes
+- **Compact FlavorCards** for mobile (2-row layout instead of 4)
+- **Fixed onboarding** for mobile viewport (z-[100], 100dvh)
+- **Shimmer loading skeletons** for better UX
+- **Glow effects** on legendary badges (glow-gold, badge-shine)
+- **Marquee banner** fixed with Framer Motion animation
+- **Accessibility improvements**: Focus states, reduced motion, high contrast support
+- **Fixed Kosher footer** overlay issue (static positioning)
+- **Published to production**: https://max-and-minas.vercel.app
 
 ---
 
-## Pending / In Progress
-
-### Session 6 Remaining Tasks
-1. **Test all pages** with new design in browser
-2. **Fix any issues** found during testing
-3. **Mobile testing** - navigation and responsive design
-4. **Push to production** once testing complete
+## Pending / Future Features
 
 ### Google Business Profile API Integration
 - **Status**: Applied, waiting for approval
@@ -414,17 +363,26 @@ git add -A && git commit -m "message" && git push
 - **Status**: No API access available for custom apps
 - **Workaround**: Manual updates at https://businessconnect.apple.com when hours change
 
+### Future Ideas
+1. **OneSignal Push Notifications** - Flavor alerts
+2. **Photo Upload for Menu** - AI recognition of flavor board
+3. **User Reviews/Ratings** - Let users rate flavors
+4. **Social Sharing** - Share favorite flavors
+5. **Historical Analytics** - Flavor appearance trends
+6. **Flavor search** - Search by name across all flavors
+
 ---
 
 ## Known Issues / Gotchas
 
-1. **OneDrive Path Issue**: Project was in OneDrive causing EBUSY file locking errors - **MOVING TO C: DRIVE**
+1. **Webpack Cache Errors**: If you see "Cannot find module './XXX.js'", run `rm -rf .next` and rebuild
 2. **Dev Server Locks .next**: Must kill dev server before `rm -rf .next`
 3. **Type Casting Required**: Supabase queries need `(supabase as any)` cast
 4. **Database Columns**: New flavor columns must be added via SQL (see above)
 5. **RLS Disabled**: For admin operations to work, RLS must be disabled on relevant tables
-6. **Birthday persistence**: User birthday saves to `users` table - requires RLS disabled
-7. **Port conflicts**: If 3000 is in use, dev server will start on 3001
+6. **Port conflicts**: If 3000 is in use, dev server will start on 3001, 3002, etc.
+7. **Mobile viewport**: Use `100dvh` instead of `100vh` for proper mobile height (accounts for browser chrome)
+8. **Z-index layering**: Navigation is z-50, overlays should be z-[100] or higher
 
 ---
 
@@ -436,23 +394,3 @@ git add -A && git commit -m "message" && git push
 - **Google Business Profile**: https://business.google.com
 - **Apple Business Connect**: https://businessconnect.apple.com
 - **Phone**: +1 (718) 428-1168
-
----
-
-## Next Steps (Immediate)
-
-1. **Complete move** to C: drive
-2. **Run `npm install`** in new location
-3. **Run `npm run dev`** and test all pages
-4. **Verify Today's Flavors** loads correctly
-5. **Test mobile navigation**
-6. **Push to production** when ready: `git add -A && git commit -m "UI redesign - Cereal Box Bold" && git push`
-
-## Future Features
-
-1. **Google Business Profile API Sync** - Auto-update hours on Google Maps (waiting for approval)
-2. **OneSignal Push Notifications** - Flavor alerts
-3. **Photo Upload for Menu** - AI recognition of flavor board
-4. **User Reviews/Ratings** - Let users rate flavors
-5. **Social Sharing** - Share favorite flavors
-6. **Historical Analytics** - Flavor appearance trends
