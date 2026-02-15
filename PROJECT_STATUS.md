@@ -1,11 +1,11 @@
 # Max & Mina's PWA - Project Status
 
-## Last Updated: February 14, 2026 (Late Night)
+## Last Updated: February 15, 2026 (Early Morning)
 
 ## Project Overview
 Building a Progressive Web App (PWA) for Max & Mina's Ice Cream in Flushing, Queens - a flavor tracking app with 15,000+ legendary flavors.
 
-## Current Status: FULLY FUNCTIONAL - HOURS MANAGEMENT ADDED
+## Current Status: FULLY FUNCTIONAL - ADVANCED FILTERING ADDED
 
 ### Live URLs
 - **Production App**: https://max-and-minas.vercel.app
@@ -32,6 +32,8 @@ Building a Progressive Web App (PWA) for Max & Mina's Ice Cream in Flushing, Que
 - **Hours of Operation** management in admin
 - **Hours display** on home page (today's hours + expandable full week)
 - **Compact flavor cards** for easier navigation
+- **Tag filtering** on Today's Flavors and Archive pages
+- **Dietary filtering** (Gluten Free, Nut Free, Contains Nuts) on both pages
 
 ### Admin User
 - **Email**: yjoffre@gmail.com
@@ -171,10 +173,11 @@ VALUES ('FLAVOR_UUID_HERE', CURRENT_DATE);
 
 ### Core App Files
 - `app/layout.tsx` - Root layout with Header, Navigation, Footer, AuthProvider
-- `app/page.tsx` - Home page with today's flavors, stat chips, hours display, UberEats button
+- `app/page.tsx` - Home page with today's flavors, stat chips, hours display, tag/dietary filters
 - `app/globals.css` - Grateful Dead themed styles, button/card classes
 
 ### Customer Pages
+- `app/(customer)/archive/page.tsx` - Flavor archive with category/rarity/tag/dietary filters
 - `app/(customer)/our-story/page.tsx` - Our Story page with owners photo
 - `app/(customer)/flavor/[id]/page.tsx` - Flavor detail page with description display
 - `app/(customer)/profile/settings/page.tsx` - User settings (name, birthday)
@@ -308,6 +311,24 @@ git add -A && git commit -m "message" && git push
 - **Apple Business Connect**: Checked API options
   - Custom API access not available for single-location businesses
   - Manual updates required at businessconnect.apple.com
+
+### Session 5 (Feb 15 Early Morning)
+- **Tag filtering on Archive page** (`/archive`):
+  - Multi-select tag filter (pink bubbles)
+  - Auto-loads all unique tags from database
+  - Filters combine with existing Category/Rarity/Search
+- **Dietary filtering on Archive page**:
+  - GF (green) - Gluten Free
+  - NF (blue) - Nut Free
+  - Contains Nuts (amber with peanut emoji)
+- **Tag filtering on Today's Flavors** (home page):
+  - "Filter by Tags & Dietary" button below stat chips
+  - Expands to show filter panel
+  - Shows only tags from today's menu items
+  - Badge shows count of active filters
+- **Dietary filtering on Today's Flavors**:
+  - Same options as Archive (GF/NF/Contains Nuts)
+  - Combines with existing Available/Rare/Sold Out chip filters
 
 ## Pending / In Progress
 
