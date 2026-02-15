@@ -4,14 +4,14 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Sparkles, Clock, TrendingUp, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react';
+import { Sparkles, Clock, TrendingUp, RefreshCw, ChevronDown, ChevronUp, SlidersHorizontal, X } from 'lucide-react';
 import { FlavorCard } from '@/components/FlavorCard';
 import { LoadingCard } from '@/components/LoadingSpinner';
 import { EmptyState } from '@/components/EmptyState';
 import { Onboarding } from '@/components/Onboarding';
 import { createSupabaseBrowser } from '@/lib/supabase';
 import { useStore } from '@/lib/store';
-import { formatDate, formatRelativeTime } from '@/lib/utils';
+import { formatDate, formatRelativeTime, cn } from '@/lib/utils';
 import { getRarityInfo } from '@/lib/rarity';
 import type { DailyMenuWithFlavor } from '@/lib/database.types';
 
@@ -36,6 +36,9 @@ export default function HomePage() {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [hours, setHours] = useState<BusinessHours[]>([]);
   const [showAllHours, setShowAllHours] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [dietaryFilter, setDietaryFilter] = useState<string>('All');
 
   // Wait for store hydration before checking onboarding status
   useEffect(() => {
@@ -193,15 +196,44 @@ export default function HomePage() {
     return rarity.level === 'legendary' || rarity.level === 'rare';
   }).length;
 
+  // Extract available tags from today's menu
+  const availableTags = Array.from(
+    new Set(
+      menu.flatMap((item) => item.flavors?.tags || [])
+    )
+  ).sort();
+
+  // Toggle tag selection
+  const toggleTag = (tag: string) => {
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
+
+  // Check if any advanced filters are active
+  const hasAdvancedFilters = selectedTags.length > 0 || dietaryFilter !== 'All';
+
   // Filter menu based on active filter
   const filteredMenu = menu.filter((item) => {
-    if (!activeFilter) return true;
-    if (activeFilter === 'available') return !item.sold_out_at;
-    if (activeFilter === 'soldOut') return item.sold_out_at;
+    // Status filter (available/rare/sold out)
+    if (activeFilter === 'available' && item.sold_out_at) return false;
+    if (activeFilter === 'soldOut' && !item.sold_out_at) return false;
     if (activeFilter === 'rare') {
       const rarity = getRarityInfo(item.flavors);
-      return rarity.level === 'legendary' || rarity.level === 'rare';
+      if (rarity.level !== 'legendary' && rarity.level !== 'rare') return false;
     }
+
+    // Tag filter
+    if (selectedTags.length > 0) {
+      const flavorTags = item.flavors?.tags || [];
+      if (!selectedTags.every((tag) => flavorTags.includes(tag))) return false;
+    }
+
+    // Dietary filter
+    if (dietaryFilter === 'Gluten Free' && !item.flavors?.is_gluten_free) return false;
+    if (dietaryFilter === 'Nut Free' && item.flavors?.contains_nuts !== false) return false;
+    if (dietaryFilter === 'Contains Nuts' && !item.flavors?.contains_nuts) return false;
+
     return true;
   });
 
@@ -264,6 +296,110 @@ export default function HomePage() {
             onClick={() => handleFilterClick('soldOut')}
           />
         </motion.div>
+      )}
+
+      {/* Filter Toggle & Panel */}
+      {menu.length > 0 && (availableTags.length > 0 || true) && (
+        <div className="mb-4">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className={cn(
+              'flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-colors w-full justify-center',
+              showFilters || hasAdvancedFilters
+                ? 'bg-dead-pink text-white'
+                : 'bg-white/50 text-chocolate hover:bg-white/80'
+            )}
+          >
+            <SlidersHorizontal className="w-4 h-4" />
+            Filter by Tags & Dietary
+            {hasAdvancedFilters && (
+              <span className="bg-white/30 px-2 py-0.5 rounded-full text-xs">
+                {selectedTags.length + (dietaryFilter !== 'All' ? 1 : 0)}
+              </span>
+            )}
+          </button>
+
+          {showFilters && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              className="mt-3 groovy-card p-4 space-y-4"
+            >
+              {/* Dietary */}
+              <div>
+                <label className="text-sm font-medium text-chocolate mb-2 block">
+                  Dietary
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {['All', 'Gluten Free', 'Nut Free', 'Contains Nuts'].map((d) => (
+                    <button
+                      key={d}
+                      onClick={() => setDietaryFilter(d)}
+                      className={cn(
+                        'px-3 py-1.5 rounded-full text-sm font-medium transition-colors',
+                        dietaryFilter === d
+                          ? d === 'Gluten Free'
+                            ? 'bg-emerald-500 text-white'
+                            : d === 'Nut Free'
+                            ? 'bg-blue-500 text-white'
+                            : d === 'Contains Nuts'
+                            ? 'bg-amber-500 text-white'
+                            : 'bg-psychedelic-purple text-white'
+                          : d === 'Gluten Free'
+                          ? 'bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20'
+                          : d === 'Nut Free'
+                          ? 'bg-blue-500/10 text-blue-600 hover:bg-blue-500/20'
+                          : d === 'Contains Nuts'
+                          ? 'bg-amber-500/10 text-amber-600 hover:bg-amber-500/20'
+                          : 'bg-psychedelic-purple/10 text-psychedelic-purple hover:bg-psychedelic-purple/20'
+                      )}
+                    >
+                      {d === 'Gluten Free' ? 'GF' : d === 'Nut Free' ? 'NF' : d === 'Contains Nuts' ? '🥜 Nuts' : d}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tags */}
+              {availableTags.length > 0 && (
+                <div>
+                  <label className="text-sm font-medium text-chocolate mb-2 block">
+                    Tags {selectedTags.length > 0 && `(${selectedTags.length} selected)`}
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {availableTags.map((tag) => (
+                      <button
+                        key={tag}
+                        onClick={() => toggleTag(tag)}
+                        className={cn(
+                          'px-3 py-1.5 rounded-full text-sm font-medium transition-colors',
+                          selectedTags.includes(tag)
+                            ? 'bg-dead-pink text-white'
+                            : 'bg-dead-pink/10 text-dead-pink hover:bg-dead-pink/20'
+                        )}
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Clear Filters */}
+              {hasAdvancedFilters && (
+                <button
+                  onClick={() => {
+                    setSelectedTags([]);
+                    setDietaryFilter('All');
+                  }}
+                  className="text-sm text-psychedelic-purple hover:underline flex items-center gap-1"
+                >
+                  <X className="w-3 h-3" /> Clear filters
+                </button>
+              )}
+            </motion.div>
+          )}
+        </div>
       )}
 
       {/* Last Updated */}
