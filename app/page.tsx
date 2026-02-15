@@ -84,7 +84,8 @@ export default function HomePage() {
     try {
       console.log('Fetching menu for date:', today);
 
-      const { data, error } = await supabase
+      // Fetch today's menu items
+      const { data: menuData, error: menuError } = await supabase
         .from('daily_menu')
         .select(
           `
@@ -95,13 +96,39 @@ export default function HomePage() {
         .eq('menu_date', today)
         .order('created_at', { ascending: true });
 
-      console.log('Menu fetch result:', { data, error });
+      if (menuError) throw menuError;
 
-      if (error) throw error;
+      // Fetch always-available flavors
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: alwaysData, error: alwaysError } = await (supabase as any)
+        .from('flavors')
+        .select('*')
+        .eq('always_available', true);
 
-      const menuItems = (data || []) as DailyMenuWithFlavor[];
-      setMenu(menuItems);
-      setTodaysMenu(menuItems);
+      if (alwaysError) throw alwaysError;
+
+      console.log('Menu fetch result:', { menuData, alwaysData });
+
+      const menuItems = (menuData || []) as DailyMenuWithFlavor[];
+
+      // Get IDs of flavors already in today's menu
+      const menuFlavorIds = new Set(menuItems.map(item => item.flavor_id));
+
+      // Create synthetic menu entries for always-available flavors not already in menu
+      const alwaysAvailableItems: DailyMenuWithFlavor[] = (alwaysData || [])
+        .filter((flavor: { id: string }) => !menuFlavorIds.has(flavor.id))
+        .map((flavor: { id: string }) => ({
+          id: `always-${flavor.id}`,
+          flavor_id: flavor.id,
+          menu_date: today,
+          sold_out_at: null,
+          created_at: new Date().toISOString(),
+          flavors: flavor,
+        }));
+
+      const allMenuItems = [...menuItems, ...alwaysAvailableItems];
+      setMenu(allMenuItems);
+      setTodaysMenu(allMenuItems);
 
       // Get last update time
       if (menuItems.length > 0) {

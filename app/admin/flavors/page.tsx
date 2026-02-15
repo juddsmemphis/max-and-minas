@@ -32,6 +32,7 @@ interface Flavor {
   hide_appearances: boolean;
   is_gluten_free: boolean | null;
   contains_nuts: boolean | null;
+  always_available: boolean;
 }
 
 const CATEGORIES = [
@@ -67,6 +68,7 @@ export default function FlavorManagementPage() {
     hide_appearances: false,
     is_gluten_free: null as boolean | null,
     contains_nuts: null as boolean | null,
+    always_available: false,
   });
   const [newTagInput, setNewTagInput] = useState('');
   const [editTagInput, setEditTagInput] = useState('');
@@ -199,6 +201,7 @@ export default function FlavorManagementPage() {
           hide_appearances: flavor.hide_appearances,
           is_gluten_free: flavor.is_gluten_free,
           contains_nuts: flavor.contains_nuts,
+          always_available: flavor.always_available,
         })
         .eq('id', flavor.id);
 
@@ -239,6 +242,7 @@ export default function FlavorManagementPage() {
           hide_appearances: newFlavor.hide_appearances,
           is_gluten_free: newFlavor.is_gluten_free,
           contains_nuts: newFlavor.contains_nuts,
+          always_available: newFlavor.always_available,
         })
         .select()
         .single();
@@ -257,6 +261,7 @@ export default function FlavorManagementPage() {
         hide_appearances: false,
         is_gluten_free: null,
         contains_nuts: null,
+        always_available: false,
       });
       setNewTagInput('');
       toast.success('Flavor created!');
@@ -516,6 +521,17 @@ export default function FlavorManagementPage() {
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
+                    checked={newFlavor.always_available}
+                    onChange={(e) => setNewFlavor(prev => ({ ...prev, always_available: e.target.checked }))}
+                    className="w-4 h-4 rounded border-chocolate/30 accent-green-600"
+                  />
+                  <span className="text-sm text-chocolate">Always on menu</span>
+                  <span className="text-xs text-chocolate/50">(shows daily without adding)</span>
+                </label>
+
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
                     checked={newFlavor.hide_appearances}
                     onChange={(e) => setNewFlavor(prev => ({ ...prev, hide_appearances: e.target.checked }))}
                     className="w-4 h-4 rounded border-chocolate/30"
@@ -722,7 +738,16 @@ export default function FlavorManagementPage() {
                   </div>
 
                   {/* Dietary & Display Options */}
-                  <div className="grid grid-cols-3 gap-3 pt-2 border-t border-chocolate/10">
+                  <div className="grid grid-cols-2 gap-3 pt-2 border-t border-chocolate/10">
+                    <label className="flex items-center gap-2 cursor-pointer col-span-2">
+                      <input
+                        type="checkbox"
+                        checked={editingFlavor.always_available || false}
+                        onChange={(e) => setEditingFlavor(prev => prev ? { ...prev, always_available: e.target.checked } : null)}
+                        className="w-4 h-4 rounded border-chocolate/30 accent-green-600"
+                      />
+                      <span className="text-xs text-green-700 font-medium">Always on menu</span>
+                    </label>
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="checkbox"
@@ -790,7 +815,12 @@ export default function FlavorManagementPage() {
                       <span className={`text-xs font-medium ${getRarityColor(flavor.rarity_score)}`}>
                         {getRarityLabel(flavor.rarity_score)}
                       </span>
-                      {todaysMenuIds.has(flavor.id) && (
+                      {flavor.always_available && (
+                        <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
+                          Always On Menu
+                        </span>
+                      )}
+                      {!flavor.always_available && todaysMenuIds.has(flavor.id) && (
                         <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">
                           On Menu Today
                         </span>
