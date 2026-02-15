@@ -41,8 +41,11 @@ export default function NotificationsPage() {
   if (!user) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-6 text-center">
-        <p className="text-chocolate/60">Please log in to manage notifications.</p>
-        <Link href="/login" className="btn-groovy mt-4 inline-block">
+        <p className="text-mm-gray-600 font-body">Please log in to manage notifications.</p>
+        <Link
+          href="/login"
+          className="mt-4 inline-block px-6 py-3 bg-mm-red text-white font-heading font-bold border-3 border-mm-black rounded-xl shadow-bold hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all"
+        >
           Sign In
         </Link>
       </div>
@@ -55,32 +58,32 @@ export default function NotificationsPage() {
       <div className="flex items-center gap-4 mb-6">
         <Link
           href="/profile"
-          className="p-2 rounded-xl bg-white/50 text-psychedelic-purple hover:bg-white/80 transition-colors"
+          className="p-2 rounded-xl bg-mm-cream border-2 border-mm-black text-mm-black hover:bg-mm-gray-100 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>
-        <h1 className="font-display text-2xl text-chocolate">Notifications</h1>
+        <h1 className="font-heading font-bold text-2xl text-mm-black">Notifications</h1>
       </div>
 
       {/* Enable Notifications Banner */}
       {!notificationsEnabled && (
         <motion.div
-          className="groovy-card p-4 mb-6 bg-psychedelic-purple/10 border-2 border-psychedelic-purple/30"
+          className="bg-white border-3 border-mm-blue rounded-xl p-4 mb-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
           <div className="flex items-start gap-3">
-            <Bell className="w-6 h-6 text-psychedelic-purple flex-shrink-0 mt-0.5" />
+            <Bell className="w-6 h-6 text-mm-blue flex-shrink-0 mt-0.5" />
             <div className="flex-1">
-              <h3 className="font-medium text-chocolate mb-1">
+              <h3 className="font-heading font-bold text-mm-black mb-1">
                 Enable Push Notifications
               </h3>
-              <p className="text-sm text-chocolate/60 mb-3">
+              <p className="text-sm text-mm-gray-600 font-body mb-3">
                 Get instant alerts when your favorite flavors appear on the menu!
               </p>
               <button
                 onClick={handleEnableNotifications}
-                className="btn-groovy text-sm"
+                className="px-4 py-2 bg-mm-red text-white font-heading font-bold border-3 border-mm-black rounded-lg shadow-bold hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all text-sm"
               >
                 Enable Notifications
               </button>
@@ -91,12 +94,12 @@ export default function NotificationsPage() {
 
       {/* Notification Settings */}
       <motion.div
-        className="groovy-card p-6 space-y-6"
+        className="bg-white border-3 border-mm-black rounded-xl shadow-bold p-6 space-y-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
       >
-        <h2 className="font-medium text-chocolate">Notification Preferences</h2>
+        <h2 className="font-heading font-bold text-mm-black">Notification Preferences</h2>
 
         {/* Daily Drops */}
         <ToggleOption
@@ -129,7 +132,7 @@ export default function NotificationsPage() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="btn-groovy w-full py-3 flex items-center justify-center gap-2"
+          className="w-full py-3 bg-mm-red text-white font-heading font-bold border-3 border-mm-black rounded-xl shadow-bold hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {isSaving ? (
             <>
@@ -146,7 +149,7 @@ export default function NotificationsPage() {
       </motion.div>
 
       {/* Info */}
-      <p className="text-xs text-chocolate/50 text-center mt-6">
+      <p className="text-xs text-mm-gray-500 font-body text-center mt-6">
         Push notifications require browser permission and may not work on all devices.
       </p>
     </div>
@@ -168,15 +171,15 @@ function ToggleOption({
 }) {
   return (
     <div className="flex items-center gap-4">
-      <div className="text-psychedelic-purple">{icon}</div>
+      <div className="text-mm-blue">{icon}</div>
       <div className="flex-1">
-        <h3 className="font-medium text-chocolate">{title}</h3>
-        <p className="text-sm text-chocolate/60">{description}</p>
+        <h3 className="font-heading font-bold text-mm-black">{title}</h3>
+        <p className="text-sm text-mm-gray-600 font-body">{description}</p>
       </div>
       <button
         onClick={() => onChange(!enabled)}
-        className={`w-12 h-7 rounded-full transition-colors ${
-          enabled ? 'bg-psychedelic-purple' : 'bg-gray-200'
+        className={`w-12 h-7 rounded-full transition-colors border-2 border-mm-black ${
+          enabled ? 'bg-mm-blue' : 'bg-mm-gray-200'
         }`}
       >
         <div

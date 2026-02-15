@@ -42,8 +42,11 @@ export default function SettingsPage() {
   if (!user) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-6 text-center">
-        <p className="text-chocolate/60">Please log in to access settings.</p>
-        <Link href="/login" className="btn-groovy mt-4 inline-block">
+        <p className="text-mm-gray-500 font-body">Please log in to access settings.</p>
+        <Link
+          href="/login"
+          className="mt-4 inline-block px-6 py-3 bg-mm-red text-white font-heading font-bold border-3 border-mm-black rounded-xl shadow-bold hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all"
+        >
           Sign In
         </Link>
       </div>
@@ -56,73 +59,70 @@ export default function SettingsPage() {
       <div className="flex items-center gap-4 mb-6">
         <Link
           href="/profile"
-          className="p-2 rounded-xl bg-white/50 text-psychedelic-purple hover:bg-white/80 transition-colors"
+          className="p-2 rounded-xl bg-mm-cream border-2 border-mm-black text-mm-black hover:bg-mm-gray-100 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>
-        <h1 className="font-display text-2xl text-chocolate">Settings</h1>
+        <h1 className="font-heading font-bold text-2xl text-mm-black">Settings</h1>
       </div>
 
       {/* Settings Form */}
       <motion.div
-        className="groovy-card p-6 space-y-6"
+        className="bg-white border-3 border-mm-black rounded-xl shadow-bold p-6 space-y-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
         {/* Name */}
         <div>
-          <label className="block text-sm font-medium text-chocolate mb-2">
+          <label className="block text-sm font-heading font-bold text-mm-black mb-2">
             Display Name
           </label>
           <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-psychedelic-purple/50" />
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-mm-gray-400" />
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Your name"
-              className="input-groovy w-full"
-              style={{ paddingLeft: '2.75rem' }}
+              className="w-full pl-11 pr-4 py-3 border-2 border-mm-black rounded-lg font-body focus:outline-none focus:ring-2 focus:ring-mm-blue focus:border-mm-blue transition-all"
             />
           </div>
         </div>
 
         {/* Email (read-only) */}
         <div>
-          <label className="block text-sm font-medium text-chocolate mb-2">
+          <label className="block text-sm font-heading font-bold text-mm-black mb-2">
             Email
           </label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-psychedelic-purple/50" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-mm-gray-400" />
             <input
               type="email"
               value={user.email || ''}
               disabled
-              className="input-groovy w-full bg-gray-100 cursor-not-allowed"
-              style={{ paddingLeft: '2.75rem' }}
+              className="w-full pl-11 pr-4 py-3 border-2 border-mm-gray-300 rounded-lg font-body bg-mm-gray-100 text-mm-gray-500 cursor-not-allowed"
             />
           </div>
-          <p className="text-xs text-chocolate/50 mt-1">
+          <p className="text-xs text-mm-gray-500 mt-1 font-body">
             Email cannot be changed
           </p>
         </div>
 
         {/* Birthday */}
         <div>
-          <label className="block text-sm font-medium text-chocolate mb-2">
+          <label className="block text-sm font-heading font-bold text-mm-black mb-2">
             Birthday
           </label>
           <div className="relative">
-            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-psychedelic-purple/50" />
+            <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-mm-gray-400" />
             <input
               type="date"
               value={birthday}
               onChange={(e) => setBirthday(e.target.value)}
-              className="input-groovy w-full"
-              style={{ paddingLeft: '2.75rem' }}
+              className="w-full pl-11 pr-4 py-3 border-2 border-mm-black rounded-lg font-body focus:outline-none focus:ring-2 focus:ring-mm-blue focus:border-mm-blue transition-all"
             />
           </div>
-          <p className="text-xs text-chocolate/50 mt-1">
+          <p className="text-xs text-mm-gray-500 mt-1 font-body">
             Get a special surprise on your birthday!
           </p>
         </div>
@@ -131,7 +131,7 @@ export default function SettingsPage() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="btn-groovy w-full py-3 flex items-center justify-center gap-2"
+          className="w-full py-3 bg-mm-red text-white font-heading font-bold border-3 border-mm-black rounded-xl shadow-bold hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-bold disabled:hover:translate-x-0 disabled:hover:translate-y-0 flex items-center justify-center gap-2"
         >
           {isSaving ? (
             <>
@@ -149,18 +149,18 @@ export default function SettingsPage() {
 
       {/* Danger Zone */}
       <motion.div
-        className="mt-6 groovy-card p-6 border-2 border-red-200"
+        className="mt-6 bg-white border-3 border-mm-red rounded-xl p-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
       >
-        <h2 className="font-medium text-red-600 mb-2">Danger Zone</h2>
-        <p className="text-sm text-chocolate/60 mb-4">
+        <h2 className="font-heading font-bold text-mm-red mb-2">Danger Zone</h2>
+        <p className="text-sm text-mm-gray-600 font-body mb-4">
           Once you delete your account, there is no going back.
         </p>
         <button
           onClick={() => toast.error('Contact support to delete your account')}
-          className="text-sm text-red-500 hover:text-red-600 hover:underline"
+          className="text-sm text-mm-red hover:underline font-body"
         >
           Delete Account
         </button>

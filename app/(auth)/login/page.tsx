@@ -61,51 +61,49 @@ export default function LoginPage() {
               className="object-contain mx-auto"
             />
           </motion.div>
-          <h1 className="font-groovy text-3xl text-psychedelic-purple mb-1">
+          <h1 className="font-heading font-bold text-3xl text-mm-black mb-1">
             Welcome Back
           </h1>
-          <p className="text-chocolate/60">Sign in to your account</p>
+          <p className="text-mm-gray-500 font-body">Sign in to your account</p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="groovy-card p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="bg-white border-3 border-mm-black rounded-xl shadow-bold p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium text-chocolate mb-1">
+            <label className="block text-sm font-heading font-bold text-mm-black mb-1">
               Email
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-psychedelic-purple/50" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-mm-gray-400" />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="input-groovy w-full"
-                style={{ paddingLeft: '2.75rem' }}
+                className="w-full pl-11 pr-4 py-3 border-2 border-mm-black rounded-lg font-body focus:outline-none focus:ring-2 focus:ring-mm-blue focus:border-mm-blue transition-all"
                 required
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-chocolate mb-1">
+            <label className="block text-sm font-heading font-bold text-mm-black mb-1">
               Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-psychedelic-purple/50" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-mm-gray-400" />
               <input
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="input-groovy w-full"
-                style={{ paddingLeft: '2.75rem', paddingRight: '2.75rem' }}
+                className="w-full pl-11 pr-11 py-3 border-2 border-mm-black rounded-lg font-body focus:outline-none focus:ring-2 focus:ring-mm-blue focus:border-mm-blue transition-all"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-psychedelic-purple/50 hover:text-psychedelic-purple"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-mm-gray-400 hover:text-mm-black"
               >
                 {showPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -120,13 +118,13 @@ export default function LoginPage() {
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="checkbox"
-                className="w-4 h-4 rounded border-psychedelic-purple/30 text-psychedelic-purple focus:ring-psychedelic-purple"
+                className="w-4 h-4 rounded border-mm-gray-300 text-mm-red focus:ring-mm-red"
               />
-              <span className="text-chocolate/70">Remember me</span>
+              <span className="text-mm-gray-600 font-body">Remember me</span>
             </label>
             <Link
               href="/forgot-password"
-              className="text-psychedelic-purple hover:underline"
+              className="text-mm-blue hover:underline font-body"
             >
               Forgot password?
             </Link>
@@ -135,7 +133,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="btn-groovy w-full py-3 flex items-center justify-center gap-2"
+            className="w-full py-3 bg-mm-red text-white font-heading font-bold border-3 border-mm-black rounded-xl shadow-bold hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>
@@ -149,11 +147,11 @@ export default function LoginPage() {
         </form>
 
         {/* Sign Up Link */}
-        <p className="text-center mt-6 text-chocolate/60">
+        <p className="text-center mt-6 text-mm-gray-500 font-body">
           Don&apos;t have an account?{' '}
           <Link
             href="/signup"
-            className="text-psychedelic-purple font-medium hover:underline"
+            className="text-mm-blue font-medium hover:underline"
           >
             Sign up free
           </Link>

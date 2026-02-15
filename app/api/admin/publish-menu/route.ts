@@ -6,6 +6,7 @@ import {
   sendWatchlistAlertNotification,
 } from '@/lib/onesignal';
 import { differenceInDays } from 'date-fns';
+import { createClient } from '@supabase/supabase-js';
 
 interface FlavorToPublish {
   flavorId?: string;
@@ -16,8 +17,52 @@ interface FlavorToPublish {
   soldOut?: boolean;
 }
 
+// Helper to verify admin from request
+async function verifyAdminFromRequest(request: NextRequest): Promise<{ isAdmin: boolean; error?: string }> {
+  try {
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader?.startsWith('Bearer ')) {
+      return { isAdmin: false, error: 'No auth token provided' };
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+
+    const { data: { user }, error } = await supabase.auth.getUser(token);
+    if (error || !user) {
+      return { isAdmin: false, error: 'Invalid token' };
+    }
+
+    // Check admin status in database
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const serverSupabase = createSupabaseServer() as any;
+    const { data: profile } = await serverSupabase
+      .from('users')
+      .select('is_admin')
+      .eq('id', user.id)
+      .single();
+
+    return { isAdmin: profile?.is_admin === true };
+  } catch {
+    return { isAdmin: false, error: 'Auth verification failed' };
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
+    // SECURITY: Verify admin status before processing
+    const { isAdmin, error: authError } = await verifyAdminFromRequest(request);
+
+    if (!isAdmin) {
+      return NextResponse.json(
+        { error: authError || 'Unauthorized - Admin access required' },
+        { status: 403 }
+      );
+    }
+
     const { flavors, menuDate } = await request.json();
 
     if (!flavors || !Array.isArray(flavors) || flavors.length === 0) {

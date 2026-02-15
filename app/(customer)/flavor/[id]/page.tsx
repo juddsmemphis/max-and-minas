@@ -96,46 +96,64 @@ export default function FlavorDetailPage() {
   const rarityInfo = getRarityInfo(flavor);
   const stats = getFlavorStats(flavor);
 
+  // Accent color based on rarity
+  const rarityAccent = {
+    legendary: 'border-mm-yellow',
+    rare: 'border-mm-pink',
+    uncommon: 'border-mm-blue',
+    common: 'border-mm-mint',
+    regular: 'border-mm-mint',
+  }[rarityInfo.level] || 'border-mm-black';
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
       {/* Back Button */}
       <Link href="/archive">
         <motion.button
-          className="mb-6 p-2 -ml-2 rounded-xl text-chocolate/60 hover:text-chocolate hover:bg-white/50 transition-colors flex items-center gap-1"
+          className="mb-6 px-4 py-2 rounded-lg border-2 border-mm-black bg-white text-mm-black font-heading font-semibold text-sm shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all flex items-center gap-2"
           whileTap={{ scale: 0.95 }}
         >
-          <ArrowLeft className="w-5 h-5" />
+          <ArrowLeft className="w-4 h-4" />
           <span>Back to Archive</span>
         </motion.button>
       </Link>
 
       {/* Hero Section */}
-      <div className="groovy-card p-6 mb-6">
+      <motion.div
+        className={cn(
+          "bg-white border-3 rounded-xl p-6 mb-6 shadow-bold",
+          rarityAccent
+        )}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
         <div className="flex items-start justify-between gap-4 mb-4">
           <div>
-            <h1 className="font-display text-3xl text-chocolate mb-2">
+            <RarityBadge rarity={rarityInfo} size="lg" className="mb-3" />
+            <h1 className="font-heading font-bold text-3xl text-mm-black">
               {flavor.name}
             </h1>
-            <RarityBadge rarity={rarityInfo} size="lg" />
           </div>
 
           {/* Actions */}
           <div className="flex items-center gap-2">
             <motion.button
               className={cn(
-                'p-3 rounded-xl transition-colors',
+                'p-3 rounded-lg border-2 border-mm-black transition-all',
                 inWatchlist
-                  ? 'bg-psychedelic-pink text-white'
-                  : 'bg-psychedelic-pink/10 text-psychedelic-pink hover:bg-psychedelic-pink/20'
+                  ? 'bg-mm-pink text-white shadow-bold-sm'
+                  : 'bg-white text-mm-black hover:bg-mm-pink hover:text-white'
               )}
               onClick={handleWatchlistToggle}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Heart className={cn('w-6 h-6', inWatchlist && 'fill-current')} />
             </motion.button>
             <motion.button
-              className="p-3 rounded-xl bg-psychedelic-blue/10 text-psychedelic-blue hover:bg-psychedelic-blue/20 transition-colors"
+              className="p-3 rounded-lg border-2 border-mm-black bg-white text-mm-black hover:bg-mm-blue hover:text-white transition-all"
               onClick={handleShare}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Share2 className="w-6 h-6" />
@@ -145,28 +163,28 @@ export default function FlavorDetailPage() {
 
         {/* Description */}
         {flavor.description && (
-          <p className="text-chocolate/70 mb-4">{flavor.description}</p>
+          <p className="text-mm-gray-600 text-lg mb-4 leading-relaxed">{flavor.description}</p>
         )}
 
         {/* Tags */}
         {(flavor.category || (flavor.tags && flavor.tags.length > 0)) && (
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-2">
             {flavor.category && (
-              <span className="px-3 py-1 bg-psychedelic-purple/10 text-psychedelic-purple text-sm font-medium rounded-full">
+              <span className="px-3 py-1.5 bg-mm-blue/10 text-mm-blue text-sm font-heading font-semibold uppercase tracking-wide rounded-full border border-mm-blue/30">
                 {flavor.category}
               </span>
             )}
             {flavor.tags?.map((tag) => (
               <span
                 key={tag}
-                className="px-3 py-1 bg-psychedelic-pink/10 text-psychedelic-pink text-sm font-medium rounded-full"
+                className="px-3 py-1.5 bg-mm-pink/10 text-mm-pink text-sm font-medium rounded-full border border-mm-pink/30"
               >
                 {tag}
               </span>
             ))}
           </div>
         )}
-      </div>
+      </motion.div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
@@ -174,6 +192,7 @@ export default function FlavorDetailPage() {
           icon={<Calendar className="w-5 h-5" />}
           label="First Appeared"
           value={formatDate(flavor.first_appeared)}
+          color="mm-yellow"
         />
         <StatCard
           icon={<Clock className="w-5 h-5" />}
@@ -183,22 +202,30 @@ export default function FlavorDetailPage() {
               ? formatRelativeTime(flavor.last_appeared)
               : 'Never'
           }
+          color="mm-mint"
         />
         <StatCard
           icon={<TrendingUp className="w-5 h-5" />}
           label="Total Appearances"
           value={`${flavor.total_appearances}`}
+          color="mm-blue"
         />
         <StatCard
           icon={<Star className="w-5 h-5" />}
           label="Rarity Score"
           value={`${rarityInfo.score.toFixed(1)} / 10`}
+          color="mm-pink"
         />
       </div>
 
       {/* Additional Stats */}
-      <div className="groovy-card p-6 mb-6">
-        <h2 className="font-display text-lg text-chocolate mb-4">Statistics</h2>
+      <motion.div
+        className="bg-white border-3 border-mm-black rounded-xl p-6 mb-6 shadow-bold"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+      >
+        <h2 className="font-heading font-bold text-xl text-mm-black mb-4">Statistics</h2>
         <div className="space-y-3">
           <StatRow
             label="Years Tracked"
@@ -219,26 +246,37 @@ export default function FlavorDetailPage() {
             value={`${flavor.total_days_available} days`}
           />
         </div>
-      </div>
+      </motion.div>
 
       {/* Rarity Explanation */}
-      <div className="groovy-card p-6">
-        <h2 className="font-display text-lg text-chocolate mb-4">
+      <motion.div
+        className="bg-white border-3 border-mm-black rounded-xl p-6 shadow-bold"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+      >
+        <h2 className="font-heading font-bold text-xl text-mm-black mb-4">
           Rarity Explained
         </h2>
-        <div className={cn('p-4 rounded-xl', rarityInfo.className)}>
-          <div className="flex items-center gap-2 text-white mb-2">
+        <div className={cn(
+          'p-4 rounded-lg border-2 border-mm-black',
+          rarityInfo.level === 'legendary' ? 'bg-mm-yellow text-mm-black' :
+          rarityInfo.level === 'rare' ? 'bg-mm-pink text-white' :
+          rarityInfo.level === 'uncommon' ? 'bg-mm-blue text-white' :
+          'bg-mm-mint text-mm-black'
+        )}>
+          <div className="flex items-center gap-2 mb-2">
             <span className="text-2xl">{rarityInfo.emoji}</span>
-            <span className="font-display text-xl">{rarityInfo.label}</span>
+            <span className="font-heading font-bold text-xl uppercase tracking-wide">{rarityInfo.label}</span>
           </div>
-          <p className="text-white/90 text-sm">{rarityInfo.description}</p>
+          <p className="text-sm opacity-90">{rarityInfo.description}</p>
         </div>
-        <p className="text-sm text-chocolate/60 mt-4">
+        <p className="text-sm text-mm-gray-500 mt-4">
           Rarity is calculated based on how often a flavor appears relative to
           how long it&apos;s been tracked. Legendary flavors may only appear once
           every few years, while regular flavors show up frequently.
         </p>
-      </div>
+      </motion.div>
 
       {/* Share Modal */}
       {showShare && (
@@ -255,27 +293,32 @@ function StatCard({
   icon,
   label,
   value,
+  color,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
+  color: string;
 }) {
   return (
-    <div className="groovy-card p-4">
-      <div className="flex items-center gap-2 text-psychedelic-purple mb-2">
+    <motion.div
+      className="bg-white border-3 border-mm-black rounded-xl p-4 shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all"
+      whileHover={{ scale: 1.02 }}
+    >
+      <div className={cn('flex items-center gap-2 mb-2', `text-${color}`)}>
         {icon}
       </div>
-      <p className="font-display text-lg text-chocolate">{value}</p>
-      <p className="text-xs text-chocolate/60">{label}</p>
-    </div>
+      <p className="font-heading font-bold text-lg text-mm-black">{value}</p>
+      <p className="text-xs text-mm-gray-500 font-medium">{label}</p>
+    </motion.div>
   );
 }
 
 function StatRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between py-2 border-b border-psychedelic-purple/10 last:border-0">
-      <span className="text-chocolate/70">{label}</span>
-      <span className="font-medium text-chocolate">{value}</span>
+    <div className="flex items-center justify-between py-3 border-b-2 border-mm-gray-100 last:border-0">
+      <span className="text-mm-gray-600">{label}</span>
+      <span className="font-heading font-semibold text-mm-black">{value}</span>
     </div>
   );
 }

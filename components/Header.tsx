@@ -17,26 +17,58 @@ export function Header() {
   const isActive = (path: string) => pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 bg-cream/80 backdrop-blur-lg border-b border-psychedelic-purple/10 safe-top">
+    <header className="sticky top-0 z-50 bg-mm-cream border-b-3 border-mm-black safe-top">
+      {/* Marquee Banner */}
+      <div className="bg-mm-black text-white overflow-hidden">
+        <div className="animate-marquee whitespace-nowrap py-1.5">
+          <span className="inline-block px-8 text-xs font-heading font-semibold tracking-widest uppercase">
+            OGs of Cereal Ice Cream
+          </span>
+          <span className="inline-block px-8 text-mm-yellow text-xs font-heading font-semibold tracking-widest uppercase">
+            Since 1997
+          </span>
+          <span className="inline-block px-8 text-xs font-heading font-semibold tracking-widest uppercase">
+            15,000+ Unique Flavors
+          </span>
+          <span className="inline-block px-8 text-mm-mint text-xs font-heading font-semibold tracking-widest uppercase">
+            Flushing, Queens
+          </span>
+          <span className="inline-block px-8 text-xs font-heading font-semibold tracking-widest uppercase">
+            OGs of Cereal Ice Cream
+          </span>
+          <span className="inline-block px-8 text-mm-yellow text-xs font-heading font-semibold tracking-widest uppercase">
+            Since 1997
+          </span>
+          <span className="inline-block px-8 text-xs font-heading font-semibold tracking-widest uppercase">
+            15,000+ Unique Flavors
+          </span>
+          <span className="inline-block px-8 text-mm-mint text-xs font-heading font-semibold tracking-widest uppercase">
+            Flushing, Queens
+          </span>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center group">
           <motion.div
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
+            className="hover-wiggle"
+            whileHover={{ scale: 1.05, rotate: -2 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 17 }}
           >
             <Image
               src="/icons/logo.png"
               alt="Max & Mina's"
-              width={100}
-              height={40}
+              width={110}
+              height={44}
               className="object-contain"
             />
           </motion.div>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden md:flex items-center gap-2">
           <NavLink href="/" active={isActive('/')}>
             Today
           </NavLink>
@@ -60,7 +92,7 @@ export function Header() {
         </nav>
 
         {/* Right Side Actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           {/* Instagram */}
           <a
             href="https://www.instagram.com/maxandminas"
@@ -68,8 +100,9 @@ export function Header() {
             rel="noopener noreferrer"
           >
             <motion.div
-              className="p-2 rounded-full bg-psychedelic-pink/10 text-psychedelic-pink hover:bg-psychedelic-pink/20 transition-colors"
-              whileTap={{ scale: 0.95 }}
+              className="p-2.5 rounded-lg border-2 border-mm-black bg-mm-pink text-white shadow-bold-sm hover:shadow-bold transition-all"
+              whileHover={{ y: -2, x: -2 }}
+              whileTap={{ y: 2, x: 2, boxShadow: 'none' }}
               aria-label="Instagram"
             >
               <Instagram className="w-5 h-5" />
@@ -80,17 +113,22 @@ export function Header() {
           <Link href="/profile/notifications">
             <motion.div
               className={cn(
-                'p-2 rounded-full transition-colors relative',
+                'p-2.5 rounded-lg border-2 border-mm-black transition-all relative',
                 notificationsEnabled
-                  ? 'bg-psychedelic-purple text-white'
-                  : 'bg-psychedelic-purple/10 text-psychedelic-purple'
+                  ? 'bg-mm-mint text-mm-black shadow-bold-sm'
+                  : 'bg-white text-mm-black shadow-bold-sm hover:shadow-bold'
               )}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ y: -2, x: -2 }}
+              whileTap={{ y: 2, x: 2, boxShadow: 'none' }}
               aria-label="Notifications"
             >
               <Bell className="w-5 h-5" />
               {notificationsEnabled && (
-                <span className="absolute top-1 right-1 w-2 h-2 bg-psychedelic-lime rounded-full" />
+                <motion.span
+                  className="absolute -top-1 -right-1 w-3 h-3 bg-mm-red border-2 border-mm-black rounded-full"
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ repeat: Infinity, duration: 2 }}
+                />
               )}
             </motion.div>
           </Link>
@@ -98,8 +136,9 @@ export function Header() {
           {/* Profile / Login */}
           <Link href={user ? '/profile' : '/login'}>
             <motion.div
-              className="p-2 rounded-full bg-psychedelic-pink/10 text-psychedelic-pink hover:bg-psychedelic-pink/20 transition-colors"
-              whileTap={{ scale: 0.95 }}
+              className="p-2.5 rounded-lg border-2 border-mm-black bg-mm-yellow text-mm-black shadow-bold-sm hover:shadow-bold transition-all"
+              whileHover={{ y: -2, x: -2 }}
+              whileTap={{ y: 2, x: 2, boxShadow: 'none' }}
             >
               <User className="w-5 h-5" />
             </motion.div>
@@ -107,7 +146,12 @@ export function Header() {
 
           {/* Mobile Menu Toggle */}
           <motion.button
-            className="p-2 rounded-full bg-psychedelic-purple/10 text-psychedelic-purple md:hidden"
+            className={cn(
+              'p-2.5 rounded-lg border-2 border-mm-black md:hidden transition-all',
+              isMenuOpen
+                ? 'bg-mm-black text-white'
+                : 'bg-white text-mm-black shadow-bold-sm'
+            )}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             whileTap={{ scale: 0.95 }}
             aria-label="Toggle menu"
@@ -125,10 +169,11 @@ export function Header() {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.nav
-            className="md:hidden absolute top-full left-0 right-0 bg-cream/95 backdrop-blur-lg border-b border-psychedelic-purple/10 py-4"
+            className="md:hidden absolute top-full left-0 right-0 bg-mm-cream border-b-3 border-mm-black py-4 shadow-soft-lg"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
           >
             <div className="flex flex-col px-4 gap-2">
               <MobileNavLink
@@ -203,10 +248,10 @@ function NavLink({
     <Link
       href={href}
       className={cn(
-        'px-4 py-2 rounded-full font-medium text-sm transition-colors',
+        'px-4 py-2 rounded-lg font-heading font-semibold text-sm transition-all border-2',
         active
-          ? 'bg-psychedelic-purple text-white'
-          : 'text-chocolate hover:bg-psychedelic-purple/10'
+          ? 'bg-mm-black text-white border-mm-black shadow-none'
+          : 'bg-white text-mm-black border-mm-black shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5'
       )}
     >
       {children}
@@ -230,10 +275,10 @@ function MobileNavLink({
       href={href}
       onClick={onClick}
       className={cn(
-        'px-4 py-3 rounded-xl font-medium transition-colors',
+        'px-5 py-3.5 rounded-lg font-heading font-semibold text-base transition-all border-2 border-mm-black',
         active
-          ? 'bg-psychedelic-purple text-white'
-          : 'text-chocolate hover:bg-psychedelic-purple/10'
+          ? 'bg-mm-black text-white'
+          : 'bg-white text-mm-black shadow-bold-sm active:shadow-none active:translate-x-1 active:translate-y-1'
       )}
     >
       {children}

@@ -52,20 +52,20 @@ export function SearchBar({
       <div className="relative flex items-center">
         {/* Search Input */}
         <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-psychedelic-purple/50" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-mm-gray-400" />
           <input
             type="text"
             value={localQuery}
             onChange={(e) => setLocalQuery(e.target.value)}
             placeholder={placeholder}
-            className="w-full pl-12 pr-10 py-3 bg-white/80 backdrop-blur-sm border-2 border-psychedelic-purple/20 rounded-2xl text-chocolate placeholder:text-chocolate/40 focus:outline-none focus:border-psychedelic-purple/50 focus:ring-2 focus:ring-psychedelic-purple/20 transition-all"
+            className="w-full pl-12 pr-10 py-3 bg-white border-3 border-mm-black rounded-xl text-mm-black font-body placeholder:text-mm-gray-400 focus:outline-none focus:ring-2 focus:ring-mm-blue focus:border-mm-blue transition-all"
           />
           {localQuery && (
             <motion.button
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0 }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full bg-psychedelic-purple/10 text-psychedelic-purple hover:bg-psychedelic-purple/20 transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 p-1 rounded-full bg-mm-gray-200 text-mm-black hover:bg-mm-gray-300 transition-colors"
               onClick={handleClear}
             >
               <X className="w-4 h-4" />
@@ -77,17 +77,17 @@ export function SearchBar({
         {showFilters && (
           <motion.button
             className={cn(
-              'ml-2 p-3 rounded-2xl transition-colors relative',
+              'ml-2 p-3 rounded-xl transition-colors relative border-3 border-mm-black',
               hasActiveFilters
-                ? 'bg-psychedelic-purple text-white'
-                : 'bg-white/80 border-2 border-psychedelic-purple/20 text-psychedelic-purple hover:bg-psychedelic-purple/10'
+                ? 'bg-mm-blue text-white'
+                : 'bg-white text-mm-black hover:bg-mm-gray-100'
             )}
             onClick={onFilterClick}
             whileTap={{ scale: 0.95 }}
           >
             <SlidersHorizontal className="w-5 h-5" />
             {hasActiveFilters && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-psychedelic-pink text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-mm-pink text-white text-[10px] font-bold rounded-full flex items-center justify-center border border-mm-black">
                 !
               </span>
             )}

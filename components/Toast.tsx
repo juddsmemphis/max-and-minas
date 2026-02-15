@@ -54,17 +54,17 @@ const icons = {
 };
 
 const colors = {
-  success: 'border-l-psychedelic-lime bg-psychedelic-lime/10',
-  error: 'border-l-red-500 bg-red-500/10',
-  warning: 'border-l-psychedelic-orange bg-psychedelic-orange/10',
-  info: 'border-l-psychedelic-blue bg-psychedelic-blue/10',
+  success: 'border-l-mm-mint bg-mm-mint/10',
+  error: 'border-l-mm-red bg-mm-red/10',
+  warning: 'border-l-mm-orange bg-mm-orange/10',
+  info: 'border-l-mm-blue bg-mm-blue/10',
 };
 
 const iconColors = {
-  success: 'text-psychedelic-lime',
-  error: 'text-red-500',
-  warning: 'text-psychedelic-orange',
-  info: 'text-psychedelic-blue',
+  success: 'text-mm-mint',
+  error: 'text-mm-red',
+  warning: 'text-mm-orange',
+  info: 'text-mm-blue',
 };
 
 function ToastItem({ toast }: { toast: Toast }) {
@@ -86,22 +86,22 @@ function ToastItem({ toast }: { toast: Toast }) {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 20, scale: 0.9 }}
       className={cn(
-        'flex items-start gap-3 p-4 rounded-xl border-l-4 backdrop-blur-sm shadow-lg max-w-sm',
+        'flex items-start gap-3 p-4 rounded-xl border-l-4 bg-white border-2 border-mm-black shadow-bold max-w-sm',
         colors[toast.type]
       )}
     >
       <Icon className={cn('w-5 h-5 flex-shrink-0 mt-0.5', iconColors[toast.type])} />
       <div className="flex-1 min-w-0">
-        <p className="font-semibold text-chocolate">{toast.title}</p>
+        <p className="font-heading font-bold text-mm-black">{toast.title}</p>
         {toast.message && (
-          <p className="text-sm text-chocolate/70 mt-0.5">{toast.message}</p>
+          <p className="text-sm text-mm-gray-600 font-body mt-0.5">{toast.message}</p>
         )}
       </div>
       <button
         onClick={() => removeToast(toast.id)}
-        className="p-1 rounded-full hover:bg-black/10 transition-colors"
+        className="p-1 rounded-full hover:bg-mm-gray-100 transition-colors"
       >
-        <X className="w-4 h-4 text-chocolate/60" />
+        <X className="w-4 h-4 text-mm-gray-500" />
       </button>
     </motion.div>
   );

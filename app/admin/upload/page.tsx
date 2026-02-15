@@ -177,20 +177,20 @@ export default function AdminUpload() {
       <div className="flex items-center gap-4 mb-8">
         <Link href="/admin">
           <motion.button
-            className="p-2 rounded-xl bg-white/50 text-chocolate hover:bg-white/80 transition-colors"
+            className="p-3 rounded-lg bg-white text-mm-red border-2 border-mm-black shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all"
             whileTap={{ scale: 0.95 }}
           >
             <ArrowLeft className="w-5 h-5" />
           </motion.button>
         </Link>
         <div>
-          <h1 className="font-display text-2xl text-chocolate">
+          <h1 className="font-heading font-bold text-2xl text-mm-black">
             {step === 'upload' && "Upload Today's Menu"}
             {step === 'review' && 'Review Flavors'}
             {step === 'publishing' && 'Publishing...'}
             {step === 'done' && 'Menu Published!'}
           </h1>
-          <p className="text-sm text-chocolate/60">
+          <p className="text-sm text-mm-gray-600">
             {step === 'upload' && 'Take a photo of the flavor board'}
             {step === 'review' && `${confirmedCount} of ${parsedFlavors.length} flavors selected`}
             {step === 'done' && 'Notifications sent to users'}
@@ -201,14 +201,14 @@ export default function AdminUpload() {
       {/* Date Picker */}
       {step === 'upload' && (
         <div className="mb-6">
-          <label className="block text-sm font-medium text-chocolate mb-2">
+          <label className="block text-sm font-heading font-bold text-mm-black mb-2">
             Menu Date
           </label>
           <input
             type="date"
             value={menuDate}
             onChange={(e) => setMenuDate(e.target.value)}
-            className="input-groovy w-full max-w-xs"
+            className="w-full max-w-xs px-4 py-2 bg-white rounded-lg border-2 border-mm-black text-mm-black focus:outline-none focus:ring-2 focus:ring-mm-blue"
           />
         </div>
       )}
@@ -234,7 +234,7 @@ export default function AdminUpload() {
             {/* Upload Area */}
             <div
               className={cn(
-                'relative border-3 border-dashed border-psychedelic-purple/30 rounded-3xl p-8 text-center transition-colors cursor-pointer hover:border-psychedelic-purple/50 hover:bg-psychedelic-purple/5',
+                'relative border-3 border-dashed border-mm-blue/40 rounded-xl p-8 text-center transition-all cursor-pointer hover:border-mm-blue hover:bg-mm-blue/5',
                 isProcessing && 'pointer-events-none'
               )}
               onClick={() => fileInputRef.current?.click()}
@@ -245,13 +245,13 @@ export default function AdminUpload() {
                   <img
                     src={imagePreview}
                     alt="Preview"
-                    className="max-h-96 mx-auto rounded-2xl"
+                    className="max-h-96 mx-auto rounded-xl border-2 border-mm-black"
                   />
                   {isProcessing && (
-                    <div className="absolute inset-0 bg-black/50 rounded-2xl flex items-center justify-center">
+                    <div className="absolute inset-0 bg-mm-black/70 rounded-xl flex items-center justify-center">
                       <div className="text-center text-white">
                         <Loader2 className="w-10 h-10 mx-auto mb-2 animate-spin" />
-                        <p className="font-medium">Analyzing flavors...</p>
+                        <p className="font-heading font-bold">Analyzing flavors...</p>
                         <p className="text-sm opacity-70">
                           Claude is reading the menu board
                         </p>
@@ -261,16 +261,16 @@ export default function AdminUpload() {
                 </div>
               ) : (
                 <div className="py-12">
-                  <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-groovy-gradient flex items-center justify-center">
+                  <div className="w-20 h-20 mx-auto mb-4 rounded-xl bg-mm-red flex items-center justify-center border-2 border-mm-black">
                     <Camera className="w-10 h-10 text-white" />
                   </div>
-                  <h3 className="font-display text-xl text-chocolate mb-2">
+                  <h3 className="font-heading font-bold text-xl text-mm-black mb-2">
                     Tap to Take Photo
                   </h3>
-                  <p className="text-chocolate/60 mb-4">
+                  <p className="text-mm-gray-600 mb-4">
                     Or drag and drop an image here
                   </p>
-                  <div className="flex items-center justify-center gap-4 text-sm text-chocolate/50">
+                  <div className="flex items-center justify-center gap-4 text-sm text-mm-gray-500">
                     <span className="flex items-center gap-1">
                       <Camera className="w-4 h-4" /> Camera
                     </span>
@@ -296,13 +296,13 @@ export default function AdminUpload() {
             {/* Legend */}
             <div className="flex flex-wrap gap-4 text-sm mb-4">
               <span className="flex items-center gap-1">
-                <span className="w-3 h-3 rounded-full bg-green-500" /> Matched
+                <span className="w-3 h-3 rounded-full bg-mm-mint border border-mm-black" /> Matched
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-3 h-3 rounded-full bg-yellow-500" /> Review
+                <span className="w-3 h-3 rounded-full bg-mm-yellow border border-mm-black" /> Review
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-3 h-3 rounded-full bg-blue-500" /> New
+                <span className="w-3 h-3 rounded-full bg-mm-blue border border-mm-black" /> New
               </span>
             </div>
 
@@ -312,7 +312,7 @@ export default function AdminUpload() {
                 <motion.div
                   key={index}
                   className={cn(
-                    'groovy-card p-4 flex items-center gap-3',
+                    'bg-white border-3 border-mm-black rounded-xl p-4 flex items-center gap-3 shadow-bold-sm',
                     !flavor.confirmed && 'opacity-50'
                   )}
                   layout
@@ -320,10 +320,10 @@ export default function AdminUpload() {
                   {/* Confidence Indicator */}
                   <div
                     className={cn(
-                      'w-3 h-3 rounded-full flex-shrink-0',
-                      flavor.confidence === 'high' && 'bg-green-500',
-                      flavor.confidence === 'medium' && 'bg-yellow-500',
-                      flavor.confidence === 'low' && 'bg-blue-500'
+                      'w-3 h-3 rounded-full flex-shrink-0 border border-mm-black',
+                      flavor.confidence === 'high' && 'bg-mm-mint',
+                      flavor.confidence === 'medium' && 'bg-mm-yellow',
+                      flavor.confidence === 'low' && 'bg-mm-blue'
                     )}
                   />
 
@@ -337,7 +337,7 @@ export default function AdminUpload() {
                           flavor.existing?.name ||
                           flavor.extracted
                         }
-                        className="input-groovy w-full py-1 px-2"
+                        className="w-full py-1 px-2 bg-white rounded-lg border-2 border-mm-black text-mm-black focus:outline-none focus:ring-2 focus:ring-mm-blue"
                         autoFocus
                         onBlur={(e) => handleEditName(index, e.target.value)}
                         onKeyDown={(e) => {
@@ -351,14 +351,14 @@ export default function AdminUpload() {
                       />
                     ) : (
                       <div>
-                        <p className="font-medium text-chocolate truncate">
+                        <p className="font-heading font-bold text-mm-black truncate">
                           {flavor.editedName ||
                             flavor.existing?.name ||
                             flavor.extracted}
                         </p>
                         {flavor.existing &&
                           flavor.extracted !== flavor.existing.name && (
-                            <p className="text-xs text-chocolate/50">
+                            <p className="text-xs text-mm-gray-500">
                               Detected: &quot;{flavor.extracted}&quot;
                             </p>
                           )}
@@ -369,10 +369,10 @@ export default function AdminUpload() {
                   {/* Sold Out Toggle */}
                   <button
                     className={cn(
-                      'px-2 py-1 rounded-full text-xs font-medium transition-colors',
+                      'px-2 py-1 rounded-lg text-xs font-heading font-bold transition-colors border-2',
                       flavor.soldOut
-                        ? 'bg-red-500 text-white'
-                        : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
+                        ? 'bg-mm-red text-white border-mm-black'
+                        : 'bg-mm-gray-100 text-mm-gray-500 border-mm-gray-300 hover:bg-mm-gray-200'
                     )}
                     onClick={() => handleToggleSoldOut(index)}
                   >
@@ -382,23 +382,23 @@ export default function AdminUpload() {
                   {/* Actions */}
                   <div className="flex items-center gap-1">
                     <button
-                      className="p-2 rounded-lg hover:bg-psychedelic-purple/10 text-chocolate/60 hover:text-psychedelic-purple transition-colors"
+                      className="p-2 rounded-lg hover:bg-mm-blue/10 text-mm-gray-500 hover:text-mm-blue transition-colors"
                       onClick={() => setEditingIndex(index)}
                     >
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button
-                      className="p-2 rounded-lg hover:bg-red-100 text-chocolate/60 hover:text-red-500 transition-colors"
+                      className="p-2 rounded-lg hover:bg-mm-red/10 text-mm-gray-500 hover:text-mm-red transition-colors"
                       onClick={() => handleRemoveFlavor(index)}
                     >
                       <X className="w-4 h-4" />
                     </button>
                     <button
                       className={cn(
-                        'p-2 rounded-lg transition-colors',
+                        'p-2 rounded-lg transition-colors border-2',
                         flavor.confirmed
-                          ? 'bg-green-500 text-white'
-                          : 'bg-gray-100 text-gray-400 hover:bg-green-100 hover:text-green-500'
+                          ? 'bg-mm-mint text-mm-black border-mm-black'
+                          : 'bg-mm-gray-100 text-mm-gray-400 border-mm-gray-200 hover:bg-mm-mint/20 hover:text-mm-mint hover:border-mm-mint'
                       )}
                       onClick={() => handleToggleConfirm(index)}
                     >
@@ -411,7 +411,7 @@ export default function AdminUpload() {
 
             {/* Add New Flavor Button */}
             <button
-              className="w-full py-3 border-2 border-dashed border-psychedelic-purple/30 rounded-xl text-psychedelic-purple hover:border-psychedelic-purple/50 hover:bg-psychedelic-purple/5 transition-colors flex items-center justify-center gap-2"
+              className="w-full py-3 border-3 border-dashed border-mm-blue/40 rounded-xl text-mm-blue hover:border-mm-blue hover:bg-mm-blue/5 transition-all flex items-center justify-center gap-2 font-heading font-bold"
               onClick={handleAddFlavor}
             >
               <Plus className="w-5 h-5" />
@@ -419,9 +419,9 @@ export default function AdminUpload() {
             </button>
 
             {/* Publish Button */}
-            <div className="pt-4 border-t border-psychedelic-purple/10">
+            <div className="pt-4 border-t-2 border-mm-gray-200">
               <button
-                className="btn-groovy w-full py-4 text-lg flex items-center justify-center gap-2"
+                className="w-full py-4 bg-mm-red text-white font-heading font-bold text-lg rounded-lg border-2 border-mm-black shadow-bold hover:shadow-bold-lg hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:hover:shadow-bold disabled:hover:translate-x-0 disabled:hover:translate-y-0"
                 onClick={handlePublish}
                 disabled={confirmedCount === 0}
               >
@@ -440,11 +440,11 @@ export default function AdminUpload() {
             animate={{ opacity: 1 }}
             className="py-16 text-center"
           >
-            <Loader2 className="w-16 h-16 mx-auto mb-4 text-psychedelic-purple animate-spin" />
-            <h3 className="font-display text-xl text-chocolate mb-2">
+            <Loader2 className="w-16 h-16 mx-auto mb-4 text-mm-red animate-spin" />
+            <h3 className="font-heading font-bold text-xl text-mm-black mb-2">
               Publishing Menu...
             </h3>
-            <p className="text-chocolate/60">
+            <p className="text-mm-gray-600">
               Sending notifications to users
             </p>
           </motion.div>
@@ -459,25 +459,25 @@ export default function AdminUpload() {
             className="py-16 text-center"
           >
             <motion.div
-              className="w-20 h-20 mx-auto mb-4 rounded-full bg-green-500 flex items-center justify-center"
+              className="w-20 h-20 mx-auto mb-4 rounded-xl bg-mm-mint flex items-center justify-center border-3 border-mm-black"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ type: 'spring', delay: 0.2 }}
             >
-              <Check className="w-10 h-10 text-white" />
+              <Check className="w-10 h-10 text-mm-black" />
             </motion.div>
-            <h3 className="font-display text-2xl text-chocolate mb-2">
+            <h3 className="font-heading font-bold text-2xl text-mm-black mb-2">
               Menu Published!
             </h3>
-            <p className="text-chocolate/60 mb-8">
+            <p className="text-mm-gray-600 mb-8">
               Today&apos;s flavors are now live and users have been notified
             </p>
             <div className="flex gap-4 justify-center">
               <Link href="/">
-                <button className="btn-outline-groovy">View Menu</button>
+                <button className="px-6 py-3 bg-white text-mm-black font-heading font-bold rounded-lg border-2 border-mm-black shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all">View Menu</button>
               </Link>
               <Link href="/admin">
-                <button className="btn-groovy">Back to Dashboard</button>
+                <button className="px-6 py-3 bg-mm-red text-white font-heading font-bold rounded-lg border-2 border-mm-black shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all">Back to Dashboard</button>
               </Link>
             </div>
           </motion.div>

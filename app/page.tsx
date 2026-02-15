@@ -250,16 +250,16 @@ export default function HomePage() {
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
-          <h1 className="font-display text-3xl text-chocolate">Today&apos;s Flavors</h1>
+          <h1 className="font-heading font-bold text-3xl text-mm-black">Today&apos;s Flavors</h1>
           <motion.button
-            className="p-2 rounded-xl bg-white/50 text-psychedelic-purple hover:bg-white/80 transition-colors"
+            className="p-3 rounded-lg bg-white text-mm-blue border-2 border-mm-black shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all"
             onClick={loadTodaysMenu}
             whileTap={{ scale: 0.95, rotate: 180 }}
           >
             <RefreshCw className="w-5 h-5" />
           </motion.button>
         </div>
-        <p className="text-chocolate/60">
+        <p className="text-mm-gray-600">
           {formatDate(new Date())} • Flushing, Queens
         </p>
       </div>
@@ -275,7 +275,7 @@ export default function HomePage() {
             icon={<Sparkles className="w-4 h-4" />}
             value={availableCount}
             label="Available"
-            color="lime"
+            color="mint"
             active={activeFilter === 'available'}
             onClick={() => handleFilterClick('available')}
           />
@@ -283,7 +283,7 @@ export default function HomePage() {
             icon={<TrendingUp className="w-4 h-4" />}
             value={rareCount}
             label="Rare"
-            color="purple"
+            color="yellow"
             active={activeFilter === 'rare'}
             onClick={() => handleFilterClick('rare')}
           />
@@ -304,10 +304,10 @@ export default function HomePage() {
           <button
             onClick={() => setShowFilters(!showFilters)}
             className={cn(
-              'flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-colors w-full justify-center',
+              'flex items-center gap-2 px-4 py-3 rounded-lg text-sm font-heading font-bold transition-all w-full justify-center border-2 border-mm-black',
               showFilters || hasAdvancedFilters
-                ? 'bg-dead-pink text-white'
-                : 'bg-white/50 text-chocolate hover:bg-white/80'
+                ? 'bg-mm-pink text-white shadow-bold'
+                : 'bg-white text-mm-black shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5'
             )}
           >
             <SlidersHorizontal className="w-4 h-4" />
@@ -323,11 +323,11 @@ export default function HomePage() {
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
-              className="mt-3 groovy-card p-4 space-y-4"
+              className="mt-3 bg-white border-3 border-mm-black rounded-xl p-4 space-y-4 shadow-bold"
             >
               {/* Dietary */}
               <div>
-                <label className="text-sm font-medium text-chocolate mb-2 block">
+                <label className="text-sm font-heading font-bold text-mm-black mb-2 block">
                   Dietary
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -336,22 +336,16 @@ export default function HomePage() {
                       key={d}
                       onClick={() => setDietaryFilter(d)}
                       className={cn(
-                        'px-3 py-1.5 rounded-full text-sm font-medium transition-colors',
+                        'px-3 py-1.5 rounded-lg text-sm font-medium transition-all border-2',
                         dietaryFilter === d
                           ? d === 'Gluten Free'
-                            ? 'bg-emerald-500 text-white'
+                            ? 'bg-mm-mint text-mm-black border-mm-black'
                             : d === 'Nut Free'
-                            ? 'bg-blue-500 text-white'
+                            ? 'bg-mm-blue text-white border-mm-black'
                             : d === 'Contains Nuts'
-                            ? 'bg-amber-500 text-white'
-                            : 'bg-psychedelic-purple text-white'
-                          : d === 'Gluten Free'
-                          ? 'bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20'
-                          : d === 'Nut Free'
-                          ? 'bg-blue-500/10 text-blue-600 hover:bg-blue-500/20'
-                          : d === 'Contains Nuts'
-                          ? 'bg-amber-500/10 text-amber-600 hover:bg-amber-500/20'
-                          : 'bg-psychedelic-purple/10 text-psychedelic-purple hover:bg-psychedelic-purple/20'
+                            ? 'bg-mm-orange text-white border-mm-black'
+                            : 'bg-mm-black text-white border-mm-black'
+                          : 'bg-white text-mm-gray-600 border-mm-gray-200 hover:border-mm-black'
                       )}
                     >
                       {d === 'Gluten Free' ? 'GF' : d === 'Nut Free' ? 'NF' : d === 'Contains Nuts' ? '🥜 Nuts' : d}
@@ -363,7 +357,7 @@ export default function HomePage() {
               {/* Tags */}
               {availableTags.length > 0 && (
                 <div>
-                  <label className="text-sm font-medium text-chocolate mb-2 block">
+                  <label className="text-sm font-heading font-bold text-mm-black mb-2 block">
                     Tags {selectedTags.length > 0 && `(${selectedTags.length} selected)`}
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -372,10 +366,10 @@ export default function HomePage() {
                         key={tag}
                         onClick={() => toggleTag(tag)}
                         className={cn(
-                          'px-3 py-1.5 rounded-full text-sm font-medium transition-colors',
+                          'px-3 py-1.5 rounded-lg text-sm font-medium transition-all border-2',
                           selectedTags.includes(tag)
-                            ? 'bg-dead-pink text-white'
-                            : 'bg-dead-pink/10 text-dead-pink hover:bg-dead-pink/20'
+                            ? 'bg-mm-pink text-white border-mm-black'
+                            : 'bg-white text-mm-pink border-mm-pink/30 hover:border-mm-pink'
                         )}
                       >
                         {tag}
@@ -392,7 +386,7 @@ export default function HomePage() {
                     setSelectedTags([]);
                     setDietaryFilter('All');
                   }}
-                  className="text-sm text-psychedelic-purple hover:underline flex items-center gap-1"
+                  className="text-sm text-mm-red font-heading font-semibold hover:underline flex items-center gap-1"
                 >
                   <X className="w-3 h-3" /> Clear filters
                 </button>
@@ -404,7 +398,7 @@ export default function HomePage() {
 
       {/* Last Updated */}
       {lastUpdated && (
-        <p className="text-sm text-chocolate/50 mb-4 text-center">
+        <p className="text-sm text-mm-gray-500 mb-4 text-center">
           Updated {formatRelativeTime(lastUpdated)}
         </p>
       )}
@@ -461,33 +455,33 @@ export default function HomePage() {
 
       {/* Shop Info */}
       <motion.div
-        className="mt-8 groovy-card p-6 text-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3 }}
+        className="mt-8 bg-white border-3 border-mm-black rounded-xl p-6 text-center shadow-bold card-bouncy"
+        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ delay: 0.3, type: 'spring', stiffness: 200, damping: 20 }}
       >
         <Image
           src="/icons/logo.png"
           alt="Max & Mina's"
           width={160}
           height={64}
-          className="mx-auto mb-2"
+          className="mx-auto mb-2 hover-wiggle"
         />
-        <p className="text-chocolate/70 mb-1">
+        <p className="text-mm-gray-600 mb-1">
           71-26 Main Street, Flushing, NY 11367
         </p>
-        <p className="text-chocolate/50 text-sm mb-4">
+        <p className="text-mm-gray-500 text-sm mb-4">
           Serving 15,000+ unique flavors since 1997
         </p>
 
         {/* Hours Display */}
         {hours.length > 0 && (
-          <div className="mb-4 py-3 px-4 bg-cream/50 rounded-xl">
+          <div className="mb-4 py-3 px-4 bg-mm-cream rounded-lg border-2 border-mm-gray-200">
             {/* Today's Hours - Prominent */}
             {todayHours && (
-              <div className="flex items-center justify-center gap-2 text-chocolate">
-                <Clock className="w-4 h-4 text-dead-red" />
-                <span className="font-medium">Today:</span>
+              <div className="flex items-center justify-center gap-2 text-mm-black">
+                <Clock className="w-4 h-4 text-mm-red" />
+                <span className="font-heading font-bold">Today:</span>
                 <span>
                   {todayHours.is_closed
                     ? 'Closed'
@@ -499,7 +493,7 @@ export default function HomePage() {
             {/* Toggle for full week */}
             <button
               onClick={() => setShowAllHours(!showAllHours)}
-              className="mt-2 text-xs text-dead-red hover:underline flex items-center justify-center gap-1 mx-auto"
+              className="mt-2 text-xs text-mm-red font-heading font-semibold hover:underline flex items-center justify-center gap-1 mx-auto"
             >
               {showAllHours ? 'Hide' : 'See all'} hours
               {showAllHours ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
@@ -508,17 +502,17 @@ export default function HomePage() {
             {/* Full Week Hours */}
             {showAllHours && (
               <motion.div
-                className="mt-3 pt-3 border-t border-chocolate/10 text-sm"
+                className="mt-3 pt-3 border-t-2 border-mm-gray-200 text-sm"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
               >
                 <div className="grid grid-cols-2 gap-x-4 gap-y-1 max-w-xs mx-auto text-left">
                   {hours.map((h) => (
                     <div key={h.day_of_week} className="contents">
-                      <span className={`${h.day_of_week === new Date().getDay() ? 'font-medium text-dead-red' : 'text-chocolate/70'}`}>
+                      <span className={`${h.day_of_week === new Date().getDay() ? 'font-heading font-bold text-mm-red' : 'text-mm-gray-600'}`}>
                         {h.day_name}
                       </span>
-                      <span className={`text-right ${h.is_closed ? 'text-chocolate/50 italic' : 'text-chocolate'}`}>
+                      <span className={`text-right ${h.is_closed ? 'text-mm-gray-400 italic' : 'text-mm-black'}`}>
                         {h.is_closed ? 'Closed' : `${formatTimeForDisplay(h.open_time)} - ${formatTimeForDisplay(h.close_time)}`}
                       </span>
                     </div>
@@ -529,12 +523,12 @@ export default function HomePage() {
           </div>
         )}
 
-        <div className="flex justify-center items-stretch gap-4">
+        <div className="flex justify-center items-stretch gap-3">
           <a
             href="https://maps.google.com/?q=Max+and+Minas+Flushing"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-outline-groovy text-sm flex items-center justify-center"
+            className="px-4 py-2 bg-white text-mm-black font-heading font-bold text-sm rounded-lg border-2 border-mm-black shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all flex items-center justify-center"
           >
             Directions
           </a>
@@ -542,12 +536,12 @@ export default function HomePage() {
             href="https://www.ubereats.com/store/max-%26-minas-ice-cream/3XtTzTt3Xl2YCN-yOfT0QA?diningMode=DELIVERY&sc=SEARCH_SUGGESTION"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-[#06C167] hover:bg-[#05a857] text-white font-medium rounded-xl transition-colors text-sm text-center flex flex-col items-center justify-center"
+            className="px-4 py-2 bg-[#06C167] hover:bg-[#05a857] text-white font-heading font-bold rounded-lg border-2 border-mm-black transition-colors text-sm text-center flex flex-col items-center justify-center"
           >
-            <span className="text-white/80 text-xs">Want it delivered?</span>
+            <span className="text-white/80 text-xs font-normal">Want it delivered?</span>
             <span>Order UberEats</span>
           </a>
-          <a href="tel:+17184281168" className="btn-groovy text-sm flex items-center justify-center">
+          <a href="tel:+17184281168" className="px-4 py-2 bg-mm-red text-white font-heading font-bold text-sm rounded-lg border-2 border-mm-black shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all flex items-center justify-center">
             Call Shop
           </a>
         </div>
@@ -567,33 +561,43 @@ function StatChip({
   icon: React.ReactNode;
   value: number;
   label: string;
-  color: 'lime' | 'purple' | 'pink';
+  color: 'mint' | 'pink' | 'yellow';
   active?: boolean;
   onClick?: () => void;
 }) {
   const colorClasses = {
-    lime: active
-      ? 'bg-green-600 text-white ring-2 ring-green-600 ring-offset-2'
-      : 'bg-psychedelic-lime/20 text-green-700 hover:bg-psychedelic-lime/40',
-    purple: active
-      ? 'bg-psychedelic-purple text-white ring-2 ring-psychedelic-purple ring-offset-2'
-      : 'bg-psychedelic-purple/20 text-psychedelic-purple hover:bg-psychedelic-purple/40',
+    mint: active
+      ? 'bg-mm-mint text-mm-black border-mm-black shadow-bold'
+      : 'bg-white border-mm-black shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5',
     pink: active
-      ? 'bg-psychedelic-pink text-white ring-2 ring-psychedelic-pink ring-offset-2'
-      : 'bg-psychedelic-pink/20 text-psychedelic-pink hover:bg-psychedelic-pink/40',
+      ? 'bg-mm-pink text-white border-mm-black shadow-bold'
+      : 'bg-white border-mm-black shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5',
+    yellow: active
+      ? 'bg-mm-yellow text-mm-black border-mm-black shadow-bold'
+      : 'bg-white border-mm-black shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5',
+  };
+
+  const iconClasses = {
+    mint: active ? 'text-mm-black' : 'text-mm-mint',
+    pink: active ? 'text-white' : 'text-mm-pink',
+    yellow: active ? 'text-mm-black' : 'text-mm-yellow',
   };
 
   return (
     <motion.button
-      className={`rounded-xl p-3 text-center transition-all cursor-pointer ${colorClasses[color]}`}
+      className={cn(
+        'rounded-xl p-3 text-center transition-all cursor-pointer border-3 btn-bouncy',
+        colorClasses[color]
+      )}
       onClick={onClick}
+      whileHover={{ scale: 1.03, y: -2 }}
       whileTap={{ scale: 0.95 }}
     >
-      <div className="flex items-center justify-center gap-1 mb-1">
+      <div className={cn('flex items-center justify-center gap-1 mb-1', iconClasses[color])}>
         {icon}
-        <span className="font-display text-lg">{value}</span>
+        <span className="font-heading font-bold text-lg">{value}</span>
       </div>
-      <span className={`text-xs ${active ? 'opacity-90' : 'opacity-70'}`}>{label}</span>
+      <span className={cn('text-xs font-medium', active ? 'opacity-90' : 'text-mm-gray-500')}>{label}</span>
     </motion.button>
   );
 }

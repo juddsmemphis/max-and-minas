@@ -7,12 +7,12 @@ import { Home, Archive, Heart, Lightbulb, BookOpen, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  { href: '/', icon: Home, label: 'Today' },
-  { href: '/archive', icon: Archive, label: 'Archive' },
-  { href: '/watchlist', icon: Heart, label: 'Watchlist' },
-  { href: '/suggestions', icon: Lightbulb, label: 'Suggest' },
-  { href: '/our-story', icon: BookOpen, label: 'Our Story' },
-  { href: '/profile', icon: User, label: 'Profile' },
+  { href: '/', icon: Home, label: 'Today', color: 'mm-mint' },
+  { href: '/archive', icon: Archive, label: 'Archive', color: 'mm-blue' },
+  { href: '/watchlist', icon: Heart, label: 'Watchlist', color: 'mm-pink' },
+  { href: '/suggestions', icon: Lightbulb, label: 'Suggest', color: 'mm-yellow' },
+  { href: '/our-story', icon: BookOpen, label: 'Story', color: 'mm-orange' },
+  { href: '/profile', icon: User, label: 'Profile', color: 'mm-red' },
 ];
 
 export function Navigation() {
@@ -24,8 +24,8 @@ export function Navigation() {
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-cream/95 backdrop-blur-lg border-t border-psychedelic-purple/10 safe-bottom md:hidden">
-      <div className="flex items-center justify-around h-16 px-2">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-mm-cream border-t-3 border-mm-black safe-bottom md:hidden">
+      <div className="flex items-center justify-around h-18 px-1">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -34,22 +34,35 @@ export function Navigation() {
             <Link
               key={item.href}
               href={item.href}
-              className="relative flex flex-col items-center justify-center w-full h-full"
+              className="relative flex flex-col items-center justify-center flex-1 py-2"
             >
               <motion.div
                 className={cn(
-                  'flex flex-col items-center justify-center gap-0.5 p-2 rounded-xl transition-colors',
-                  isActive ? 'text-psychedelic-purple' : 'text-chocolate/60'
+                  'flex flex-col items-center justify-center gap-1 p-2 rounded-lg transition-all',
+                  isActive
+                    ? 'bg-mm-black text-white animate-jelly'
+                    : 'text-mm-gray-500 hover:text-mm-black'
                 )}
-                whileTap={{ scale: 0.9 }}
+                whileTap={{ scale: 0.85 }}
+                whileHover={!isActive ? { y: -3, scale: 1.05 } : {}}
               >
-                <Icon className="w-5 h-5" />
-                <span className="text-[10px] font-medium">{item.label}</span>
+                <motion.div
+                  animate={isActive ? { rotate: [0, -10, 10, 0] } : {}}
+                  transition={{ duration: 0.4 }}
+                >
+                  <Icon className={cn('w-5 h-5', isActive && 'stroke-[2.5px]')} />
+                </motion.div>
+                <span className={cn(
+                  'text-[10px] font-heading font-semibold tracking-wide',
+                  isActive && 'text-white'
+                )}>
+                  {item.label}
+                </span>
               </motion.div>
 
               {isActive && (
                 <motion.div
-                  className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-groovy-gradient"
+                  className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-10 h-1 bg-mm-black rounded-full"
                   layoutId="nav-indicator"
                   transition={{
                     type: 'spring',

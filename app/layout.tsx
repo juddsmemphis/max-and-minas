@@ -62,13 +62,18 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body className="bg-psychedelic-pattern min-h-screen antialiased">
+      <body className="bg-mm-cream min-h-screen antialiased">
+        {/* Subtle film grain texture overlay for vintage ice cream shop feel */}
+        <div className="grain-overlay" aria-hidden="true" />
         <AuthProvider>
           <Header />
-          <main className="pb-24 md:pb-12">{children}</main>
-          <footer className="fixed bottom-16 md:bottom-0 left-0 right-0 text-center py-2 bg-transparent">
-            <p className="text-xs text-chocolate/40">Kosher Certified Under the Vaad of Queens</p>
-          </footer>
+          <main className="pb-32 md:pb-20">{children}</main>
+          {/* Kosher Footer - not fixed, sits naturally in document flow */}
+          <div className="bg-mm-black text-white py-3 text-center border-t-3 border-mm-black">
+            <p className="text-xs font-heading font-semibold tracking-widest uppercase">
+              Kosher Certified Under the Vaad of Queens
+            </p>
+          </div>
           <Navigation />
           <ToastContainer />
         </AuthProvider>

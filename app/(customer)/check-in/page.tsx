@@ -151,8 +151,8 @@ export default function CheckInPage() {
     <div className="max-w-4xl mx-auto px-4 py-6">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="font-display text-3xl text-chocolate mb-2">Check In</h1>
-        <p className="text-chocolate/60">
+        <h1 className="font-heading font-bold text-3xl text-mm-black mb-2">Check In</h1>
+        <p className="text-mm-gray-600 font-body">
           {step === 'select' && "Select the flavors you tried today"}
           {step === 'rate' && "Rate your flavors (optional)"}
           {step === 'success' && "Thanks for visiting!"}
@@ -165,10 +165,10 @@ export default function CheckInPage() {
           <div key={s} className="flex items-center">
             <div
               className={cn(
-                'w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors',
+                'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors border-2',
                 step === s || ['select', 'rate', 'success'].indexOf(step) > i
-                  ? 'bg-psychedelic-purple text-white'
-                  : 'bg-psychedelic-purple/20 text-psychedelic-purple'
+                  ? 'bg-mm-blue text-white border-mm-black'
+                  : 'bg-mm-blue/20 text-mm-blue border-mm-blue/30'
               )}
             >
               {['select', 'rate', 'success'].indexOf(step) > i ? (
@@ -182,8 +182,8 @@ export default function CheckInPage() {
                 className={cn(
                   'w-12 h-1 mx-1 rounded-full transition-colors',
                   ['select', 'rate', 'success'].indexOf(step) > i
-                    ? 'bg-psychedelic-purple'
-                    : 'bg-psychedelic-purple/20'
+                    ? 'bg-mm-blue'
+                    : 'bg-mm-blue/20'
                 )}
               />
             )}
@@ -202,8 +202,8 @@ export default function CheckInPage() {
           >
             {todaysMenu.length === 0 ? (
               <div className="text-center py-12">
-                <IceCream2 className="w-16 h-16 mx-auto mb-4 text-psychedelic-purple/30" />
-                <p className="text-chocolate/60">
+                <IceCream2 className="w-16 h-16 mx-auto mb-4 text-mm-blue/30" />
+                <p className="text-mm-gray-600 font-body">
                   No flavors available to check in today
                 </p>
               </div>
@@ -220,9 +220,9 @@ export default function CheckInPage() {
                       <motion.button
                         key={item.id}
                         className={cn(
-                          'groovy-card p-4 text-left transition-all',
+                          'bg-white border-3 border-mm-black rounded-xl shadow-bold p-4 text-left transition-all',
                           isSelected &&
-                            'ring-2 ring-psychedelic-purple bg-psychedelic-purple/5'
+                            'ring-2 ring-mm-blue bg-mm-blue/5'
                         )}
                         onClick={() =>
                           toggleFlavor({
@@ -237,8 +237,8 @@ export default function CheckInPage() {
                             className={cn(
                               'w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors',
                               isSelected
-                                ? 'bg-psychedelic-purple border-psychedelic-purple'
-                                : 'border-psychedelic-purple/30'
+                                ? 'bg-mm-blue border-mm-black'
+                                : 'border-mm-gray-300'
                             )}
                           >
                             {isSelected && (
@@ -246,11 +246,11 @@ export default function CheckInPage() {
                             )}
                           </div>
                           <div className="flex-1">
-                            <p className="font-medium text-chocolate">
+                            <p className="font-heading font-bold text-mm-black">
                               {item.flavors.name}
                             </p>
-                            <p className="text-xs text-chocolate/50">
-                              {rarity.emoji} {rarity.label}
+                            <p className="text-xs text-mm-gray-500 font-body">
+                              {rarity.label}
                             </p>
                           </div>
                         </div>
@@ -262,7 +262,7 @@ export default function CheckInPage() {
                 <button
                   onClick={() => setStep('rate')}
                   disabled={selectedFlavors.length === 0}
-                  className="btn-groovy w-full py-3 flex items-center justify-center gap-2"
+                  className="w-full py-3 bg-mm-red text-white font-heading font-bold border-3 border-mm-black rounded-xl shadow-bold hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   Continue with {selectedFlavors.length} flavor
                   {selectedFlavors.length !== 1 && 's'}
@@ -283,8 +283,8 @@ export default function CheckInPage() {
           >
             <div className="space-y-4 mb-6">
               {selectedFlavors.map((flavor) => (
-                <div key={flavor.id} className="groovy-card p-4">
-                  <p className="font-medium text-chocolate mb-3">
+                <div key={flavor.id} className="bg-white border-3 border-mm-black rounded-xl shadow-bold p-4">
+                  <p className="font-heading font-bold text-mm-black mb-3">
                     {flavor.name}
                   </p>
                   <div className="flex items-center gap-1">
@@ -298,8 +298,8 @@ export default function CheckInPage() {
                           className={cn(
                             'w-8 h-8 transition-colors',
                             (flavor.rating || 0) >= star
-                              ? 'text-psychedelic-orange fill-psychedelic-orange'
-                              : 'text-psychedelic-orange/30'
+                              ? 'text-mm-orange fill-mm-orange'
+                              : 'text-mm-orange/30'
                           )}
                         />
                       </button>
@@ -312,14 +312,14 @@ export default function CheckInPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => setStep('select')}
-                className="btn-outline-groovy flex-1"
+                className="flex-1 py-3 bg-white text-mm-black font-heading font-bold border-3 border-mm-black rounded-xl hover:bg-mm-gray-100 transition-all"
               >
                 Back
               </button>
               <button
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="btn-groovy flex-1 flex items-center justify-center gap-2"
+                className="flex-1 py-3 bg-mm-red text-white font-heading font-bold border-3 border-mm-black rounded-xl shadow-bold hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <>
@@ -350,13 +350,13 @@ export default function CheckInPage() {
               animate={{ scale: 1 }}
               transition={{ type: 'spring', delay: 0.2 }}
             >
-              <PartyPopper className="w-20 h-20 mx-auto mb-4 text-psychedelic-purple" />
+              <PartyPopper className="w-20 h-20 mx-auto mb-4 text-mm-blue" />
             </motion.div>
 
-            <h2 className="font-display text-2xl text-chocolate mb-2">
+            <h2 className="font-heading font-bold text-2xl text-mm-black mb-2">
               Check-in Complete!
             </h2>
-            <p className="text-chocolate/60 mb-6">
+            <p className="text-mm-gray-600 font-body mb-6">
               {selectedFlavors.length} flavor
               {selectedFlavors.length !== 1 && 's'} added to your passport
             </p>
@@ -364,14 +364,14 @@ export default function CheckInPage() {
             {/* Badge Earned */}
             {earnedBadge && (
               <motion.div
-                className="groovy-card p-6 mb-6 mx-auto max-w-xs"
+                className="bg-white border-3 border-mm-black rounded-xl shadow-bold-yellow p-6 mb-6 mx-auto max-w-xs"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <Award className="w-12 h-12 mx-auto mb-3 text-psychedelic-orange" />
-                <p className="text-sm text-chocolate/60 mb-1">Badge Earned!</p>
-                <p className="font-display text-xl text-chocolate">
+                <Award className="w-12 h-12 mx-auto mb-3 text-mm-orange" />
+                <p className="text-sm text-mm-gray-600 font-body mb-1">Badge Earned!</p>
+                <p className="font-heading font-bold text-xl text-mm-black">
                   {earnedBadge}
                 </p>
               </motion.div>
@@ -380,13 +380,13 @@ export default function CheckInPage() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
                 onClick={() => router.push('/profile')}
-                className="btn-outline-groovy"
+                className="px-6 py-3 bg-white text-mm-black font-heading font-bold border-3 border-mm-black rounded-xl hover:bg-mm-gray-100 transition-all"
               >
                 View Profile
               </button>
               <button
                 onClick={() => router.push('/')}
-                className="btn-groovy"
+                className="px-6 py-3 bg-mm-red text-white font-heading font-bold border-3 border-mm-black rounded-xl shadow-bold hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all"
               >
                 Back to Menu
               </button>

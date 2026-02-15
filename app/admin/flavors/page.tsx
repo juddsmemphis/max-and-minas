@@ -309,11 +309,11 @@ export default function FlavorManagementPage() {
   };
 
   const getRarityColor = (score: number | null) => {
-    if (!score) return 'text-gray-500';
-    if (score >= 8) return 'text-yellow-600';
-    if (score >= 6) return 'text-purple-600';
-    if (score >= 4) return 'text-blue-600';
-    return 'text-green-600';
+    if (!score) return 'text-mm-gray-500';
+    if (score >= 8) return 'text-mm-yellow';
+    if (score >= 6) return 'text-mm-pink';
+    if (score >= 4) return 'text-mm-blue';
+    return 'text-mm-mint';
   };
 
   return (
@@ -322,17 +322,17 @@ export default function FlavorManagementPage() {
       <div className="flex items-center gap-4 mb-6">
         <Link
           href="/admin"
-          className="p-2 rounded-xl bg-white/50 text-dead-red hover:bg-white/80 transition-colors"
+          className="p-3 rounded-lg bg-white text-mm-red border-2 border-mm-black shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all"
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div className="flex-1">
-          <h1 className="font-display text-2xl text-chocolate">Manage Flavors</h1>
-          <p className="text-chocolate/60 text-sm">{flavors.length} total flavors</p>
+          <h1 className="font-heading font-bold text-2xl text-mm-black">Manage Flavors</h1>
+          <p className="text-mm-gray-600 text-sm">{flavors.length} total flavors</p>
         </div>
         <button
           onClick={() => setIsCreating(true)}
-          className="btn-groovy flex items-center gap-2"
+          className="px-4 py-2 bg-mm-red text-white font-heading font-bold text-sm rounded-lg border-2 border-mm-black shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all flex items-center gap-2"
         >
           <Plus className="w-5 h-5" />
           Add Flavor
@@ -341,13 +341,13 @@ export default function FlavorManagementPage() {
 
       {/* Search */}
       <div className="relative mb-6">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-chocolate/40" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-mm-gray-400" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search flavors..."
-          className="input-groovy w-full pl-10"
+          className="w-full pl-10 pr-4 py-3 bg-white rounded-lg border-2 border-mm-black text-mm-black placeholder:text-mm-gray-400 focus:outline-none focus:ring-2 focus:ring-mm-blue"
         />
       </div>
 
@@ -359,46 +359,46 @@ export default function FlavorManagementPage() {
           animate={{ opacity: 1 }}
         >
           <motion.div
-            className="bg-white rounded-2xl p-6 w-full max-w-lg"
+            className="bg-white border-3 border-mm-black rounded-xl p-6 w-full max-w-lg shadow-bold-lg max-h-[90vh] overflow-y-auto"
             initial={{ scale: 0.9 }}
             animate={{ scale: 1 }}
           >
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display text-xl text-chocolate">Add New Flavor</h2>
-              <button onClick={() => setIsCreating(false)} className="text-chocolate/50 hover:text-chocolate">
+              <h2 className="font-heading font-bold text-xl text-mm-black">Add New Flavor</h2>
+              <button onClick={() => setIsCreating(false)} className="p-2 rounded-lg hover:bg-mm-gray-100 text-mm-gray-500 hover:text-mm-black transition-colors">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-chocolate mb-1">Name *</label>
+                <label className="block text-sm font-heading font-bold text-mm-black mb-1">Name *</label>
                 <input
                   type="text"
                   value={newFlavor.name}
                   onChange={(e) => setNewFlavor(prev => ({ ...prev, name: e.target.value }))}
-                  className="input-groovy w-full"
+                  className="w-full px-4 py-2 bg-white rounded-lg border-2 border-mm-black text-mm-black placeholder:text-mm-gray-400 focus:outline-none focus:ring-2 focus:ring-mm-blue"
                   placeholder="e.g., Black Sesame"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-chocolate mb-1">Description</label>
+                <label className="block text-sm font-heading font-bold text-mm-black mb-1">Description</label>
                 <textarea
                   value={newFlavor.description}
                   onChange={(e) => setNewFlavor(prev => ({ ...prev, description: e.target.value }))}
-                  className="input-groovy w-full h-20 resize-none"
+                  className="w-full px-4 py-2 bg-white rounded-lg border-2 border-mm-black text-mm-black placeholder:text-mm-gray-400 focus:outline-none focus:ring-2 focus:ring-mm-blue h-20 resize-none"
                   placeholder="Describe the flavor..."
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-chocolate mb-1">Tags</label>
+                <label className="block text-sm font-heading font-bold text-mm-black mb-1">Tags</label>
                 <div className="flex flex-wrap gap-2 mb-2">
                   {newFlavor.tags.map((tag, index) => (
                     <span
                       key={index}
-                      className="px-2 py-1 bg-psychedelic-pink/20 text-psychedelic-pink text-sm rounded-lg flex items-center gap-1"
+                      className="px-2 py-1 bg-mm-pink/20 text-mm-pink text-sm rounded-lg border border-mm-pink/30 flex items-center gap-1"
                     >
                       {tag}
                       <button
@@ -407,7 +407,7 @@ export default function FlavorManagementPage() {
                           ...prev,
                           tags: prev.tags.filter((_, i) => i !== index)
                         }))}
-                        className="hover:text-red-500"
+                        className="hover:text-mm-red"
                       >
                         <X className="w-3 h-3" />
                       </button>
@@ -429,7 +429,7 @@ export default function FlavorManagementPage() {
                         setNewTagInput('');
                       }
                     }}
-                    className="input-groovy flex-1 text-sm"
+                    className="flex-1 px-3 py-2 bg-white rounded-lg border-2 border-mm-black text-mm-black placeholder:text-mm-gray-400 focus:outline-none focus:ring-2 focus:ring-mm-blue text-sm"
                     placeholder="Type tag and press Enter..."
                   />
                   <button
@@ -443,7 +443,7 @@ export default function FlavorManagementPage() {
                         setNewTagInput('');
                       }
                     }}
-                    className="px-3 py-2 bg-psychedelic-pink/20 text-psychedelic-pink rounded-lg hover:bg-psychedelic-pink/30 transition-colors text-sm"
+                    className="px-3 py-2 bg-mm-pink text-white rounded-lg border-2 border-mm-black hover:bg-mm-pink/80 transition-colors text-sm font-heading font-bold"
                   >
                     Add
                   </button>
@@ -451,7 +451,7 @@ export default function FlavorManagementPage() {
                 {/* Existing tag suggestions */}
                 {allExistingTags.length > 0 && (
                   <div className="mt-2">
-                    <span className="text-xs text-chocolate/50">Quick add:</span>
+                    <span className="text-xs text-mm-gray-500">Quick add:</span>
                     <div className="flex flex-wrap gap-1 mt-1">
                       {allExistingTags
                         .filter(tag => !newFlavor.tags.includes(tag))
@@ -463,7 +463,7 @@ export default function FlavorManagementPage() {
                               ...prev,
                               tags: [...prev.tags, tag]
                             }))}
-                            className="px-2 py-0.5 bg-chocolate/10 text-chocolate/70 text-xs rounded-lg hover:bg-psychedelic-pink/20 hover:text-psychedelic-pink transition-colors"
+                            className="px-2 py-0.5 bg-mm-gray-100 text-mm-gray-600 text-xs rounded-lg hover:bg-mm-pink/20 hover:text-mm-pink transition-colors"
                           >
                             + {tag}
                           </button>
@@ -475,11 +475,11 @@ export default function FlavorManagementPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-chocolate mb-1">Category</label>
+                  <label className="block text-sm font-heading font-bold text-mm-black mb-1">Category</label>
                   <select
                     value={newFlavor.category}
                     onChange={(e) => setNewFlavor(prev => ({ ...prev, category: e.target.value }))}
-                    className="input-groovy w-full"
+                    className="w-full px-3 py-2 bg-white rounded-lg border-2 border-mm-black text-mm-black focus:outline-none focus:ring-2 focus:ring-mm-blue"
                   >
                     <option value="">Select...</option>
                     {CATEGORIES.map(cat => (
@@ -489,7 +489,7 @@ export default function FlavorManagementPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-chocolate mb-1">
+                  <label className="block text-sm font-heading font-bold text-mm-black mb-1">
                     Rarity (0-10): {newFlavor.rarity_score}
                   </label>
                   <input
@@ -499,34 +499,34 @@ export default function FlavorManagementPage() {
                     step="0.5"
                     value={newFlavor.rarity_score}
                     onChange={(e) => setNewFlavor(prev => ({ ...prev, rarity_score: parseFloat(e.target.value) }))}
-                    className="w-full"
+                    className="w-full accent-mm-pink"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-chocolate mb-1">First Appeared</label>
+                <label className="block text-sm font-heading font-bold text-mm-black mb-1">First Appeared</label>
                 <input
                   type="date"
                   value={newFlavor.first_appeared}
                   onChange={(e) => setNewFlavor(prev => ({ ...prev, first_appeared: e.target.value }))}
-                  className="input-groovy w-full"
+                  className="w-full px-3 py-2 bg-white rounded-lg border-2 border-mm-black text-mm-black focus:outline-none focus:ring-2 focus:ring-mm-blue"
                 />
               </div>
 
               {/* Dietary & Display Options */}
-              <div className="border-t border-chocolate/10 pt-4 space-y-3">
-                <h3 className="text-sm font-medium text-chocolate">Dietary Info & Display</h3>
+              <div className="border-t-2 border-mm-gray-200 pt-4 space-y-3">
+                <h3 className="text-sm font-heading font-bold text-mm-black">Dietary Info & Display</h3>
 
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={newFlavor.always_available}
                     onChange={(e) => setNewFlavor(prev => ({ ...prev, always_available: e.target.checked }))}
-                    className="w-4 h-4 rounded border-chocolate/30 accent-green-600"
+                    className="w-4 h-4 rounded border-mm-black accent-mm-mint"
                   />
-                  <span className="text-sm text-chocolate">Always on menu</span>
-                  <span className="text-xs text-chocolate/50">(shows daily without adding)</span>
+                  <span className="text-sm text-mm-black">Always on menu</span>
+                  <span className="text-xs text-mm-gray-500">(shows daily without adding)</span>
                 </label>
 
                 <label className="flex items-center gap-2 cursor-pointer">
@@ -534,21 +534,21 @@ export default function FlavorManagementPage() {
                     type="checkbox"
                     checked={newFlavor.hide_appearances}
                     onChange={(e) => setNewFlavor(prev => ({ ...prev, hide_appearances: e.target.checked }))}
-                    className="w-4 h-4 rounded border-chocolate/30"
+                    className="w-4 h-4 rounded border-mm-black accent-mm-blue"
                   />
-                  <span className="text-sm text-chocolate">Hide appearances count</span>
+                  <span className="text-sm text-mm-black">Hide appearances count</span>
                 </label>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs text-chocolate/60 mb-1">Gluten Free?</label>
+                    <label className="block text-xs text-mm-gray-600 mb-1">Gluten Free?</label>
                     <select
                       value={newFlavor.is_gluten_free === null ? '' : newFlavor.is_gluten_free ? 'yes' : 'no'}
                       onChange={(e) => setNewFlavor(prev => ({
                         ...prev,
                         is_gluten_free: e.target.value === '' ? null : e.target.value === 'yes'
                       }))}
-                      className="input-groovy w-full text-sm"
+                      className="w-full px-2 py-1 bg-white rounded-lg border-2 border-mm-black text-mm-black text-sm focus:outline-none focus:ring-2 focus:ring-mm-blue"
                     >
                       <option value="">Unknown</option>
                       <option value="yes">Yes - Gluten Free</option>
@@ -556,14 +556,14 @@ export default function FlavorManagementPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs text-chocolate/60 mb-1">Contains Nuts?</label>
+                    <label className="block text-xs text-mm-gray-600 mb-1">Contains Nuts?</label>
                     <select
                       value={newFlavor.contains_nuts === null ? '' : newFlavor.contains_nuts ? 'yes' : 'no'}
                       onChange={(e) => setNewFlavor(prev => ({
                         ...prev,
                         contains_nuts: e.target.value === '' ? null : e.target.value === 'yes'
                       }))}
-                      className="input-groovy w-full text-sm"
+                      className="w-full px-2 py-1 bg-white rounded-lg border-2 border-mm-black text-mm-black text-sm focus:outline-none focus:ring-2 focus:ring-mm-blue"
                     >
                       <option value="">Unknown</option>
                       <option value="yes">Yes - Contains Nuts</option>
@@ -576,7 +576,7 @@ export default function FlavorManagementPage() {
               <button
                 onClick={handleCreateFlavor}
                 disabled={isSaving}
-                className="btn-groovy w-full flex items-center justify-center gap-2"
+                className="w-full px-4 py-3 bg-mm-red text-white font-heading font-bold rounded-lg border-2 border-mm-black shadow-bold hover:shadow-bold-lg hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {isSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Plus className="w-5 h-5" />}
                 {isSaving ? 'Creating...' : 'Create Flavor'}
@@ -589,20 +589,20 @@ export default function FlavorManagementPage() {
       {/* Flavor List */}
       {isLoading ? (
         <div className="text-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto text-dead-red" />
-          <p className="text-chocolate/60 mt-2">Loading flavors...</p>
+          <Loader2 className="w-8 h-8 animate-spin mx-auto text-mm-red" />
+          <p className="text-mm-gray-600 mt-2">Loading flavors...</p>
         </div>
       ) : filteredFlavors.length === 0 ? (
         <div className="text-center py-12">
-          <IceCream2 className="w-12 h-12 mx-auto text-chocolate/30 mb-4" />
-          <p className="text-chocolate/60">No flavors found</p>
+          <IceCream2 className="w-12 h-12 mx-auto text-mm-gray-300 mb-4" />
+          <p className="text-mm-gray-600">No flavors found</p>
         </div>
       ) : (
         <div className="space-y-3">
           {filteredFlavors.map((flavor) => (
             <motion.div
               key={flavor.id}
-              className="groovy-card p-4"
+              className="bg-white border-3 border-mm-black rounded-xl p-4 shadow-bold-sm"
               layout
             >
               {editingFlavor?.id === flavor.id ? (
@@ -811,39 +811,39 @@ export default function FlavorManagementPage() {
                 <div className="flex items-center gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-medium text-chocolate">{flavor.name}</h3>
-                      <span className={`text-xs font-medium ${getRarityColor(flavor.rarity_score)}`}>
+                      <h3 className="font-heading font-bold text-mm-black">{flavor.name}</h3>
+                      <span className={`text-xs font-heading font-bold ${getRarityColor(flavor.rarity_score)}`}>
                         {getRarityLabel(flavor.rarity_score)}
                       </span>
                       {flavor.always_available && (
-                        <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-xs font-medium rounded-full">
+                        <span className="px-2 py-0.5 bg-mm-mint text-mm-black text-xs font-medium rounded-full border border-mm-black/20">
                           Always On Menu
                         </span>
                       )}
                       {!flavor.always_available && todaysMenuIds.has(flavor.id) && (
-                        <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded-full">
+                        <span className="px-2 py-0.5 bg-mm-mint/50 text-mm-black text-xs font-medium rounded-full border border-mm-mint">
                           On Menu Today
                         </span>
                       )}
                     </div>
                     {flavor.description && (
-                      <p className="text-sm text-chocolate/60 mt-1 line-clamp-1">{flavor.description}</p>
+                      <p className="text-sm text-mm-gray-600 mt-1 line-clamp-1">{flavor.description}</p>
                     )}
-                    <div className="flex items-center gap-2 mt-2 text-xs text-chocolate/50 flex-wrap">
+                    <div className="flex items-center gap-2 mt-2 text-xs text-mm-gray-500 flex-wrap">
                       {flavor.category && <span className="capitalize">{flavor.category}</span>}
                       {flavor.tags && flavor.tags.length > 0 && flavor.tags.map((tag, i) => (
-                        <span key={i} className="px-1.5 py-0.5 bg-psychedelic-pink/10 text-psychedelic-pink rounded-full">{tag}</span>
+                        <span key={i} className="px-1.5 py-0.5 bg-mm-pink/10 text-mm-pink rounded-full">{tag}</span>
                       ))}
                       {!flavor.hide_appearances && <span>{flavor.total_appearances} appearances</span>}
                       <span>Since {new Date(flavor.first_appeared).getFullYear()}</span>
                       {flavor.is_gluten_free && (
-                        <span className="px-1.5 py-0.5 bg-green-100 text-green-700 rounded-full font-medium">GF</span>
+                        <span className="px-1.5 py-0.5 bg-mm-mint/20 text-mm-mint rounded-full font-medium border border-mm-mint/30">GF</span>
                       )}
                       {flavor.contains_nuts === false && (
-                        <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded-full font-medium">NF</span>
+                        <span className="px-1.5 py-0.5 bg-mm-blue/10 text-mm-blue rounded-full font-medium border border-mm-blue/30">NF</span>
                       )}
                       {flavor.contains_nuts === true && (
-                        <span className="px-1.5 py-0.5 bg-amber-100 text-amber-700 rounded-full font-medium">🥜</span>
+                        <span className="px-1.5 py-0.5 bg-mm-orange/10 text-mm-orange rounded-full font-medium border border-mm-orange/30">🥜</span>
                       )}
                     </div>
                   </div>
@@ -852,7 +852,7 @@ export default function FlavorManagementPage() {
                       <button
                         onClick={() => handleRemoveFromMenu(flavor.id)}
                         disabled={menuLoading === flavor.id}
-                        className="p-2 rounded-lg bg-green-100 text-green-700 hover:bg-green-200 transition-colors"
+                        className="p-2 rounded-lg bg-mm-mint text-mm-black hover:bg-mm-mint/80 transition-colors border-2 border-mm-black"
                         title="Remove from today's menu"
                       >
                         {menuLoading === flavor.id ? (
@@ -865,7 +865,7 @@ export default function FlavorManagementPage() {
                       <button
                         onClick={() => handleAddToMenu(flavor.id)}
                         disabled={menuLoading === flavor.id}
-                        className="p-2 rounded-lg hover:bg-blue-100 text-blue-600 transition-colors"
+                        className="p-2 rounded-lg hover:bg-mm-blue/10 text-mm-blue transition-colors"
                         title="Add to today's menu"
                       >
                         {menuLoading === flavor.id ? (
@@ -877,13 +877,13 @@ export default function FlavorManagementPage() {
                     )}
                     <button
                       onClick={() => { setEditingFlavor(flavor); setEditTagInput(''); }}
-                      className="p-2 rounded-lg hover:bg-dead-red/10 text-dead-red transition-colors"
+                      className="p-2 rounded-lg hover:bg-mm-blue/10 text-mm-blue transition-colors"
                     >
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => handleDeleteFlavor(flavor.id)}
-                      className="p-2 rounded-lg hover:bg-red-100 text-red-500 transition-colors"
+                      className="p-2 rounded-lg hover:bg-mm-red/10 text-mm-red transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>

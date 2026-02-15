@@ -1,13 +1,133 @@
+/*
+ * ============================================
+ * MAX & MINA'S DESIGN SYSTEM
+ * "Cereal Box Bold" - Playful + Premium
+ * ============================================
+ *
+ * DESIGN PRINCIPLES:
+ * 1. Bold borders create confidence and structure
+ * 2. Warm cream backgrounds feel welcoming (like milk!)
+ * 3. Cereal-box vibrant colors for energy and fun
+ * 4. Snappy animations that feel playful, not chaotic
+ * 5. Clean typography that's readable but has personality
+ */
+
+/* ============================================
+   FONTS
+   ============================================ */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400;1,9..40,500&family=Lilita+One&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* Legacy fonts - kept for migration */
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Inter:wght@400;500;600;700&family=Pacifico&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================
+   CSS CUSTOM PROPERTIES (DESIGN TOKENS)
+   ============================================ */
 :root {
-  --background: #FDF6E3;
-  --foreground: #4A2C2A;
-  /* Grateful Dead palette */
+  /* PRIMARY PALETTE */
+  --mm-black: #1A1A1A;
+  --mm-cream: #FFF8E7;
+  --mm-red: #E63946;
+
+  /* ACCENT COLORS */
+  --mm-yellow: #FFD166;
+  --mm-blue: #118AB2;
+  --mm-mint: #06D6A0;
+  --mm-pink: #F72585;
+  --mm-orange: #FB8500;
+
+  /* NEUTRAL SCALE */
+  --mm-gray-50: #FAFAF9;
+  --mm-gray-100: #F5F5F4;
+  --mm-gray-200: #E7E5E4;
+  --mm-gray-300: #D6D3D1;
+  --mm-gray-400: #A8A29E;
+  --mm-gray-500: #78716C;
+  --mm-gray-600: #57534E;
+  --mm-gray-700: #44403C;
+  --mm-gray-800: #292524;
+  --mm-gray-900: #1C1917;
+
+  /* SEMANTIC COLORS */
+  --color-available: var(--mm-mint);
+  --color-soldout: var(--mm-red);
+  --color-rare: var(--mm-pink);
+  --color-legendary: var(--mm-yellow);
+
+  /* TYPOGRAPHY */
+  --font-heading: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-accent: 'Lilita One', cursive;
+
+  /* FONT SIZES (with line-heights) */
+  --text-xs: 0.75rem;      /* 12px */
+  --text-sm: 0.875rem;     /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg: 1.125rem;     /* 18px */
+  --text-xl: 1.25rem;      /* 20px */
+  --text-2xl: 1.5rem;      /* 24px */
+  --text-3xl: 1.875rem;    /* 30px */
+  --text-4xl: 2.25rem;     /* 36px */
+  --text-5xl: 3rem;        /* 48px */
+
+  /* SPACING */
+  --space-1: 0.25rem;      /* 4px */
+  --space-2: 0.5rem;       /* 8px */
+  --space-3: 0.75rem;      /* 12px */
+  --space-4: 1rem;         /* 16px */
+  --space-5: 1.25rem;      /* 20px */
+  --space-6: 1.5rem;       /* 24px */
+  --space-8: 2rem;         /* 32px */
+  --space-10: 2.5rem;      /* 40px */
+  --space-12: 3rem;        /* 48px */
+  --space-16: 4rem;        /* 64px */
+  --space-20: 5rem;        /* 80px */
+
+  /* BORDER RADIUS */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+
+  /* BORDER WIDTHS */
+  --border-thin: 1px;
+  --border-medium: 2px;
+  --border-bold: 3px;
+  --border-extra: 4px;
+  --border-max: 5px;
+
+  /* BOX SHADOWS */
+  --shadow-bold-sm: 3px 3px 0px 0px var(--mm-black);
+  --shadow-bold: 4px 4px 0px 0px var(--mm-black);
+  --shadow-bold-lg: 6px 6px 0px 0px var(--mm-black);
+  --shadow-soft: 0 2px 8px rgba(26, 26, 26, 0.08);
+  --shadow-soft-md: 0 4px 16px rgba(26, 26, 26, 0.1);
+
+  /* TRANSITIONS */
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+  --transition-bounce: 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Z-INDEX SCALE */
+  --z-base: 0;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-fixed: 30;
+  --z-modal-backdrop: 40;
+  --z-modal: 50;
+  --z-toast: 60;
+  --z-tooltip: 70;
+
+  /* LEGACY VARIABLES - kept for backwards compatibility */
+  --background: #FFF8E7;
+  --foreground: #1A1A1A;
   --dead-red: #C84536;
   --dead-orange: #E8833A;
   --dead-gold: #F4C430;
@@ -16,7 +136,6 @@
   --dead-blue: #3B82F6;
   --dead-purple: #8B5CF6;
   --dead-pink: #EC4899;
-  /* Backwards compatible aliases */
   --psychedelic-purple: #8B5CF6;
   --psychedelic-pink: #EC4899;
   --psychedelic-lime: #84CC16;
@@ -24,22 +143,448 @@
   --psychedelic-blue: #3B82F6;
 }
 
+/* ============================================
+   BASE STYLES
+   ============================================ */
 * {
   box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--mm-black);
+  background: var(--mm-cream);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Groovy Typography */
+/* Headings use Space Grotesk */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* ============================================
+   COMPONENT CLASSES - NEW DESIGN SYSTEM
+   ============================================ */
+
+/*
+ * CARDS
+ * Bold bordered cards are the signature look
+ */
+.card-bold {
+  background: white;
+  border: var(--border-bold) solid var(--mm-black);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-bold);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.card-bold:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-bold-lg);
+}
+
+.card-bold:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-bold-sm);
+}
+
+/* Subtle card variant */
+.card-soft {
+  background: white;
+  border: var(--border-thin) solid var(--mm-gray-200);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  transition: box-shadow var(--transition-base);
+}
+
+.card-soft:hover {
+  box-shadow: var(--shadow-soft-md);
+}
+
+/*
+ * BUTTONS
+ * Primary: Bold with offset shadow
+ * Secondary: Outlined
+ * Ghost: Minimal
+ */
+.btn-bold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  font-family: var(--font-heading);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  background: var(--mm-red);
+  color: white;
+  border: var(--border-bold) solid var(--mm-black);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-bold);
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.btn-bold:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-bold-lg);
+}
+
+.btn-bold:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+/* Color variants */
+.btn-bold-mint { background: var(--mm-mint); }
+.btn-bold-blue { background: var(--mm-blue); }
+.btn-bold-yellow { background: var(--mm-yellow); color: var(--mm-black); }
+.btn-bold-pink { background: var(--mm-pink); }
+
+/* Outlined button */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  font-family: var(--font-heading);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: white;
+  color: var(--mm-black);
+  border: var(--border-bold) solid var(--mm-black);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.btn-outline:hover {
+  background: var(--mm-black);
+  color: white;
+}
+
+/* Ghost button */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  background: transparent;
+  color: var(--mm-black);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.btn-ghost:hover {
+  background: var(--mm-gray-100);
+}
+
+/*
+ * BADGES
+ * For rarity levels, tags, and status
+ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  border: var(--border-medium) solid var(--mm-black);
+}
+
+.badge-legendary {
+  background: var(--mm-yellow);
+  color: var(--mm-black);
+}
+
+.badge-rare {
+  background: var(--mm-pink);
+  color: white;
+}
+
+.badge-uncommon {
+  background: var(--mm-blue);
+  color: white;
+}
+
+.badge-common {
+  background: var(--mm-mint);
+  color: var(--mm-black);
+}
+
+.badge-soldout {
+  background: var(--mm-red);
+  color: white;
+}
+
+/* Soft badge variant (no border) */
+.badge-soft {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  background: var(--mm-gray-100);
+  color: var(--mm-gray-700);
+}
+
+/*
+ * TAGS
+ * For flavor tags, categories
+ */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  background: var(--mm-gray-100);
+  color: var(--mm-gray-700);
+  border-radius: var(--radius-full);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.tag:hover {
+  background: var(--mm-gray-200);
+}
+
+.tag-active {
+  background: var(--mm-black);
+  color: white;
+}
+
+/* Colored tags */
+.tag-pink { background: rgba(247, 37, 133, 0.1); color: var(--mm-pink); }
+.tag-blue { background: rgba(17, 138, 178, 0.1); color: var(--mm-blue); }
+.tag-mint { background: rgba(6, 214, 160, 0.1); color: #059669; }
+.tag-yellow { background: rgba(255, 209, 102, 0.2); color: #B45309; }
+
+/*
+ * INPUTS
+ */
+.input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  background: white;
+  color: var(--mm-black);
+  border: var(--border-bold) solid var(--mm-black);
+  border-radius: var(--radius-md);
+  transition: box-shadow var(--transition-fast);
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: var(--shadow-bold);
+}
+
+.input::placeholder {
+  color: var(--mm-gray-400);
+}
+
+/*
+ * STAT CHIPS
+ * For filter chips, stat displays
+ */
+.chip {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3) var(--space-4);
+  background: white;
+  border: var(--border-bold) solid var(--mm-black);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.chip:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-bold-sm);
+}
+
+.chip-active {
+  background: var(--mm-black);
+  color: white;
+}
+
+/*
+ * NAVIGATION
+ */
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-heading);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--mm-black);
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast);
+}
+
+.nav-link:hover {
+  background: var(--mm-gray-100);
+}
+
+.nav-link-active {
+  background: var(--mm-black);
+  color: white;
+}
+
+/*
+ * MARQUEE
+ */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  background: var(--mm-black);
+  color: white;
+  padding: var(--space-2) 0;
+}
+
+.marquee-content {
+  display: inline-flex;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-content span {
+  padding: 0 var(--space-8);
+  font-family: var(--font-heading);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Typography utilities */
+.font-heading { font-family: var(--font-heading); }
+.font-body { font-family: var(--font-body); }
+.font-accent { font-family: var(--font-accent); }
+
+/* Text gradient */
+.text-gradient {
+  background: linear-gradient(90deg, var(--mm-red), var(--mm-pink), var(--mm-orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Accent text (for playful headings) */
+.text-accent {
+  font-family: var(--font-accent);
+  line-height: 1.1;
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--mm-gray-100);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--mm-gray-400);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--mm-gray-500);
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================
+   SAFE AREA INSETS (PWA)
+   ============================================ */
+@supports (padding: max(0px)) {
+  .safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+  .safe-top {
+    padding-top: max(0px, env(safe-area-inset-top));
+  }
+}
+
+/* ============================================
+   LOADING SPINNER
+   ============================================ */
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--mm-gray-200);
+  border-top-color: var(--mm-red);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   LEGACY STYLES - Kept for backwards compatibility
+   Will be removed after full migration
+   ============================================ */
+
+/* Legacy Typography */
 .font-groovy {
   font-family: 'Pacifico', cursive;
 }
@@ -48,7 +593,7 @@ body {
   font-family: 'Fredoka One', cursive;
 }
 
-/* Psychedelic Background Pattern - Grateful Dead colors */
+/* Legacy Background Pattern */
 .bg-psychedelic-pattern {
   background:
     radial-gradient(circle at 10% 20%, rgba(200, 69, 54, 0.25) 0%, transparent 40%),
@@ -60,7 +605,7 @@ body {
   background-attachment: fixed;
 }
 
-/* Tie-Dye Effect - Grateful Dead rainbow spectrum */
+/* Legacy Tie-Dye Effect */
 .tie-dye {
   background:
     conic-gradient(from 0deg at 50% 50%,
@@ -81,7 +626,7 @@ body {
   to { background-position: 100% 100%; }
 }
 
-/* Rainbow Border */
+/* Legacy Rainbow Border */
 .rainbow-border {
   position: relative;
   border-radius: 1rem;
@@ -112,25 +657,7 @@ body {
   to { background-position: 200% 50%; }
 }
 
-/* Melting Ice Cream Effect */
-.drip {
-  position: relative;
-}
-
-.drip::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  height: 12px;
-  background: inherit;
-  border-radius: 0 0 50% 50%;
-  filter: blur(1px);
-}
-
-/* Groovy Card Styles - Grateful Dead themed */
+/* Legacy Groovy Card */
 .groovy-card {
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
@@ -150,8 +677,8 @@ body {
     inset 0 0 30px rgba(255, 255, 255, 0.7);
 }
 
-/* Rarity Badge Styles */
-.badge-legendary {
+/* Legacy Rarity Badges */
+.badge-legendary-legacy {
   background: linear-gradient(135deg, #FFD700, #FFA500);
   box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
   animation: glow-gold 2s ease-in-out infinite alternate;
@@ -162,22 +689,22 @@ body {
   to { box-shadow: 0 0 25px rgba(255, 215, 0, 0.8); }
 }
 
-.badge-rare {
+.badge-rare-legacy {
   background: linear-gradient(135deg, #9B59B6, #E91E63);
   box-shadow: 0 0 15px rgba(155, 89, 182, 0.4);
 }
 
-.badge-uncommon {
+.badge-uncommon-legacy {
   background: linear-gradient(135deg, #00CED1, #00BFFF);
   box-shadow: 0 0 10px rgba(0, 206, 209, 0.4);
 }
 
-.badge-regular {
+.badge-regular-legacy {
   background: linear-gradient(135deg, #BFFF00, #7CFC00);
   box-shadow: 0 0 10px rgba(191, 255, 0, 0.4);
 }
 
-/* Button Styles - Grateful Dead themed */
+/* Legacy Button Styles */
 .btn-groovy {
   background: linear-gradient(135deg, #C84536, #E8833A);
   color: white;
@@ -216,7 +743,7 @@ body {
   color: white;
 }
 
-/* Sold Out Overlay */
+/* Legacy Sold Out Overlay */
 .sold-out-overlay {
   position: relative;
   overflow: hidden;
@@ -237,27 +764,7 @@ body {
   border-radius: inherit;
 }
 
-/* Scrollbar Styling */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(200, 69, 54, 0.1);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #C84536, #E8833A);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #B33D2F, #D4762F);
-}
-
-/* Loading Spinner - Rainbow spectrum */
+/* Legacy Spinner */
 .spinner-groovy {
   width: 40px;
   height: 40px;
@@ -270,25 +777,50 @@ body {
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+/* Legacy Form Input */
+.input-groovy {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(200, 69, 54, 0.3);
+  border-radius: 1rem;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  transition: all 0.3s ease;
 }
 
-/* Ice Cream Cone Animation */
+.input-groovy:focus {
+  outline: none;
+  border-color: #C84536;
+  box-shadow: 0 0 0 4px rgba(200, 69, 54, 0.1);
+}
+
+/* Legacy Toast */
+.toast-groovy {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-left: 4px solid #C84536;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Legacy PWA Banner */
+.pwa-banner {
+  background: linear-gradient(135deg, #C84536, #E8833A);
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Legacy Ice Cream Float Animation */
 .ice-cream-float {
   animation: float 3s ease-in-out infinite;
 }
 
-/* Peace Sign Decorations */
-.peace-decoration::before {
-  content: '✌';
-  position: absolute;
-  font-size: 2rem;
-  opacity: 0.1;
-  animation: float 4s ease-in-out infinite;
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
 
-/* Wavy Text Effect */
+/* Legacy Wavy Text */
 .wavy-text {
   display: inline-flex;
 }
@@ -308,68 +840,264 @@ body {
   50% { transform: translateY(-5px); }
 }
 
-/* Form Input Styling */
-.input-groovy {
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid rgba(200, 69, 54, 0.3);
-  border-radius: 1rem;
-  padding: 0.75rem 1rem 0.75rem 2.75rem;
-  transition: all 0.3s ease;
+/* Legacy Drip Effect */
+.drip {
+  position: relative;
 }
 
-.input-groovy:focus {
-  outline: none;
-  border-color: #C84536;
-  box-shadow: 0 0 0 4px rgba(200, 69, 54, 0.1);
+.drip::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 12px;
+  background: inherit;
+  border-radius: 0 0 50% 50%;
+  filter: blur(1px);
 }
 
-/* PWA Install Banner */
-.pwa-banner {
-  background: linear-gradient(135deg, #C84536, #E8833A);
-  color: white;
-  padding: 1rem;
-  text-align: center;
-}
-
-/* Toast Notifications */
-.toast-groovy {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-left: 4px solid #C84536;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-}
-
-/* Safe Area Insets for PWA */
-@supports (padding: max(0px)) {
-  .safe-bottom {
-    padding-bottom: max(1rem, env(safe-area-inset-bottom));
-  }
-  .safe-top {
-    padding-top: max(0px, env(safe-area-inset-top));
-  }
-}
-
-/* Hide scrollbar for horizontal scroll containers */
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+/* Legacy Peace Decoration */
+.peace-decoration::before {
+  content: '✌';
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.1;
+  animation: float 4s ease-in-out infinite;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
 
-  .text-gradient {
-    background: linear-gradient(90deg, #C84536, #E8833A, #F4C430);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+/* ============================================
+   FILM GRAIN TEXTURE OVERLAY
+   90s analog nostalgia effect
+   ============================================ */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* Animated grain for extra retro feel */
+@keyframes grain-shift {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-1%, -1%); }
+  20% { transform: translate(1%, 1%); }
+  30% { transform: translate(-1%, 1%); }
+  40% { transform: translate(1%, -1%); }
+  50% { transform: translate(-1%, 0%); }
+  60% { transform: translate(1%, 0%); }
+  70% { transform: translate(0%, 1%); }
+  80% { transform: translate(0%, -1%); }
+  90% { transform: translate(1%, 1%); }
+}
+
+.grain-overlay-animated {
+  animation: grain-shift 0.5s steps(10) infinite;
+}
+
+/* ============================================
+   BOUNCY MICRO-INTERACTIONS
+   Playful spring physics animations
+   ============================================ */
+
+/* Bounce In - for cards appearing */
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
   }
+  50% {
+    transform: scale(1.05) translateY(-5px);
+  }
+  70% {
+    transform: scale(0.98) translateY(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Staggered bounce for lists */
+.animate-bounce-in-1 { animation-delay: 0.05s; }
+.animate-bounce-in-2 { animation-delay: 0.1s; }
+.animate-bounce-in-3 { animation-delay: 0.15s; }
+.animate-bounce-in-4 { animation-delay: 0.2s; }
+.animate-bounce-in-5 { animation-delay: 0.25s; }
+.animate-bounce-in-6 { animation-delay: 0.3s; }
+
+/* Heart Pop - for watchlist button */
+@keyframes heart-pop {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.3); }
+  50% { transform: scale(0.9); }
+  75% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.animate-heart-pop {
+  animation: heart-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Wiggle - for badges and icons */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  15% { transform: rotate(-8deg); }
+  30% { transform: rotate(6deg); }
+  45% { transform: rotate(-4deg); }
+  60% { transform: rotate(2deg); }
+  75% { transform: rotate(-1deg); }
+}
+
+.animate-wiggle {
+  animation: wiggle 0.6s ease-in-out;
+}
+
+.hover-wiggle:hover {
+  animation: wiggle 0.6s ease-in-out;
+}
+
+/* Scoop Drop - ice cream landing */
+@keyframes scoop-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) rotate(-5deg);
+  }
+  60% {
+    transform: translateY(5px) rotate(2deg);
+  }
+  80% {
+    transform: translateY(-3px) rotate(-1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+.animate-scoop-drop {
+  animation: scoop-drop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Jelly - for buttons on click */
+@keyframes jelly {
+  0% { transform: scale(1, 1); }
+  25% { transform: scale(0.95, 1.05); }
+  50% { transform: scale(1.05, 0.95); }
+  75% { transform: scale(0.98, 1.02); }
+  100% { transform: scale(1, 1); }
+}
+
+.animate-jelly {
+  animation: jelly 0.4s ease;
+}
+
+.active-jelly:active {
+  animation: jelly 0.4s ease;
+}
+
+/* Float with slight rotation - playful hover */
+@keyframes float-rotate {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-4px) rotate(1deg);
+  }
+  75% {
+    transform: translateY(-4px) rotate(-1deg);
+  }
+}
+
+.hover-float:hover {
+  animation: float-rotate 2s ease-in-out infinite;
+}
+
+/* Sprinkle shake - subtle excitement */
+@keyframes sprinkle-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-2px) rotate(-1deg); }
+  40% { transform: translateX(2px) rotate(1deg); }
+  60% { transform: translateX(-1px) rotate(-0.5deg); }
+  80% { transform: translateX(1px) rotate(0.5deg); }
+}
+
+.hover-sprinkle:hover {
+  animation: sprinkle-shake 0.4s ease;
+}
+
+/* Melt drip - for ice cream icons */
+@keyframes melt-drip {
+  0%, 100% {
+    transform: scaleY(1) translateY(0);
+  }
+  50% {
+    transform: scaleY(1.05) translateY(2px);
+  }
+}
+
+.animate-melt {
+  animation: melt-drip 3s ease-in-out infinite;
+}
+
+/* Pop In - quick attention grab */
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-pop-in {
+  animation: pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Card hover lift with shadow grow */
+.card-bouncy {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease;
+}
+
+.card-bouncy:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 6px 8px 0px 0px var(--mm-black);
+}
+
+.card-bouncy:active {
+  transform: translateY(-2px) scale(0.98);
+  box-shadow: 2px 3px 0px 0px var(--mm-black);
+}
+
+/* Button bounce on hover */
+.btn-bouncy {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-bouncy:hover {
+  transform: translateY(-3px);
+}
+
+.btn-bouncy:active {
+  transform: translateY(1px);
 }

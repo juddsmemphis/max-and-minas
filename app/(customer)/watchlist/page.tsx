@@ -64,18 +64,18 @@ export default function WatchlistPage() {
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
-          <h1 className="font-display text-3xl text-chocolate">My Watchlist</h1>
+          <h1 className="font-heading font-bold text-3xl text-mm-black">My Watchlist</h1>
           {flavors.length > 0 && (
             <button
               onClick={handleClearAll}
-              className="text-sm text-red-500 hover:text-red-600 flex items-center gap-1"
+              className="text-sm text-mm-red hover:underline flex items-center gap-1 font-body"
             >
               <Trash2 className="w-4 h-4" />
               Clear All
             </button>
           )}
         </div>
-        <p className="text-chocolate/60">
+        <p className="text-mm-gray-500 font-body">
           Get alerts when your favorite flavors appear
         </p>
       </div>
@@ -83,20 +83,22 @@ export default function WatchlistPage() {
       {/* Notification Status */}
       {!user && flavors.length > 0 && (
         <motion.div
-          className="bg-psychedelic-purple/10 border border-psychedelic-purple/30 rounded-2xl p-4 flex items-start gap-3 mb-6"
+          className="bg-mm-blue/10 border-3 border-mm-blue rounded-xl p-4 flex items-start gap-3 mb-6"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <Bell className="w-5 h-5 text-psychedelic-purple flex-shrink-0 mt-0.5" />
+          <Bell className="w-5 h-5 text-mm-blue flex-shrink-0 mt-0.5" />
           <div className="flex-1">
-            <p className="font-medium text-chocolate">
+            <p className="font-heading font-bold text-mm-black">
               Enable push notifications
             </p>
-            <p className="text-sm text-chocolate/60 mb-3">
+            <p className="text-sm text-mm-gray-600 font-body mb-3">
               Sign up to get instant alerts when watched flavors appear
             </p>
             <Link href="/login">
-              <button className="btn-groovy text-sm">Sign Up Free</button>
+              <button className="px-4 py-2 bg-mm-red text-white font-heading font-bold border-3 border-mm-black rounded-lg shadow-bold hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all text-sm">
+                Sign Up Free
+              </button>
             </Link>
           </div>
         </motion.div>
@@ -105,22 +107,32 @@ export default function WatchlistPage() {
       {/* Stats */}
       {flavors.length > 0 && (
         <div className="grid grid-cols-2 gap-3 mb-6">
-          <div className="groovy-card p-4 text-center">
-            <div className="flex items-center justify-center gap-2 text-psychedelic-pink">
-              <Heart className="w-5 h-5 fill-current" />
-              <span className="font-display text-2xl">{flavors.length}</span>
+          <motion.div
+            className="bg-white border-3 border-mm-black rounded-xl shadow-bold-pink p-4 text-center card-bouncy"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <div className="flex items-center justify-center gap-2 text-mm-pink">
+              <Heart className="w-5 h-5 fill-current animate-heart-pop" />
+              <span className="font-heading font-bold text-2xl">{flavors.length}</span>
             </div>
-            <p className="text-sm text-chocolate/60">Watching</p>
-          </div>
-          <div className="groovy-card p-4 text-center">
-            <div className="flex items-center justify-center gap-2 text-psychedelic-purple">
+            <p className="text-sm text-mm-gray-500 font-body">Watching</p>
+          </motion.div>
+          <motion.div
+            className="bg-white border-3 border-mm-black rounded-xl shadow-bold-blue p-4 text-center card-bouncy"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <div className="flex items-center justify-center gap-2 text-mm-blue">
               <Bell className="w-5 h-5" />
-              <span className="font-display text-2xl">
+              <span className="font-heading font-bold text-2xl">
                 {user ? 'On' : 'Off'}
               </span>
             </div>
-            <p className="text-sm text-chocolate/60">Alerts</p>
-          </div>
+            <p className="text-sm text-mm-gray-500 font-body">Alerts</p>
+          </motion.div>
         </div>
       )}
 
@@ -136,7 +148,7 @@ export default function WatchlistPage() {
           type="watchlist"
           action={
             <Link href="/archive">
-              <button className="btn-groovy flex items-center gap-2">
+              <button className="px-6 py-3 bg-mm-red text-white font-heading font-bold border-3 border-mm-black rounded-xl shadow-bold hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all flex items-center gap-2">
                 <Search className="w-4 h-4" />
                 Browse Flavors
               </button>
@@ -172,7 +184,7 @@ export default function WatchlistPage() {
                   />
                   {/* Remove Button */}
                   <motion.button
-                    className="absolute top-3 right-3 p-2 rounded-full bg-red-500/80 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute top-3 right-3 p-2 rounded-full bg-mm-red text-white opacity-0 group-hover:opacity-100 transition-opacity border-2 border-mm-black"
                     onClick={() => handleRemove(flavor.id)}
                     whileTap={{ scale: 0.9 }}
                   >
@@ -188,16 +200,16 @@ export default function WatchlistPage() {
       {/* Tips */}
       {flavors.length > 0 && (
         <motion.div
-          className="mt-8 p-4 bg-psychedelic-lime/10 rounded-2xl"
+          className="mt-8 p-4 bg-mm-mint/20 border-3 border-mm-mint rounded-xl"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          <h3 className="font-medium text-chocolate mb-2 flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-psychedelic-lime" />
+          <h3 className="font-heading font-bold text-mm-black mb-2 flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 text-mm-mint" />
             Pro Tip
           </h3>
-          <p className="text-sm text-chocolate/70">
+          <p className="text-sm text-mm-gray-600 font-body">
             Some legendary flavors only appear once every few years. Keep them
             on your watchlist and be ready to visit when they drop!
           </p>

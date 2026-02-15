@@ -1,14 +1,20 @@
 # Max & Mina's PWA - Project Status
 
-## Last Updated: February 15, 2026 (Early Morning)
+## Last Updated: February 15, 2026 (Session 6 - UI Redesign)
 
 ## Project Overview
 Building a Progressive Web App (PWA) for Max & Mina's Ice Cream in Flushing, Queens - a flavor tracking app with 15,000+ legendary flavors.
 
-## Current Status: FULLY FUNCTIONAL - ADVANCED FILTERING ADDED
+## Current Status: UI REDESIGN IN PROGRESS - TESTING LOCALLY (NOT PUBLISHED)
 
-### Live URLs
-- **Production App**: https://max-and-minas.vercel.app
+### IMPORTANT: Session 6 Work In Progress
+- **Major UI redesign completed** - "Cereal Box Bold" design system applied
+- **Testing locally** - Changes have NOT been pushed to production yet
+- **Need to verify** all pages work correctly before publishing
+- **Project location changing** - Moving from OneDrive to C: drive to avoid file locking issues
+
+### Live URLs (CURRENT PRODUCTION - OLD DESIGN)
+- **Production App**: https://max-and-minas.vercel.app (still has old groovy design)
 - **GitHub Repo**: https://github.com/juddsmemphis/max-and-minas
 - **Supabase Project**: https://supabase.com/dashboard/project/lsqjkqmocjuldtvqaxtr
 
@@ -43,13 +49,89 @@ Building a Progressive Web App (PWA) for Max & Mina's Ice Cream in Flushing, Que
 ## Tech Stack
 - **Frontend**: Next.js 14 (App Router), React, TypeScript, Tailwind CSS
 - **Backend**: Supabase (PostgreSQL, Auth, Storage)
-- **Styling**: Grateful Dead themed color palette (dead-red #C84536)
+- **Styling**: NEW "Cereal Box Bold" design (Session 6) - previously Grateful Dead themed
 - **Deployment**: Vercel (auto-deploys on git push)
 - **PWA**: next-pwa with service worker
 
-## Design System
+---
 
-### Grateful Dead Color Palette
+## SESSION 6: UI REDESIGN - "CEREAL BOX BOLD" DESIGN SYSTEM
+
+### Design Direction
+Researched modern ice cream brands (Salt & Straw, Jeni's, Van Leeuwen) and chose "Cereal Box Bold" direction inspired by Van Leeuwen's comic-book aesthetic with bold borders and flat colors.
+
+### New Color Palette (`mm-` prefix)
+```css
+/* Primary Colors */
+--mm-black: #1A1A1A       /* Primary text, borders */
+--mm-cream: #FFF8E7       /* Background */
+--mm-red: #E63946         /* Primary action, CTA */
+
+/* Accent Colors */
+--mm-yellow: #FFD166      /* Legendary rarity, highlights */
+--mm-blue: #118AB2        /* Links, info, uncommon */
+--mm-mint: #06D6A0        /* Success, common, available */
+--mm-pink: #F72585        /* Rare rarity, tags */
+--mm-orange: #FB8500      /* Warnings, nuts indicator */
+
+/* Gray Scale */
+--mm-gray-50 through --mm-gray-900
+```
+
+### New Typography
+- **font-heading**: Space Grotesk (bold headings)
+- **font-body**: DM Sans (body text)
+- **font-accent**: Lilita One (decorative, logo-style)
+
+### Key Design Patterns
+- **Bold 3px borders**: `border-3 border-mm-black`
+- **Offset shadows**: `shadow-bold` (3px 3px), `shadow-bold-lg` (5px 5px)
+- **Colored shadows**: `shadow-bold-yellow`, `shadow-bold-pink`, `shadow-bold-blue`
+- **Hover effects**: `hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5`
+- **Rounded corners**: `rounded-xl` (12px) or `rounded-lg` (8px)
+
+### Files Modified in Session 6
+
+#### Design System Core
+- `tailwind.config.ts` - Added `mm` color palette, `border-3`, shadow utilities, fonts, animations
+- `app/globals.css` - CSS variables, new component classes, marquee animation
+
+#### Components Redesigned
+- `components/Header.tsx` - Marquee banner, bold bordered buttons, colored icons
+- `components/Navigation.tsx` - Bold black bottom nav, wiggle animation on active
+- `components/FlavorCard.tsx` - Bold borders with rarity-colored shadows, rainbow hover line
+- `components/RarityBadge.tsx` - Flat colors with black borders
+
+#### Pages Redesigned
+- `app/layout.tsx` - Fixed Kosher footer (changed from fixed to static positioning)
+- `app/page.tsx` (Today's Flavors) - New stat chips, filter panel, shop info section
+- `app/(customer)/flavor/[id]/page.tsx` - Bold bordered stats, rarity explanation card
+- `app/(customer)/our-story/page.tsx` - Premium card layout, stats bar, CTAs
+- `app/(customer)/profile/page.tsx` - Bold stat blocks, badge cards, progress bar
+- `app/admin/page.tsx` - Bold action cards, colored icon boxes
+- `app/admin/flavors/page.tsx` - Bold modal, form inputs, flavor list items
+- `app/admin/hours/page.tsx` - Bold day cards, preview section
+- `app/admin/suggestions/page.tsx` - Bold suggestion cards, stats summary
+- `app/admin/upload/page.tsx` - Bold upload area, review step, publish button
+
+### Testing Status (Session 6)
+- [x] Design system created and applied
+- [x] All pages converted to new design
+- [ ] Full testing of all pages needed
+- [ ] Mobile navigation testing needed
+- [ ] Today's Flavors loading issue reported (may need investigation)
+- [ ] Production deployment (NOT YET - need to test first)
+
+### Known Issues to Test
+1. **Today's flavors loading** - User reported "internal server error" initially, may have been OneDrive-related
+2. **Mobile navigation** - Not tested yet
+3. **Flavor card click shadows** - Verify shadows appear correctly on detail pages
+
+---
+
+## Previous Design System (Legacy - Still in globals.css for backwards compatibility)
+
+### Grateful Dead Color Palette (OLD)
 ```css
 --dead-red: #C84536      /* Primary - matches logo */
 --dead-orange: #E8833A   /* Secondary */
@@ -66,13 +148,15 @@ Building a Progressive Web App (PWA) for Max & Mina's Ice Cream in Flushing, Que
 - Transparent background PNG
 - Used in Header, Login, Signup, and Shop Info section
 
+---
+
 ## Admin Features
 
 ### Admin Dashboard (`/admin`)
 - Upload Today's Menu (photo recognition)
 - Manage Flavors (full CRUD)
 - View Suggestions
-- **Hours of Operation** (NEW)
+- **Hours of Operation**
 - Stats cards (clickable, link to relevant pages)
 
 ### Flavor Management (`/admin/flavors`)
@@ -102,13 +186,15 @@ Displayed on FlavorCard and admin list:
 - **NF** (blue) - Nut Free
 - **Peanut emoji** (amber) - Contains Nuts
 
+---
+
 ## Database Schema
 
 ### Tables
 - `flavors` - All flavor data
 - `daily_menu` - Today's menu items
 - `users` - User profiles and admin status
-- `business_hours` - Hours of operation (NEW)
+- `business_hours` - Hours of operation
 - `flavor_suggestions` - Customer suggestions
 
 ### RLS Status
@@ -169,30 +255,35 @@ INSERT INTO daily_menu (flavor_id, menu_date)
 VALUES ('FLAVOR_UUID_HERE', CURRENT_DATE);
 ```
 
+---
+
 ## Key Files Reference
 
 ### Core App Files
 - `app/layout.tsx` - Root layout with Header, Navigation, Footer, AuthProvider
 - `app/page.tsx` - Home page with today's flavors, stat chips, hours display, tag/dietary filters
-- `app/globals.css` - Grateful Dead themed styles, button/card classes
+- `app/globals.css` - Design system styles (NEW mm- classes + legacy groovy classes)
+- `tailwind.config.ts` - Tailwind configuration with mm- color palette
 
 ### Customer Pages
 - `app/(customer)/archive/page.tsx` - Flavor archive with category/rarity/tag/dietary filters
-- `app/(customer)/our-story/page.tsx` - Our Story page with owners photo
-- `app/(customer)/flavor/[id]/page.tsx` - Flavor detail page with description display
+- `app/(customer)/our-story/page.tsx` - Our Story page with owners photo (REDESIGNED)
+- `app/(customer)/flavor/[id]/page.tsx` - Flavor detail page (REDESIGNED)
+- `app/(customer)/profile/page.tsx` - User profile with stats and badges (REDESIGNED)
 - `app/(customer)/profile/settings/page.tsx` - User settings (name, birthday)
 
 ### Admin Pages
-- `app/admin/page.tsx` - Admin dashboard with stats and quick actions
-- `app/admin/flavors/page.tsx` - Full flavor CRUD with tags editor and menu management
-- `app/admin/hours/page.tsx` - Hours of operation management (NEW)
-- `app/admin/upload/page.tsx` - Photo upload for menu recognition
-- `app/admin/suggestions/page.tsx` - View customer flavor suggestions
+- `app/admin/page.tsx` - Admin dashboard (REDESIGNED)
+- `app/admin/flavors/page.tsx` - Full flavor CRUD (REDESIGNED)
+- `app/admin/hours/page.tsx` - Hours of operation management (REDESIGNED)
+- `app/admin/upload/page.tsx` - Photo upload for menu recognition (REDESIGNED)
+- `app/admin/suggestions/page.tsx` - View customer flavor suggestions (REDESIGNED)
 
 ### Components
-- `components/Header.tsx` - Logo, navigation, Instagram icon, notifications bell
-- `components/Navigation.tsx` - Bottom nav bar (mobile)
-- `components/FlavorCard.tsx` - Compact flavor display with dietary badges
+- `components/Header.tsx` - Logo, marquee banner, navigation (REDESIGNED)
+- `components/Navigation.tsx` - Bottom nav bar, wiggle animation (REDESIGNED)
+- `components/FlavorCard.tsx` - Flavor display with rarity shadows (REDESIGNED)
+- `components/RarityBadge.tsx` - Rarity badge with flat colors (REDESIGNED)
 - `components/AuthProvider.tsx` - Session management, fetches is_admin from DB
 
 ### Library Files
@@ -205,23 +296,7 @@ VALUES ('FLAVOR_UUID_HERE', CURRENT_DATE);
 - `public/icons/logo.png` - Max & Mina's logo
 - `public/images/owners.jpg` - Bruce and Mark Becker photo for Our Story page
 
-## TypeScript Notes
-
-### Supabase Type Workaround
-Since database types aren't auto-generated, queries use type casting:
-```typescript
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const { data, error } = await (supabase as any)
-  .from('flavors')
-  .select('*');
-```
-
-This pattern is used in:
-- `app/admin/flavors/page.tsx` (all CRUD operations)
-- `app/admin/hours/page.tsx` (hours management)
-- `app/admin/page.tsx` (dashboard stats)
-- `app/page.tsx` (always-available flavors, hours display)
-- `components/AuthProvider.tsx` (user profile fetch)
+---
 
 ## Environment Variables
 
@@ -232,11 +307,13 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 NEXT_PUBLIC_APP_URL=https://max-and-minas.vercel.app
 ```
 
+---
+
 ## Commands
 
 ```bash
-# Navigate to project
-cd "C:\Users\yjoff\OneDrive\Documents\max and minas app\max-and-minas"
+# Navigate to project (NEW LOCATION after move)
+cd "C:\max-and-minas"  # Update this path to wherever you moved it
 
 # Run locally
 npm run dev
@@ -247,6 +324,8 @@ rm -rf .next && npm run build
 # Deploy (auto-deploys on git push)
 git add -A && git commit -m "message" && git push
 ```
+
+---
 
 ## Completed Features (All Sessions)
 
@@ -274,81 +353,80 @@ git add -A && git commit -m "message" && git push
 ### Session 3 (Feb 13 Early Morning)
 - **Our Story page** (`/our-story`) with owners photo and shop history
 - Added Our Story tab to header navigation (desktop and mobile)
-- Added description field to flavors table (SQL: `ALTER TABLE flavors ADD COLUMN description TEXT`)
-- Flavor descriptions now display on flavor detail page (below rarity badge)
+- Added description field to flavors table
+- Flavor descriptions now display on flavor detail page
 - **Add to Today's Menu** functionality in admin flavors page
-  - Blue calendar+ icon = add to today's menu
-  - Green calendar-check icon = already on menu (click to remove)
-  - "On Menu Today" badge shows on flavor rows
-- **UberEats order button** on home page (green, links to Max & Mina's UberEats)
-- **Instagram icon** in header (left of notifications bell, links to @maxandminas)
-- Fixed button heights on mobile (Directions/UberEats/Call Shop all same height)
-- **Tags editor** in admin flavors:
-  - Add/remove tags when creating or editing flavors
-  - Tags display as pink bubbles on flavor detail page
-  - Click X to remove a tag
-- Disabled RLS on `flavors`, `daily_menu`, and `users` tables for easier admin operations
+- **UberEats order button** on home page
+- **Instagram icon** in header
+- Fixed button heights on mobile
+- **Tags editor** in admin flavors
+- Disabled RLS on `flavors`, `daily_menu`, and `users` tables
 
 ### Session 4 (Feb 14 Late Night)
-- **Tag suggestions**: Existing tags show as quick-add buttons when editing/creating flavors
-- **"Always on Menu"** option for staple flavors:
-  - Toggle in admin flavor edit
-  - Flavors with this enabled appear on Today's menu automatically
-  - "Always On Menu" badge in admin list (emerald green)
-  - Added `always_available` column to flavors table
-- **Compact FlavorCard design**: Smaller padding, single-line header with name/rarity/buttons, compact info row
-- **Hours of Operation management**:
-  - New `business_hours` table in Supabase
-  - Admin page (`/admin/hours`) to edit hours for each day
-  - Mark days as closed
-  - Today's day highlighted
-  - Preview section shows customer view
-  - Hours display on home page with "Today: X - Y" and expandable full week
-- **Google Business Profile API**: Applied for access to sync hours with Google Maps
-  - Case ID: `2-5016000040676`
-  - Status: Waiting for Google approval (typically 1-7 days)
-  - Once approved, can build auto-sync feature
-- **Apple Business Connect**: Checked API options
-  - Custom API access not available for single-location businesses
-  - Manual updates required at businessconnect.apple.com
+- **Tag suggestions**: Existing tags show as quick-add buttons
+- **"Always on Menu"** option for staple flavors
+- **Compact FlavorCard design**
+- **Hours of Operation management**
+- **Google Business Profile API**: Applied for access (Case ID: 2-5016000040676)
+- **Apple Business Connect**: Checked API options (manual updates only)
 
 ### Session 5 (Feb 15 Early Morning)
-- **Tag filtering on Archive page** (`/archive`):
-  - Multi-select tag filter (pink bubbles)
-  - Auto-loads all unique tags from database
-  - Filters combine with existing Category/Rarity/Search
-- **Dietary filtering on Archive page**:
-  - GF (green) - Gluten Free
-  - NF (blue) - Nut Free
-  - Contains Nuts (amber with peanut emoji)
-- **Tag filtering on Today's Flavors** (home page):
-  - "Filter by Tags & Dietary" button below stat chips
-  - Expands to show filter panel
-  - Shows only tags from today's menu items
-  - Badge shows count of active filters
-- **Dietary filtering on Today's Flavors**:
-  - Same options as Archive (GF/NF/Contains Nuts)
-  - Combines with existing Available/Rare/Sold Out chip filters
+- **Tag filtering on Archive page**
+- **Dietary filtering on Archive page**
+- **Tag filtering on Today's Flavors**
+- **Dietary filtering on Today's Flavors**
+
+### Session 6 (Feb 15 Morning) - UI REDESIGN - IN PROGRESS
+- **Research phase**: Analyzed Salt & Straw, Jeni's, Van Leeuwen websites
+- **Design system created**: "Cereal Box Bold" with mm- color palette
+- **Core design files updated**: tailwind.config.ts, globals.css
+- **Components redesigned**: Header, Navigation, FlavorCard, RarityBadge
+- **All pages converted** to new design system:
+  - Home (Today's Flavors)
+  - Flavor detail page
+  - Our Story page
+  - Profile page
+  - Admin dashboard
+  - Admin flavors
+  - Admin hours
+  - Admin suggestions
+  - Admin upload
+- **Fixed Kosher footer** overlay issue (changed to static positioning)
+- **Moving project** from OneDrive to C: drive to avoid file locking issues
+- **STATUS**: Testing locally, NOT published to production yet
+
+---
 
 ## Pending / In Progress
+
+### Session 6 Remaining Tasks
+1. **Test all pages** with new design in browser
+2. **Fix any issues** found during testing
+3. **Mobile testing** - navigation and responsive design
+4. **Push to production** once testing complete
 
 ### Google Business Profile API Integration
 - **Status**: Applied, waiting for approval
 - **Case ID**: 2-5016000040676
-- **Next steps**: Once approved, build sync feature to auto-update Google Maps hours when changed in app
+- **Next steps**: Once approved, build sync feature to auto-update Google Maps hours
 
 ### Apple Business Connect
 - **Status**: No API access available for custom apps
 - **Workaround**: Manual updates at https://businessconnect.apple.com when hours change
 
+---
+
 ## Known Issues / Gotchas
 
-1. **OneDrive Path**: Project is in OneDrive, paths have spaces - always quote paths
+1. **OneDrive Path Issue**: Project was in OneDrive causing EBUSY file locking errors - **MOVING TO C: DRIVE**
 2. **Dev Server Locks .next**: Must kill dev server before `rm -rf .next`
 3. **Type Casting Required**: Supabase queries need `(supabase as any)` cast
 4. **Database Columns**: New flavor columns must be added via SQL (see above)
 5. **RLS Disabled**: For admin operations to work, RLS must be disabled on relevant tables
 6. **Birthday persistence**: User birthday saves to `users` table - requires RLS disabled
+7. **Port conflicts**: If 3000 is in use, dev server will start on 3001
+
+---
 
 ## External Links
 
@@ -359,7 +437,18 @@ git add -A && git commit -m "message" && git push
 - **Apple Business Connect**: https://businessconnect.apple.com
 - **Phone**: +1 (718) 428-1168
 
-## Next Steps (Future Features)
+---
+
+## Next Steps (Immediate)
+
+1. **Complete move** to C: drive
+2. **Run `npm install`** in new location
+3. **Run `npm run dev`** and test all pages
+4. **Verify Today's Flavors** loads correctly
+5. **Test mobile navigation**
+6. **Push to production** when ready: `git add -A && git commit -m "UI redesign - Cereal Box Bold" && git push`
+
+## Future Features
 
 1. **Google Business Profile API Sync** - Auto-update hours on Google Maps (waiting for approval)
 2. **OneSignal Push Notifications** - Flavor alerts

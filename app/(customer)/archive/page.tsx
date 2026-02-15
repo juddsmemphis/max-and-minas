@@ -214,10 +214,10 @@ export default function ArchivePage() {
     <div className="max-w-6xl mx-auto px-4 py-6">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="font-display text-3xl text-chocolate mb-2">
+        <h1 className="font-heading font-bold text-3xl text-mm-black mb-2">
           Flavor Archive
         </h1>
-        <p className="text-chocolate/60">
+        <p className="text-mm-gray-600 font-body">
           {totalCount.toLocaleString()} flavors since 1997
         </p>
       </div>
@@ -239,10 +239,10 @@ export default function ArchivePage() {
               exit={{ opacity: 0, height: 0 }}
               className="overflow-hidden"
             >
-              <div className="groovy-card p-4 space-y-4">
+              <div className="bg-white border-3 border-mm-black rounded-xl shadow-bold p-4 space-y-4">
                 {/* Category */}
                 <div>
-                  <label className="text-sm font-medium text-chocolate mb-2 block">
+                  <label className="text-sm font-heading font-bold text-mm-black mb-2 block">
                     Category
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -251,10 +251,10 @@ export default function ArchivePage() {
                         key={cat}
                         onClick={() => setCategory(cat)}
                         className={cn(
-                          'px-3 py-1.5 rounded-full text-sm font-medium transition-colors',
+                          'px-3 py-1.5 rounded-lg text-sm font-body font-medium transition-colors border-2',
                           category === cat
-                            ? 'bg-psychedelic-purple text-white'
-                            : 'bg-psychedelic-purple/10 text-psychedelic-purple hover:bg-psychedelic-purple/20'
+                            ? 'bg-mm-blue text-white border-mm-black'
+                            : 'bg-white text-mm-blue border-mm-blue hover:bg-mm-blue/10'
                         )}
                       >
                         {cat}
@@ -265,7 +265,7 @@ export default function ArchivePage() {
 
                 {/* Rarity */}
                 <div>
-                  <label className="text-sm font-medium text-chocolate mb-2 block">
+                  <label className="text-sm font-heading font-bold text-mm-black mb-2 block">
                     Rarity
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -274,10 +274,10 @@ export default function ArchivePage() {
                         key={r}
                         onClick={() => setRarity(r)}
                         className={cn(
-                          'px-3 py-1.5 rounded-full text-sm font-medium transition-colors',
+                          'px-3 py-1.5 rounded-lg text-sm font-body font-medium transition-colors border-2',
                           rarity === r
-                            ? 'bg-psychedelic-pink text-white'
-                            : 'bg-psychedelic-pink/10 text-psychedelic-pink hover:bg-psychedelic-pink/20'
+                            ? 'bg-mm-pink text-white border-mm-black'
+                            : 'bg-white text-mm-pink border-mm-pink hover:bg-mm-pink/10'
                         )}
                       >
                         {r}
@@ -288,7 +288,7 @@ export default function ArchivePage() {
 
                 {/* Dietary */}
                 <div>
-                  <label className="text-sm font-medium text-chocolate mb-2 block">
+                  <label className="text-sm font-heading font-bold text-mm-black mb-2 block">
                     Dietary
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -297,22 +297,22 @@ export default function ArchivePage() {
                         key={d}
                         onClick={() => setDietaryFilter(d)}
                         className={cn(
-                          'px-3 py-1.5 rounded-full text-sm font-medium transition-colors',
+                          'px-3 py-1.5 rounded-lg text-sm font-body font-medium transition-colors border-2',
                           dietaryFilter === d
                             ? d === 'Gluten Free'
-                              ? 'bg-emerald-500 text-white'
+                              ? 'bg-mm-mint text-white border-mm-black'
                               : d === 'Nut Free'
-                              ? 'bg-blue-500 text-white'
+                              ? 'bg-mm-blue text-white border-mm-black'
                               : d === 'Contains Nuts'
-                              ? 'bg-amber-500 text-white'
-                              : 'bg-psychedelic-purple text-white'
+                              ? 'bg-mm-orange text-white border-mm-black'
+                              : 'bg-mm-blue text-white border-mm-black'
                             : d === 'Gluten Free'
-                            ? 'bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20'
+                            ? 'bg-white text-mm-mint border-mm-mint hover:bg-mm-mint/10'
                             : d === 'Nut Free'
-                            ? 'bg-blue-500/10 text-blue-600 hover:bg-blue-500/20'
+                            ? 'bg-white text-mm-blue border-mm-blue hover:bg-mm-blue/10'
                             : d === 'Contains Nuts'
-                            ? 'bg-amber-500/10 text-amber-600 hover:bg-amber-500/20'
-                            : 'bg-psychedelic-purple/10 text-psychedelic-purple hover:bg-psychedelic-purple/20'
+                            ? 'bg-white text-mm-orange border-mm-orange hover:bg-mm-orange/10'
+                            : 'bg-white text-mm-blue border-mm-blue hover:bg-mm-blue/10'
                         )}
                       >
                         {d === 'Gluten Free' ? 'GF' : d === 'Nut Free' ? 'NF' : d === 'Contains Nuts' ? '🥜 Nuts' : d}
@@ -324,7 +324,7 @@ export default function ArchivePage() {
                 {/* Tags */}
                 {availableTags.length > 0 && (
                   <div>
-                    <label className="text-sm font-medium text-chocolate mb-2 block">
+                    <label className="text-sm font-heading font-bold text-mm-black mb-2 block">
                       Tags {selectedTags.length > 0 && `(${selectedTags.length} selected)`}
                     </label>
                     <div className="flex flex-wrap gap-2">
@@ -333,10 +333,10 @@ export default function ArchivePage() {
                           key={tag}
                           onClick={() => toggleTag(tag)}
                           className={cn(
-                            'px-3 py-1.5 rounded-full text-sm font-medium transition-colors',
+                            'px-3 py-1.5 rounded-lg text-sm font-body font-medium transition-colors border-2',
                             selectedTags.includes(tag)
-                              ? 'bg-dead-pink text-white'
-                              : 'bg-dead-pink/10 text-dead-pink hover:bg-dead-pink/20'
+                              ? 'bg-mm-pink text-white border-mm-black'
+                              : 'bg-white text-mm-pink border-mm-pink hover:bg-mm-pink/10'
                           )}
                         >
                           {tag}
@@ -348,13 +348,13 @@ export default function ArchivePage() {
 
                 {/* Sort */}
                 <div>
-                  <label className="text-sm font-medium text-chocolate mb-2 block">
+                  <label className="text-sm font-heading font-bold text-mm-black mb-2 block">
                     Sort By
                   </label>
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="input-groovy w-full md:w-auto"
+                    className="w-full md:w-auto px-4 py-2 border-2 border-mm-black rounded-lg font-body focus:outline-none focus:ring-2 focus:ring-mm-blue"
                   >
                     {SORT_OPTIONS.map((opt) => (
                       <option key={opt.value} value={opt.value}>
@@ -368,7 +368,7 @@ export default function ArchivePage() {
                 {hasActiveFilters && (
                   <button
                     onClick={resetFilters}
-                    className="text-sm text-psychedelic-purple hover:underline"
+                    className="text-sm text-mm-blue hover:underline font-body"
                   >
                     Reset all filters
                   </button>
@@ -380,17 +380,17 @@ export default function ArchivePage() {
 
         {/* View Mode Toggle */}
         <div className="flex items-center justify-between">
-          <p className="text-sm text-chocolate/60">
+          <p className="text-sm text-mm-gray-600 font-body">
             Showing {flavors.length} of {totalCount.toLocaleString()}
           </p>
-          <div className="flex items-center gap-1 bg-white/50 rounded-lg p-1">
+          <div className="flex items-center gap-1 bg-white border-2 border-mm-black rounded-lg p-1">
             <button
               onClick={() => setViewMode('grid')}
               className={cn(
                 'p-2 rounded-lg transition-colors',
                 viewMode === 'grid'
-                  ? 'bg-psychedelic-purple text-white'
-                  : 'text-chocolate/60 hover:text-chocolate'
+                  ? 'bg-mm-blue text-white'
+                  : 'text-mm-gray-500 hover:text-mm-black'
               )}
             >
               <Grid className="w-4 h-4" />
@@ -400,8 +400,8 @@ export default function ArchivePage() {
               className={cn(
                 'p-2 rounded-lg transition-colors',
                 viewMode === 'list'
-                  ? 'bg-psychedelic-purple text-white'
-                  : 'text-chocolate/60 hover:text-chocolate'
+                  ? 'bg-mm-blue text-white'
+                  : 'text-mm-gray-500 hover:text-mm-black'
               )}
             >
               <List className="w-4 h-4" />
@@ -429,7 +429,10 @@ export default function ArchivePage() {
           type="search"
           action={
             hasActiveFilters ? (
-              <button onClick={resetFilters} className="btn-outline-groovy">
+              <button
+                onClick={resetFilters}
+                className="px-6 py-3 bg-white text-mm-black font-heading font-bold border-3 border-mm-black rounded-xl hover:bg-mm-gray-100 transition-all"
+              >
                 Clear Filters
               </button>
             ) : undefined
@@ -474,7 +477,7 @@ export default function ArchivePage() {
               <button
                 onClick={loadMore}
                 disabled={isLoadingMore}
-                className="btn-outline-groovy"
+                className="px-6 py-3 bg-white text-mm-black font-heading font-bold border-3 border-mm-black rounded-xl hover:bg-mm-gray-100 transition-all disabled:opacity-50"
               >
                 {isLoadingMore ? (
                   <span className="flex items-center gap-2">

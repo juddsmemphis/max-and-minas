@@ -10,7 +10,7 @@ export function createSupabaseBrowser() {
   );
 }
 
-// Server client for API routes
+// Server client for API routes (uses service role key - bypasses RLS)
 export function createSupabaseServer() {
   return createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

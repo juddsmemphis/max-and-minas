@@ -13,13 +13,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const supabase = createSupabaseBrowser();
 
-    // Function to fetch user profile including admin status
+    // Function to fetch user profile including admin status and birthday
     const fetchUserProfile = async (userId: string, email: string, name: string, createdAt: string) => {
       try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { data: profile } = await (supabase as any)
           .from('users')
-          .select('is_admin, name')
+          .select('is_admin, name, birthday')
           .eq('id', userId)
           .single();
 
@@ -28,6 +28,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           email: email,
           name: profile?.name || name,
           is_admin: profile?.is_admin || false,
+          birthday: profile?.birthday || null,
           created_at: createdAt,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any);
@@ -38,6 +39,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           email: email,
           name: name,
           is_admin: false,
+          birthday: null,
           created_at: createdAt,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any);

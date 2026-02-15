@@ -176,24 +176,24 @@ export default function SuggestionsPage() {
     <div className="max-w-4xl mx-auto px-4 py-6">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="font-display text-3xl text-chocolate mb-2">
+        <h1 className="font-heading font-bold text-3xl text-mm-black mb-2">
           Flavor Suggestions
         </h1>
-        <p className="text-chocolate/60">
+        <p className="text-mm-gray-600 font-body">
           Vote for ideas you&apos;d love to see at Max &amp; Mina&apos;s
         </p>
       </div>
 
       {/* Actions */}
       <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-2 bg-white/50 rounded-lg p-1">
+        <div className="flex items-center gap-2 bg-white border-2 border-mm-black rounded-lg p-1">
           <button
             onClick={() => setSortBy('upvotes')}
             className={cn(
-              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-1',
+              'px-3 py-1.5 rounded-lg text-sm font-body font-medium transition-colors flex items-center gap-1',
               sortBy === 'upvotes'
-                ? 'bg-psychedelic-purple text-white'
-                : 'text-chocolate/60 hover:text-chocolate'
+                ? 'bg-mm-blue text-white'
+                : 'text-mm-gray-500 hover:text-mm-black'
             )}
           >
             <TrendingUp className="w-4 h-4" />
@@ -202,10 +202,10 @@ export default function SuggestionsPage() {
           <button
             onClick={() => setSortBy('newest')}
             className={cn(
-              'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center gap-1',
+              'px-3 py-1.5 rounded-lg text-sm font-body font-medium transition-colors flex items-center gap-1',
               sortBy === 'newest'
-                ? 'bg-psychedelic-purple text-white'
-                : 'text-chocolate/60 hover:text-chocolate'
+                ? 'bg-mm-blue text-white'
+                : 'text-mm-gray-500 hover:text-mm-black'
             )}
           >
             <Clock className="w-4 h-4" />
@@ -214,7 +214,7 @@ export default function SuggestionsPage() {
         </div>
 
         <motion.button
-          className="btn-groovy flex items-center gap-2"
+          className="px-4 py-2 bg-mm-red text-white font-heading font-bold border-3 border-mm-black rounded-xl shadow-bold hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all flex items-center gap-2"
           onClick={() => setShowForm(true)}
           whileTap={{ scale: 0.95 }}
         >
@@ -234,19 +234,19 @@ export default function SuggestionsPage() {
             onClick={() => setShowForm(false)}
           >
             <motion.div
-              className="w-full max-w-md groovy-card p-6"
+              className="w-full max-w-md bg-white border-3 border-mm-black rounded-xl shadow-bold p-6"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between mb-4">
-                <h2 className="font-display text-xl text-chocolate">
+                <h2 className="font-heading font-bold text-xl text-mm-black">
                   Suggest a Flavor
                 </h2>
                 <button
                   onClick={() => setShowForm(false)}
-                  className="p-2 rounded-lg hover:bg-psychedelic-purple/10 text-chocolate/60"
+                  className="p-2 rounded-lg hover:bg-mm-gray-100 text-mm-gray-500"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -254,7 +254,7 @@ export default function SuggestionsPage() {
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-chocolate mb-1">
+                  <label className="block text-sm font-heading font-bold text-mm-black mb-1">
                     Flavor Name *
                   </label>
                   <input
@@ -262,20 +262,20 @@ export default function SuggestionsPage() {
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
                     placeholder="e.g., Boba Milk Tea"
-                    className="input-groovy w-full"
+                    className="w-full px-4 py-3 border-2 border-mm-black rounded-lg font-body focus:outline-none focus:ring-2 focus:ring-mm-blue focus:border-mm-blue transition-all"
                     maxLength={100}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-chocolate mb-1">
+                  <label className="block text-sm font-heading font-bold text-mm-black mb-1">
                     Description (optional)
                   </label>
                   <textarea
                     value={newDescription}
                     onChange={(e) => setNewDescription(e.target.value)}
                     placeholder="What makes this flavor special?"
-                    className="input-groovy w-full h-24 resize-none"
+                    className="w-full px-4 py-3 border-2 border-mm-black rounded-lg font-body focus:outline-none focus:ring-2 focus:ring-mm-blue focus:border-mm-blue transition-all h-24 resize-none"
                     maxLength={500}
                   />
                 </div>
@@ -283,7 +283,7 @@ export default function SuggestionsPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting || !newName.trim()}
-                  className="btn-groovy w-full flex items-center justify-center gap-2"
+                  className="w-full py-3 bg-mm-red text-white font-heading font-bold border-3 border-mm-black rounded-xl shadow-bold hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {isSubmitting ? (
                     <>
@@ -307,9 +307,9 @@ export default function SuggestionsPage() {
       {isLoading ? (
         <div className="space-y-4">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="groovy-card p-4 animate-pulse">
-              <div className="h-6 bg-psychedelic-purple/10 rounded w-3/4 mb-2" />
-              <div className="h-4 bg-psychedelic-purple/5 rounded w-1/2" />
+            <div key={i} className="bg-white border-3 border-mm-black rounded-xl shadow-bold p-4 animate-pulse">
+              <div className="h-6 bg-mm-blue/10 rounded w-3/4 mb-2" />
+              <div className="h-4 bg-mm-blue/5 rounded w-1/2" />
             </div>
           ))}
         </div>
@@ -319,7 +319,7 @@ export default function SuggestionsPage() {
           action={
             <button
               onClick={() => setShowForm(true)}
-              className="btn-groovy flex items-center gap-2"
+              className="px-6 py-3 bg-mm-red text-white font-heading font-bold border-3 border-mm-black rounded-xl shadow-bold hover:shadow-none hover:translate-x-[3px] hover:translate-y-[3px] transition-all flex items-center gap-2"
             >
               <Lightbulb className="w-4 h-4" />
               Be the First!
@@ -341,7 +341,7 @@ export default function SuggestionsPage() {
             return (
               <motion.div
                 key={suggestion.id}
-                className="groovy-card p-4 flex items-start gap-4"
+                className="bg-white border-3 border-mm-black rounded-xl shadow-bold p-4 flex items-start gap-4"
                 variants={{
                   hidden: { opacity: 0, x: -20 },
                   visible: { opacity: 1, x: 0 },
@@ -350,10 +350,10 @@ export default function SuggestionsPage() {
                 {/* Vote Button */}
                 <motion.button
                   className={cn(
-                    'flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-colors',
+                    'flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-colors border-2',
                     hasVoted
-                      ? 'bg-psychedelic-purple text-white'
-                      : 'bg-psychedelic-purple/10 text-psychedelic-purple hover:bg-psychedelic-purple/20'
+                      ? 'bg-mm-blue text-white border-mm-black'
+                      : 'bg-mm-blue/10 text-mm-blue border-mm-blue hover:bg-mm-blue/20'
                   )}
                   onClick={() => handleVote(suggestion.id)}
                   whileTap={{ scale: 0.95 }}
@@ -361,7 +361,7 @@ export default function SuggestionsPage() {
                   <ThumbsUp
                     className={cn('w-5 h-5', hasVoted && 'fill-current')}
                   />
-                  <span className="text-sm font-semibold">
+                  <span className="text-sm font-bold">
                     {suggestion.upvotes}
                   </span>
                 </motion.button>
@@ -369,21 +369,21 @@ export default function SuggestionsPage() {
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-display text-lg text-chocolate">
+                    <h3 className="font-heading font-bold text-lg text-mm-black">
                       {suggestion.flavor_name}
                     </h3>
                     {index < 3 && (
-                      <span className="px-2 py-0.5 bg-psychedelic-orange/20 text-psychedelic-orange text-xs font-medium rounded-full">
+                      <span className="px-2 py-0.5 bg-mm-orange/20 text-mm-orange text-xs font-bold rounded-full border border-mm-orange">
                         #{index + 1}
                       </span>
                     )}
                   </div>
                   {suggestion.description && (
-                    <p className="text-sm text-chocolate/60 mt-1">
+                    <p className="text-sm text-mm-gray-600 font-body mt-1">
                       {suggestion.description}
                     </p>
                   )}
-                  <p className="text-xs text-chocolate/40 mt-2">
+                  <p className="text-xs text-mm-gray-400 font-body mt-2">
                     {formatRelativeTime(suggestion.created_at)}
                   </p>
                 </div>

@@ -132,17 +132,17 @@ export default function HoursManagementPage() {
       <div className="flex items-center gap-4 mb-6">
         <Link
           href="/admin"
-          className="p-2 rounded-xl bg-white/50 text-dead-red hover:bg-white/80 transition-colors"
+          className="p-3 rounded-lg bg-white text-mm-red border-2 border-mm-black shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all"
         >
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div className="flex-1">
-          <h1 className="font-display text-2xl text-chocolate">Hours of Operation</h1>
-          <p className="text-chocolate/60 text-sm">Set your daily hours</p>
+          <h1 className="font-heading font-bold text-2xl text-mm-black">Hours of Operation</h1>
+          <p className="text-mm-gray-600 text-sm">Set your daily hours</p>
         </div>
         <button
           onClick={loadHours}
-          className="p-2 rounded-xl bg-white/50 text-chocolate/60 hover:bg-white/80 transition-colors"
+          className="p-3 rounded-lg bg-white text-mm-blue border-2 border-mm-black shadow-bold-sm hover:shadow-bold hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all"
         >
           <RefreshCw className="w-5 h-5" />
         </button>
@@ -150,8 +150,8 @@ export default function HoursManagementPage() {
 
       {isLoading ? (
         <div className="text-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto text-dead-red" />
-          <p className="text-chocolate/60 mt-2">Loading hours...</p>
+          <Loader2 className="w-8 h-8 animate-spin mx-auto text-mm-red" />
+          <p className="text-mm-gray-600 mt-2">Loading hours...</p>
         </div>
       ) : (
         <>
@@ -160,17 +160,17 @@ export default function HoursManagementPage() {
             {hours.map((hour) => (
               <motion.div
                 key={hour.day_of_week}
-                className={`groovy-card p-4 ${hour.day_of_week === getTodayIndex() ? 'ring-2 ring-dead-red' : ''}`}
+                className={`bg-white border-3 border-mm-black rounded-xl p-4 shadow-bold-sm ${hour.day_of_week === getTodayIndex() ? 'ring-2 ring-mm-red ring-offset-2' : ''}`}
                 layout
               >
                 <div className="flex items-center gap-4">
                   {/* Day Name */}
                   <div className="w-28">
-                    <span className={`font-medium ${hour.day_of_week === getTodayIndex() ? 'text-dead-red' : 'text-chocolate'}`}>
+                    <span className={`font-heading font-bold ${hour.day_of_week === getTodayIndex() ? 'text-mm-red' : 'text-mm-black'}`}>
                       {hour.day_name}
                     </span>
                     {hour.day_of_week === getTodayIndex() && (
-                      <span className="block text-xs text-dead-red">Today</span>
+                      <span className="block text-xs text-mm-red">Today</span>
                     )}
                   </div>
 
@@ -180,31 +180,31 @@ export default function HoursManagementPage() {
                       type="checkbox"
                       checked={hour.is_closed}
                       onChange={() => handleClosedToggle(hour.day_of_week)}
-                      className="w-4 h-4 rounded border-chocolate/30 accent-dead-red"
+                      className="w-4 h-4 rounded border-mm-black accent-mm-red"
                     />
-                    <span className="text-sm text-chocolate/70">Closed</span>
+                    <span className="text-sm text-mm-gray-600">Closed</span>
                   </label>
 
                   {/* Time Inputs */}
                   {!hour.is_closed && (
                     <div className="flex items-center gap-2 flex-1">
                       <div className="flex-1">
-                        <label className="text-xs text-chocolate/50 block mb-1">Open</label>
+                        <label className="text-xs text-mm-gray-500 block mb-1">Open</label>
                         <input
                           type="time"
                           value={hour.open_time || ''}
                           onChange={(e) => handleTimeChange(hour.day_of_week, 'open_time', e.target.value)}
-                          className="input-groovy w-full text-sm"
+                          className="w-full px-2 py-1 bg-white rounded-lg border-2 border-mm-black text-mm-black text-sm focus:outline-none focus:ring-2 focus:ring-mm-blue"
                         />
                       </div>
-                      <span className="text-chocolate/40 mt-5">to</span>
+                      <span className="text-mm-gray-400 mt-5">to</span>
                       <div className="flex-1">
-                        <label className="text-xs text-chocolate/50 block mb-1">Close</label>
+                        <label className="text-xs text-mm-gray-500 block mb-1">Close</label>
                         <input
                           type="time"
                           value={hour.close_time || ''}
                           onChange={(e) => handleTimeChange(hour.day_of_week, 'close_time', e.target.value)}
-                          className="input-groovy w-full text-sm"
+                          className="w-full px-2 py-1 bg-white rounded-lg border-2 border-mm-black text-mm-black text-sm focus:outline-none focus:ring-2 focus:ring-mm-blue"
                         />
                       </div>
                     </div>
@@ -212,7 +212,7 @@ export default function HoursManagementPage() {
 
                   {hour.is_closed && (
                     <div className="flex-1 text-center">
-                      <span className="text-chocolate/50 italic">Closed all day</span>
+                      <span className="text-mm-gray-400 italic">Closed all day</span>
                     </div>
                   )}
                 </div>
@@ -224,25 +224,25 @@ export default function HoursManagementPage() {
           <button
             onClick={handleSave}
             disabled={isSaving || !hasChanges}
-            className={`btn-groovy w-full flex items-center justify-center gap-2 ${!hasChanges ? 'opacity-50' : ''}`}
+            className={`w-full px-4 py-3 bg-mm-red text-white font-heading font-bold rounded-lg border-2 border-mm-black shadow-bold hover:shadow-bold-lg hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:hover:shadow-bold disabled:hover:translate-x-0 disabled:hover:translate-y-0`}
           >
             {isSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
             {isSaving ? 'Saving...' : hasChanges ? 'Save Changes' : 'No Changes'}
           </button>
 
           {/* Preview */}
-          <div className="mt-8 groovy-card p-4">
-            <h3 className="font-display text-lg text-chocolate mb-3 flex items-center gap-2">
-              <Clock className="w-5 h-5 text-dead-red" />
+          <div className="mt-8 bg-white border-3 border-mm-black rounded-xl p-4 shadow-bold">
+            <h3 className="font-heading font-bold text-lg text-mm-black mb-3 flex items-center gap-2">
+              <Clock className="w-5 h-5 text-mm-red" />
               Preview (as shown to customers)
             </h3>
             <div className="space-y-1 text-sm">
               {hours.map((hour) => (
                 <div key={hour.day_of_week} className="flex justify-between">
-                  <span className={hour.day_of_week === getTodayIndex() ? 'font-medium text-dead-red' : 'text-chocolate/70'}>
+                  <span className={hour.day_of_week === getTodayIndex() ? 'font-heading font-bold text-mm-red' : 'text-mm-gray-600'}>
                     {hour.day_name}
                   </span>
-                  <span className={hour.is_closed ? 'text-chocolate/50 italic' : 'text-chocolate'}>
+                  <span className={hour.is_closed ? 'text-mm-gray-400 italic' : 'text-mm-black'}>
                     {hour.is_closed ? 'Closed' : `${formatTimeForDisplay(hour.open_time)} - ${formatTimeForDisplay(hour.close_time)}`}
                   </span>
                 </div>
@@ -251,9 +251,9 @@ export default function HoursManagementPage() {
           </div>
 
           {/* Google Sync Info */}
-          <div className="mt-6 p-4 bg-blue-50 rounded-xl border border-blue-200">
-            <h4 className="font-medium text-blue-800 mb-2">Google Business Profile Sync</h4>
-            <p className="text-sm text-blue-700">
+          <div className="mt-6 p-4 bg-mm-blue/10 rounded-xl border-2 border-mm-blue/30">
+            <h4 className="font-heading font-bold text-mm-blue mb-2">Google Business Profile Sync</h4>
+            <p className="text-sm text-mm-blue/80">
               To sync hours with Google Maps, you&apos;ll need to set up API credentials.
               Ask your developer to configure the Google Business Profile API integration.
             </p>
