@@ -71,6 +71,15 @@ export default function FlavorManagementPage() {
   const [newTagInput, setNewTagInput] = useState('');
   const [editTagInput, setEditTagInput] = useState('');
 
+  // Collect all unique tags from all flavors for suggestions
+  const allExistingTags = Array.from(
+    new Set(
+      flavors
+        .flatMap(f => f.tags || [])
+        .map(tag => tag.toLowerCase())
+    )
+  ).sort();
+
   useEffect(() => {
     loadFlavors();
     loadTodaysMenu();
@@ -434,6 +443,29 @@ export default function FlavorManagementPage() {
                     Add
                   </button>
                 </div>
+                {/* Existing tag suggestions */}
+                {allExistingTags.length > 0 && (
+                  <div className="mt-2">
+                    <span className="text-xs text-chocolate/50">Quick add:</span>
+                    <div className="flex flex-wrap gap-1 mt-1">
+                      {allExistingTags
+                        .filter(tag => !newFlavor.tags.includes(tag))
+                        .map(tag => (
+                          <button
+                            key={tag}
+                            type="button"
+                            onClick={() => setNewFlavor(prev => ({
+                              ...prev,
+                              tags: [...prev.tags, tag]
+                            }))}
+                            className="px-2 py-0.5 bg-chocolate/10 text-chocolate/70 text-xs rounded-lg hover:bg-psychedelic-pink/20 hover:text-psychedelic-pink transition-colors"
+                          >
+                            + {tag}
+                          </button>
+                        ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -628,6 +660,29 @@ export default function FlavorManagementPage() {
                         Add
                       </button>
                     </div>
+                    {/* Existing tag suggestions */}
+                    {allExistingTags.length > 0 && (
+                      <div className="mt-1">
+                        <span className="text-xs text-chocolate/50">Quick add:</span>
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {allExistingTags
+                            .filter(tag => !(editingFlavor.tags || []).includes(tag))
+                            .map(tag => (
+                              <button
+                                key={tag}
+                                type="button"
+                                onClick={() => setEditingFlavor(prev => prev ? {
+                                  ...prev,
+                                  tags: [...(prev.tags || []), tag]
+                                } : null)}
+                                className="px-2 py-0.5 bg-chocolate/10 text-chocolate/70 text-xs rounded-lg hover:bg-psychedelic-pink/20 hover:text-psychedelic-pink transition-colors"
+                              >
+                                + {tag}
+                              </button>
+                            ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <div className="grid grid-cols-3 gap-3">
                     <div>
