@@ -20,31 +20,37 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-mm-cream border-b-3 border-mm-black safe-top">
       {/* Marquee Banner */}
       <div className="bg-mm-black text-white overflow-hidden">
-        <div className="animate-marquee whitespace-nowrap py-1.5">
-          <span className="inline-block px-8 text-xs font-heading font-semibold tracking-widest uppercase">
-            OGs of Cereal Ice Cream
-          </span>
-          <span className="inline-block px-8 text-mm-yellow text-xs font-heading font-semibold tracking-widest uppercase">
-            Since 1997
-          </span>
-          <span className="inline-block px-8 text-xs font-heading font-semibold tracking-widest uppercase">
-            15,000+ Unique Flavors
-          </span>
-          <span className="inline-block px-8 text-mm-mint text-xs font-heading font-semibold tracking-widest uppercase">
-            Flushing, Queens
-          </span>
-          <span className="inline-block px-8 text-xs font-heading font-semibold tracking-widest uppercase">
-            OGs of Cereal Ice Cream
-          </span>
-          <span className="inline-block px-8 text-mm-yellow text-xs font-heading font-semibold tracking-widest uppercase">
-            Since 1997
-          </span>
-          <span className="inline-block px-8 text-xs font-heading font-semibold tracking-widest uppercase">
-            15,000+ Unique Flavors
-          </span>
-          <span className="inline-block px-8 text-mm-mint text-xs font-heading font-semibold tracking-widest uppercase">
-            Flushing, Queens
-          </span>
+        <div className="flex animate-marquee py-1.5">
+          {/* First copy */}
+          <div className="flex shrink-0">
+            <span className="px-8 text-xs font-heading font-semibold tracking-widest uppercase whitespace-nowrap">
+              OGs of Cereal Ice Cream
+            </span>
+            <span className="px-8 text-mm-yellow text-xs font-heading font-semibold tracking-widest uppercase whitespace-nowrap">
+              ★ Since 1997 ★
+            </span>
+            <span className="px-8 text-xs font-heading font-semibold tracking-widest uppercase whitespace-nowrap">
+              15,000+ Unique Flavors
+            </span>
+            <span className="px-8 text-mm-mint text-xs font-heading font-semibold tracking-widest uppercase whitespace-nowrap">
+              Flushing, Queens
+            </span>
+          </div>
+          {/* Second copy for seamless loop */}
+          <div className="flex shrink-0">
+            <span className="px-8 text-xs font-heading font-semibold tracking-widest uppercase whitespace-nowrap">
+              OGs of Cereal Ice Cream
+            </span>
+            <span className="px-8 text-mm-yellow text-xs font-heading font-semibold tracking-widest uppercase whitespace-nowrap">
+              ★ Since 1997 ★
+            </span>
+            <span className="px-8 text-xs font-heading font-semibold tracking-widest uppercase whitespace-nowrap">
+              15,000+ Unique Flavors
+            </span>
+            <span className="px-8 text-mm-mint text-xs font-heading font-semibold tracking-widest uppercase whitespace-nowrap">
+              Flushing, Queens
+            </span>
+          </div>
         </div>
       </div>
 
