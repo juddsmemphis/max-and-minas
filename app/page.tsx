@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Sparkles, Clock, TrendingUp, RefreshCw } from 'lucide-react';
+import { Sparkles, Clock, TrendingUp, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react';
 import { FlavorCard } from '@/components/FlavorCard';
 import { LoadingCard } from '@/components/LoadingSpinner';
 import { EmptyState } from '@/components/EmptyState';
@@ -17,6 +17,14 @@ import type { DailyMenuWithFlavor } from '@/lib/database.types';
 
 type FilterType = 'available' | 'rare' | 'soldOut' | null;
 
+interface BusinessHours {
+  day_of_week: number;
+  day_name: string;
+  open_time: string | null;
+  close_time: string | null;
+  is_closed: boolean;
+}
+
 export default function HomePage() {
   const router = useRouter();
   const [menu, setMenu] = useState<DailyMenuWithFlavor[]>([]);
@@ -26,6 +34,8 @@ export default function HomePage() {
   const [isHydrated, setIsHydrated] = useState(false);
   const { setTodaysMenu, hasCompletedOnboarding } = useStore();
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [hours, setHours] = useState<BusinessHours[]>([]);
+  const [showAllHours, setShowAllHours] = useState(false);
 
   // Wait for store hydration before checking onboarding status
   useEffect(() => {
@@ -48,6 +58,7 @@ export default function HomePage() {
 
   useEffect(() => {
     loadTodaysMenu();
+    loadHours();
 
     // Set up realtime subscription for sold out updates
     const supabase = createSupabaseBrowser();
@@ -141,6 +152,38 @@ export default function HomePage() {
       setIsLoading(false);
     }
   };
+
+  const loadHours = async () => {
+    const supabase = createSupabaseBrowser();
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data, error } = await (supabase as any)
+        .from('business_hours')
+        .select('*')
+        .order('day_of_week', { ascending: true });
+
+      if (error) throw error;
+      if (data) setHours(data);
+    } catch (error) {
+      console.error('Error loading hours:', error);
+    }
+  };
+
+  const formatTimeForDisplay = (time: string | null) => {
+    if (!time) return '';
+    const [h, m] = time.split(':');
+    const hour = parseInt(h);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const h12 = hour % 12 || 12;
+    return `${h12}:${m} ${ampm}`;
+  };
+
+  const getTodayHours = () => {
+    const todayIndex = new Date().getDay();
+    return hours.find(h => h.day_of_week === todayIndex);
+  };
+
+  const todayHours = getTodayHours();
 
   // Calculate stats
   const availableCount = menu.filter((item) => !item.sold_out_at).length;
@@ -297,10 +340,60 @@ export default function HomePage() {
         <p className="text-chocolate/70 mb-1">
           71-26 Main Street, Flushing, NY 11367
         </p>
-        <p className="text-chocolate/50 text-sm">
+        <p className="text-chocolate/50 text-sm mb-4">
           Serving 15,000+ unique flavors since 1997
         </p>
-        <div className="mt-4 flex justify-center items-stretch gap-4">
+
+        {/* Hours Display */}
+        {hours.length > 0 && (
+          <div className="mb-4 py-3 px-4 bg-cream/50 rounded-xl">
+            {/* Today's Hours - Prominent */}
+            {todayHours && (
+              <div className="flex items-center justify-center gap-2 text-chocolate">
+                <Clock className="w-4 h-4 text-dead-red" />
+                <span className="font-medium">Today:</span>
+                <span>
+                  {todayHours.is_closed
+                    ? 'Closed'
+                    : `${formatTimeForDisplay(todayHours.open_time)} - ${formatTimeForDisplay(todayHours.close_time)}`}
+                </span>
+              </div>
+            )}
+
+            {/* Toggle for full week */}
+            <button
+              onClick={() => setShowAllHours(!showAllHours)}
+              className="mt-2 text-xs text-dead-red hover:underline flex items-center justify-center gap-1 mx-auto"
+            >
+              {showAllHours ? 'Hide' : 'See all'} hours
+              {showAllHours ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+            </button>
+
+            {/* Full Week Hours */}
+            {showAllHours && (
+              <motion.div
+                className="mt-3 pt-3 border-t border-chocolate/10 text-sm"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+              >
+                <div className="grid grid-cols-2 gap-x-4 gap-y-1 max-w-xs mx-auto text-left">
+                  {hours.map((h) => (
+                    <div key={h.day_of_week} className="contents">
+                      <span className={`${h.day_of_week === new Date().getDay() ? 'font-medium text-dead-red' : 'text-chocolate/70'}`}>
+                        {h.day_name}
+                      </span>
+                      <span className={`text-right ${h.is_closed ? 'text-chocolate/50 italic' : 'text-chocolate'}`}>
+                        {h.is_closed ? 'Closed' : `${formatTimeForDisplay(h.open_time)} - ${formatTimeForDisplay(h.close_time)}`}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </div>
+        )}
+
+        <div className="flex justify-center items-stretch gap-4">
           <a
             href="https://maps.google.com/?q=Max+and+Minas+Flushing"
             target="_blank"

@@ -12,6 +12,7 @@ import {
   Lightbulb,
   ChevronRight,
   AlertCircle,
+  Clock,
 } from 'lucide-react';
 import { createSupabaseBrowser } from '@/lib/supabase';
 import { formatDate } from '@/lib/utils';
@@ -158,6 +159,27 @@ export default function AdminDashboard() {
               </h2>
               <p className="text-sm text-chocolate/60">
                 {stats.pendingSuggestions} customer ideas
+              </p>
+            </div>
+            <ChevronRight className="w-5 h-5 text-dead-red" />
+          </motion.div>
+        </Link>
+
+        <Link href="/admin/hours">
+          <motion.div
+            className="groovy-card p-6 flex items-center gap-4"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <div className="w-14 h-14 rounded-2xl bg-teal-500 flex items-center justify-center">
+              <Clock className="w-7 h-7 text-white" />
+            </div>
+            <div className="flex-1">
+              <h2 className="font-display text-lg text-chocolate">
+                Hours of Operation
+              </h2>
+              <p className="text-sm text-chocolate/60">
+                Set daily open/close times
               </p>
             </div>
             <ChevronRight className="w-5 h-5 text-dead-red" />
