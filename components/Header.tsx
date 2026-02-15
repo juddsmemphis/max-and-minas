@@ -20,9 +20,9 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-mm-cream border-b-3 border-mm-black safe-top">
       {/* Marquee Banner */}
       <div className="bg-mm-black text-white overflow-hidden">
-        <div className="flex animate-marquee py-1.5">
+        <div className="marquee-scroll py-1.5">
           {/* First copy */}
-          <div className="flex shrink-0">
+          <div className="flex flex-shrink-0">
             <span className="px-8 text-xs font-heading font-semibold tracking-widest uppercase whitespace-nowrap">
               OGs of Cereal Ice Cream
             </span>
@@ -37,7 +37,7 @@ export function Header() {
             </span>
           </div>
           {/* Second copy for seamless loop */}
-          <div className="flex shrink-0">
+          <div className="flex flex-shrink-0">
             <span className="px-8 text-xs font-heading font-semibold tracking-widest uppercase whitespace-nowrap">
               OGs of Cereal Ice Cream
             </span>
