@@ -44,12 +44,37 @@ export default function ArchivePage() {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
+  const [availableTags, setAvailableTags] = useState<string[]>([]);
 
   // Filters
   const { searchQuery, setSearchQuery } = useStore();
   const [category, setCategory] = useState<string>('All');
   const [rarity, setRarity] = useState<string>('All');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [dietaryFilter, setDietaryFilter] = useState<string>('All');
   const [sortBy, setSortBy] = useState<string>('rarity');
+
+  // Load available tags
+  useEffect(() => {
+    const loadTags = async () => {
+      const supabase = createSupabaseBrowser();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data } = await (supabase as any)
+        .from('flavors')
+        .select('tags');
+
+      if (data) {
+        const allTags = new Set<string>();
+        data.forEach((flavor: { tags: string[] | null }) => {
+          if (flavor.tags && Array.isArray(flavor.tags)) {
+            flavor.tags.forEach((tag: string) => allTags.add(tag));
+          }
+        });
+        setAvailableTags(Array.from(allTags).sort());
+      }
+    };
+    loadTags();
+  }, []);
 
   const PAGE_SIZE = 20;
 
@@ -88,6 +113,20 @@ export default function ArchivePage() {
           };
           const [min, max] = rarityRanges[rarity];
           query = query.gte('rarity_score', min).lt('rarity_score', max);
+        }
+
+        // Apply tag filter
+        if (selectedTags.length > 0) {
+          query = query.contains('tags', selectedTags);
+        }
+
+        // Apply dietary filter
+        if (dietaryFilter === 'Gluten Free') {
+          query = query.eq('is_gluten_free', true);
+        } else if (dietaryFilter === 'Nut Free') {
+          query = query.eq('contains_nuts', false);
+        } else if (dietaryFilter === 'Contains Nuts') {
+          query = query.eq('contains_nuts', true);
         }
 
         // Apply sorting
@@ -134,14 +173,14 @@ export default function ArchivePage() {
         setIsLoadingMore(false);
       }
     },
-    [page, searchQuery, category, rarity, sortBy]
+    [page, searchQuery, category, rarity, selectedTags, dietaryFilter, sortBy]
   );
 
   // Initial load and filter changes
   useEffect(() => {
     loadFlavors(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery, category, rarity, sortBy]);
+  }, [searchQuery, category, rarity, selectedTags, dietaryFilter, sortBy]);
 
   // Load more
   const loadMore = () => {
@@ -156,11 +195,20 @@ export default function ArchivePage() {
     setSearchQuery('');
     setCategory('All');
     setRarity('All');
+    setSelectedTags([]);
+    setDietaryFilter('All');
     setSortBy('rarity');
   };
 
+  // Toggle a tag selection
+  const toggleTag = (tag: string) => {
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
+
   const hasActiveFilters =
-    searchQuery || category !== 'All' || rarity !== 'All';
+    searchQuery || category !== 'All' || rarity !== 'All' || selectedTags.length > 0 || dietaryFilter !== 'All';
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">
@@ -237,6 +285,66 @@ export default function ArchivePage() {
                     ))}
                   </div>
                 </div>
+
+                {/* Dietary */}
+                <div>
+                  <label className="text-sm font-medium text-chocolate mb-2 block">
+                    Dietary
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {['All', 'Gluten Free', 'Nut Free', 'Contains Nuts'].map((d) => (
+                      <button
+                        key={d}
+                        onClick={() => setDietaryFilter(d)}
+                        className={cn(
+                          'px-3 py-1.5 rounded-full text-sm font-medium transition-colors',
+                          dietaryFilter === d
+                            ? d === 'Gluten Free'
+                              ? 'bg-emerald-500 text-white'
+                              : d === 'Nut Free'
+                              ? 'bg-blue-500 text-white'
+                              : d === 'Contains Nuts'
+                              ? 'bg-amber-500 text-white'
+                              : 'bg-psychedelic-purple text-white'
+                            : d === 'Gluten Free'
+                            ? 'bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500/20'
+                            : d === 'Nut Free'
+                            ? 'bg-blue-500/10 text-blue-600 hover:bg-blue-500/20'
+                            : d === 'Contains Nuts'
+                            ? 'bg-amber-500/10 text-amber-600 hover:bg-amber-500/20'
+                            : 'bg-psychedelic-purple/10 text-psychedelic-purple hover:bg-psychedelic-purple/20'
+                        )}
+                      >
+                        {d === 'Gluten Free' ? 'GF' : d === 'Nut Free' ? 'NF' : d === 'Contains Nuts' ? '🥜 Nuts' : d}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Tags */}
+                {availableTags.length > 0 && (
+                  <div>
+                    <label className="text-sm font-medium text-chocolate mb-2 block">
+                      Tags {selectedTags.length > 0 && `(${selectedTags.length} selected)`}
+                    </label>
+                    <div className="flex flex-wrap gap-2">
+                      {availableTags.map((tag) => (
+                        <button
+                          key={tag}
+                          onClick={() => toggleTag(tag)}
+                          className={cn(
+                            'px-3 py-1.5 rounded-full text-sm font-medium transition-colors',
+                            selectedTags.includes(tag)
+                              ? 'bg-dead-pink text-white'
+                              : 'bg-dead-pink/10 text-dead-pink hover:bg-dead-pink/20'
+                          )}
+                        >
+                          {tag}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Sort */}
                 <div>
